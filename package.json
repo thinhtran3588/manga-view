@@ -31,7 +31,7 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
-    "dev": "next dev",
+    "dev": "PORT=3001 next dev",
     "lint": "prettier --check . && eslint . --ext .js,.jsx,.ts,.tsx && tsc --noEmit",
     "lint-fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lints": "next lint",
