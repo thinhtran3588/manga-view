@@ -5,6 +5,7 @@ import type {MenuItem} from '@core/interfaces';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import {SITE_I18N_TEXT} from '@core/constants';
 import {Logo} from './logo';
+import {useState} from 'react';
 
 export interface HeaderProps {
   menuItems: MenuItem[];
@@ -13,6 +14,13 @@ export interface HeaderProps {
 export const Header = (props: HeaderProps): JSX.Element => {
   const {menuItems} = props;
   const router = useRouter();
+  const [menuVisible, setMenuVisible] = useState(false);
+
+  const toggleMenuVisible = (): void => {
+    setMenuVisible(!menuVisible);
+  };
+
+  const closeMenu = (): void => setMenuVisible(false);
 
   return (
     <header
@@ -20,20 +28,49 @@ export const Header = (props: HeaderProps): JSX.Element => {
     firefox:bg-opacity-90 shadow-xl'
     >
       <div className='container mx-auto'>
-        <div className='flex items-center'>
+        <div className='flex items-center flex-wrap'>
           <Link href='/'>
-            <a className='block mr-8'>
-              <Logo width={250} height={48} />
+            <a className='block mx-4 my-2'>
+              <Logo width={240} height={40} />
             </a>
           </Link>
-          <nav className='flex'>
-            {menuItems.map((item) => (
+          <div className='lg:hidden flex flex-1 justify-end'>
+            <button type='button' onClick={toggleMenuVisible} className='p-2 rounded-full hover:bg-gray-200'>
+              {menuVisible ? (
+                <svg xmlns='http://www.w3.org/2000/svg' className='h-8 w-8' viewBox='0 0 20 20' fill='currentColor'>
+                  <path
+                    fillRule='evenodd'
+                    // eslint-disable-next-line max-len
+                    d='M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z'
+                    clipRule='evenodd'
+                  />
+                </svg>
+              ) : (
+                <svg xmlns='http://www.w3.org/2000/svg' className='h-8 w-8' viewBox='0 0 20 20' fill='currentColor'>
+                  <path
+                    fillRule='evenodd'
+                    // eslint-disable-next-line max-len
+                    d='M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z'
+                    clipRule='evenodd'
+                  />
+                </svg>
+              )}
+            </button>
+          </div>
+          <div className='block w-full lg:hidden' />
+          <nav className={clsx('flex flex-col lg:flex-row w-full lg:w-auto', menuVisible ? '' : 'hidden lg:flex')}>
+            {menuItems.map((item, index) => (
               <Link href={item.href} key={item.href}>
                 <a
                   className={clsx(
-                    'block border-b-8 px-8 py-4 font-semibold text-xl',
-                    item.current ? 'border-blue-500' : 'border-white',
+                    `block px-8 py-4 font-semibold text-xl border-b-4 lg:border-b-8 
+                    hover:bg-gray-100 hover:border-gray-100`,
+                    item.current ? 'border-blue-400 hover:border-blue-400' : 'border-white',
                   )}
+                  onClick={closeMenu}
+                  role='link'
+                  tabIndex={index}
+                  aria-hidden='true'
                 >
                   {getI18nText(SITE_I18N_TEXT, item.key, router)}
                 </a>
