@@ -18,12 +18,17 @@ export const Footer = (): JSX.Element => {
   return (
     <footer className='bg-gray-600'>
       <div className='container mx-auto text-white py-4'>
-        <a href={SITE_AUTHOR_LINK} target='_blank' rel='noopener noreferrer' className='text-xl font-bold'>
+        <a
+          href={SITE_AUTHOR_LINK}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='mx-4 font-semibold text-sm md:text-xl text-center'
+        >
           {getI18nText(FOOTER_I18N_TEXT, 'COPYRIGHT', router)}
           <span className='mx-2'>
             <Image src='/tqt-icon.svg' alt='Vercel Logo' width={30} height={30} />
           </span>
-          {SITE_AUTHOR}
+          {SITE_AUTHOR}.
         </a>
       </div>
     </footer>
