@@ -68,7 +68,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
               <Link href={item.href} key={item.href}>
                 <a
                   className={clsx(
-                    `block px-8 py-4 font-semibold text-xl border-b-4 lg:border-b-8 
+                    `block px-8 py-4 font-semibold text-xl border-b-4
                     hover:bg-gray-200 dark:hover:bg-gray-500 hover:border-gray-200 dark:hover:border-gray-500`,
                     item.current
                       ? 'border-blue-400 hover:border-blue-400 dark:hover:border-blue-400'
