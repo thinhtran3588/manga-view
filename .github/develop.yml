@@ -41,9 +41,6 @@ jobs:
       - name: Validate source code
         run: yarn validate
 
-      - name: Change environment
-        run: yarn execute change-env develop
-
       - name: Build
         run: yarn build
 
