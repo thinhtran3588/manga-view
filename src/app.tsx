@@ -36,7 +36,7 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
   }, [theme]);
 
   return (
-    <Provider store={store}>
+    <>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>{getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router)}</title>
@@ -45,7 +45,7 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
       <Layout>
         <Component {...pageProps} />
       </Layout>
-    </Provider>
+    </>
   );
 };
 

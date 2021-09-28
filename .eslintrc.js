@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ['airbnb', 'airbnb/hooks', 'plugin:@next/next/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'no-null', 'eslint-plugin-no-inline-styles', 'prettier'],
+  plugins: ['@typescript-eslint', 'no-null', 'eslint-plugin-no-inline-styles', 'prettier', 'testing-library'],
   rules: {
     'prettier/prettier': ['error', {'no-inline-styles': true}],
     'no-null/no-null': ['error'],
@@ -33,7 +33,7 @@ module.exports = {
     'import/no-unresolved': [
       'error',
       {
-        ignore: ['@core', '@store', '@locales', '@main'],
+        ignore: ['@test', '@core', '@store', '@locales', '@main'],
       },
     ], // ignore module import
     'max-len': ['error', 120], // change max length for a line to 120

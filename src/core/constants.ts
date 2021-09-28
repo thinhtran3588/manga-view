@@ -24,8 +24,7 @@ export const THEMES = [
   },
 ];
 
-export const SITE_URL = 'https://mangaview.thinhtran.pro';
+export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mangaview.thinhtran.pro';
 export const SITE_NAME = 'Manga View';
-export const SITE_DESCRIPTION = 'View your beloved manga instantly without ads';
 export const SITE_AUTHOR = 'Thinh Tran';
 export const SITE_AUTHOR_LINK = 'https://thinhtran.pro';

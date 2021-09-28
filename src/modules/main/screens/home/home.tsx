@@ -4,6 +4,6 @@ import {Seo} from '@core/components/seo';
 export const Home: NextPage = (): JSX.Element => (
   <>
     <Seo />
-    <div className=''>demo</div>
+    <div className='m-2'>demo</div>
   </>
 );
