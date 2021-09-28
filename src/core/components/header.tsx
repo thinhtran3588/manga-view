@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
+import {useState} from 'react';
 import type {MenuItem} from '@core/interfaces';
 import {getI18nText} from '@core/helpers/get-i18n-text';
-import {SITE_I18N_TEXT} from '@core/constants';
+import SITE_I18N_TEXT from '@locales/site.json';
 import {Logo} from './logo';
-import {useState} from 'react';
 
 export interface HeaderProps {
   menuItems: MenuItem[];
