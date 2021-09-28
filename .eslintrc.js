@@ -2,7 +2,7 @@ module.exports = {
   root: true,
   extends: ['airbnb', 'airbnb/hooks', 'plugin:@next/next/recommended', 'prettier'],
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'no-null', 'prettier'],
+  plugins: ['@typescript-eslint', 'no-null', 'eslint-plugin-no-inline-styles', 'prettier'],
   rules: {
     'prettier/prettier': ['error', {'no-inline-styles': true}],
     'no-null/no-null': ['error'],
@@ -60,6 +60,7 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
+    'no-inline-styles/no-inline-styles': 'error',
   },
   settings: {
     'import/resolver': {

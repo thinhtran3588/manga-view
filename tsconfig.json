@@ -12,12 +12,8 @@
     "noEmit": true,
     "paths": {
       "@core/*": ["src/core/*"],
-      "@locales/*": [
-        "src/locales/*"
-      ],
-      "@store": [
-        "src/store"
-      ],
+      "@locales/*": ["src/locales/*"],
+      "@store": ["src/store"],
       "@main/*": ["src/modules/main/*"]
     },
     "resolveJsonModule": true,
