@@ -40,7 +40,6 @@ export const Layout = (props: LayoutProps): JSX.Element => {
       <Head>
         <title>{getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router)}</title>
         <meta name='description' content={getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router)} />
-        <link rel='icon' href='/favicon.ico' />
       </Head>
       <Header menuItems={menuItems} />
       <main className='flex flex-1 container mx-auto p-4'>{children}</main>

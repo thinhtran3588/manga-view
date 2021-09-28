@@ -20,9 +20,9 @@ export const Logo = (props: LogoProps): JSX.Element => {
         fill='url(#paint0_linear)'
       />
       <defs>
-        <linearGradient id='paint0_linear' x1='-26' y1='-51' x2='69.3787' y2='324.792' gradientUnits='userSpaceOnUse'>
+        <linearGradient id='paint0_linear' x1='-26' y1='49' x2='762' y2='49' gradientUnits='userSpaceOnUse'>
           <stop stopColor='#2F80ED' />
-          <stop offset='1' stopColor='#56CCF2' />
+          <stop offset='1' stopColor='#BB6BD9' />
         </linearGradient>
       </defs>
     </svg>

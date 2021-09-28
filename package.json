@@ -9,6 +9,7 @@
     "clsx": "^1.1.1",
     "immer": "^9.0.6",
     "next": "11.1.2",
+    "next-pwa": "^5.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.5",
@@ -41,7 +42,7 @@
   "scripts": {
     "analyze": "ANALYZE=true next build",
     "build": "next build",
-    "dev": "PORT=3001 next dev",
+    "dev": "NODE_ENV=development PORT=3001 next dev",
     "lint": "prettier --check . && eslint . --ext .js,.jsx,.ts,.tsx && tsc --noEmit",
     "lint-fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "lints": "next lint",
