@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/google-font-display */
 import {SITE_NAME} from '@core/constants';
 import Document, {Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext} from 'next/document';
 
@@ -28,7 +29,7 @@ class MyDocument extends Document {
         <link rel='manifest' href='/manifest.json' />
         <link rel='mask-icon' href='/icons/safari-pinned-tab.svg' color='#5bbad5' />
         <link rel='shortcut icon' href='/icons/favicon.ico' />
-        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,600,700&display=optional' />
+        <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,600,700' />
 
         {/* <link rel='apple-touch-startup-image' href='/images/apple_splash_2048.png' sizes='2048x2732' />
         <link rel='apple-touch-startup-image' href='/images/apple_splash_1668.png' sizes='1668x2224' />
