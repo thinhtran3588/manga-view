@@ -1,8 +1,5 @@
-import Head from 'next/head';
 import {useRouter} from 'next/router';
 import type {MenuItem} from '@core/interfaces';
-import {getI18nText} from '@core/helpers/get-i18n-text';
-import SITE_I18N_TEXT from '@locales/site.json';
 import {Footer} from './footer';
 import {Header} from './header';
 
@@ -37,10 +34,6 @@ export const Layout = (props: LayoutProps): JSX.Element => {
 
   return (
     <div className='flex flex-col min-h-screen dark:bg-gray-800 dark:text-white'>
-      <Head>
-        <title>{getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router)}</title>
-        <meta name='description' content={getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router)} />
-      </Head>
       <Header menuItems={menuItems} />
       <main className='flex flex-1 container mx-auto p-4'>{children}</main>
       <Footer />

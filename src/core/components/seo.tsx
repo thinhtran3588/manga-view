@@ -1,0 +1,40 @@
+import {useRouter} from 'next/router';
+import Head from 'next/head';
+import SITE_I18N_TEXT from '@locales/site.json';
+import {getI18nText} from '@core/helpers/get-i18n-text';
+import {SITE_AUTHOR, SITE_URL} from '@core/constants';
+
+export interface SeoProps {
+  url?: string;
+  title?: string;
+  description?: string;
+  imageUrl?: string;
+}
+
+export const Seo = (props: SeoProps): JSX.Element => {
+  const {url, title, description, imageUrl} = props;
+  const router = useRouter();
+  const siteTitle = getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router);
+  const siteDescription = getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router);
+  const pageTitle = title ? `${title} - ${siteTitle}` : siteTitle;
+  const pageDescription = description || siteDescription;
+  const pageImageUrl = imageUrl || `${SITE_URL}/icons/android-chrome-192x192.png`;
+
+  return (
+    <Head>
+      <title>{pageTitle}</title>
+      <meta name='description' content={pageDescription} />
+      <meta name='twitter:card' content='summary' />
+      <meta name='twitter:url' content={url} />
+      <meta name='twitter:title' content={pageTitle} />
+      <meta name='twitter:description' content={pageDescription} />
+      <meta name='twitter:image' content={pageImageUrl} />
+      <meta name='twitter:creator' content={SITE_AUTHOR} />
+      <meta property='og:type' content='website' />
+      <meta property='og:title' content={pageTitle} />
+      <meta property='og:description' content={pageDescription} />
+      <meta property='og:url' content={SITE_URL} />
+      <meta property='og:image' content={pageImageUrl} />
+    </Head>
+  );
+};

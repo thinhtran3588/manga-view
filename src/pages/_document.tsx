@@ -1,4 +1,4 @@
-import {SITE_AUTHOR, SITE_DESCRIPTION, SITE_NAME, SITE_URL} from '@core/constants';
+import {SITE_NAME} from '@core/constants';
 import Document, {Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext} from 'next/document';
 
 class MyDocument extends Document {
@@ -14,7 +14,6 @@ class MyDocument extends Document {
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-status-bar-style' content='default' />
         <meta name='apple-mobile-web-app-title' content={SITE_NAME} />
-        <meta name='description' content={SITE_DESCRIPTION} />
         <meta name='format-detection' content='telephone=no' />
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='msapplication-config' content='/icons/browserconfig.xml' />
@@ -30,19 +29,6 @@ class MyDocument extends Document {
         <link rel='mask-icon' href='/icons/safari-pinned-tab.svg' color='#5bbad5' />
         <link rel='shortcut icon' href='/icons/favicon.ico' />
         <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,600,700&display=optional' />
-
-        <meta name='twitter:card' content='summary' />
-        <meta name='twitter:url' content={SITE_URL} />
-        <meta name='twitter:title' content={SITE_NAME} />
-        <meta name='twitter:description' content={SITE_DESCRIPTION} />
-        <meta name='twitter:image' content={`${SITE_URL}/icons/android-chrome-192x192.png`} />
-        <meta name='twitter:creator' content={SITE_AUTHOR} />
-        <meta property='og:type' content='website' />
-        <meta property='og:title' content={SITE_NAME} />
-        <meta property='og:description' content={SITE_DESCRIPTION} />
-        <meta property='og:site_name' content={SITE_NAME} />
-        <meta property='og:url' content={SITE_URL} />
-        <meta property='og:image' content={`${SITE_URL}/icons/apple-touch-icon.png`} />
 
         {/* <link rel='apple-touch-startup-image' href='/images/apple_splash_2048.png' sizes='2048x2732' />
         <link rel='apple-touch-startup-image' href='/images/apple_splash_1668.png' sizes='1668x2224' />

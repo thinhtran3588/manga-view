@@ -30,7 +30,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
       <div className='container mx-auto'>
         <div className='flex items-center flex-wrap'>
           <Link href='/'>
-            <a className='block mx-4 my-2'>
+            <a className='block mx-4 my-2' title='Home'>
               <Logo width={240} height={40} />
             </a>
           </Link>
@@ -39,6 +39,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
               type='button'
               onClick={toggleMenuVisible}
               className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-500'
+              title='Menu'
             >
               {menuVisible ? (
                 <svg xmlns='http://www.w3.org/2000/svg' className='h-8 w-8' viewBox='0 0 20 20' fill='currentColor'>
