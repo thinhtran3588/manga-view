@@ -36,7 +36,7 @@ export const Layout = (props: LayoutProps): JSX.Element => {
   const menuItems: MenuItem[] = MENU_ITEMS.map((item) => ({...item, current: router.route === item.href}));
 
   return (
-    <div className='flex flex-col h-screen'>
+    <div className='flex flex-col min-h-screen dark:bg-gray-800 dark:text-white'>
       <Head>
         <title>{getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router)}</title>
         <meta name='description' content={getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router)} />

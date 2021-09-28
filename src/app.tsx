@@ -15,6 +15,7 @@ interface BaseAppProps {
 
 const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
   const locale = useSelector((state: RootState) => state.settings.locale);
+  const theme = useSelector((state: RootState) => state.settings.theme);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +23,14 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
       router.push(router.route, undefined, {locale});
     }
   }, [locale, router]);
+
+  useEffect(() => {
+    if (theme === 'dark' || (theme === '' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   return (
     <Provider store={store}>

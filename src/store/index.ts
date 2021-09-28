@@ -7,6 +7,7 @@ import {models, RootModel} from './models';
 const persistConfig = {
   key: 'root',
   storage,
+  whitelist: ['settings'], // only those ones will be persisted
 };
 
 export const store = init<RootModel>({

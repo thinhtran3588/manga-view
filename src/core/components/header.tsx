@@ -25,7 +25,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
   return (
     <header
       className='sticky top-0 backdrop-filter backdrop-blur  
-    firefox:bg-opacity-90 shadow-xl'
+    firefox:bg-opacity-90 shadow-2xl'
     >
       <div className='container mx-auto'>
         <div className='flex items-center flex-wrap'>
@@ -35,7 +35,11 @@ export const Header = (props: HeaderProps): JSX.Element => {
             </a>
           </Link>
           <div className='lg:hidden flex flex-1 justify-end'>
-            <button type='button' onClick={toggleMenuVisible} className='p-2 rounded-full hover:bg-gray-200'>
+            <button
+              type='button'
+              onClick={toggleMenuVisible}
+              className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-500'
+            >
               {menuVisible ? (
                 <svg xmlns='http://www.w3.org/2000/svg' className='h-8 w-8' viewBox='0 0 20 20' fill='currentColor'>
                   <path
@@ -64,8 +68,10 @@ export const Header = (props: HeaderProps): JSX.Element => {
                 <a
                   className={clsx(
                     `block px-8 py-4 font-semibold text-xl border-b-4 lg:border-b-8 
-                    hover:bg-gray-100 hover:border-gray-100`,
-                    item.current ? 'border-blue-400 hover:border-blue-400' : 'border-white',
+                    hover:bg-gray-200 dark:hover:bg-gray-500 hover:border-gray-200 dark:hover:border-gray-500`,
+                    item.current
+                      ? 'border-blue-400 hover:border-blue-400 dark:hover:border-blue-400'
+                      : 'border-white dark:border-gray-800',
                   )}
                   onClick={closeMenu}
                   role='link'

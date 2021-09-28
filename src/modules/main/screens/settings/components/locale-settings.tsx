@@ -19,12 +19,12 @@ export const LocaleSettings = (props: LocaleSettingsProps): JSX.Element => {
   };
 
   return (
-    <div className='mt-2'>
+    <div className='mt-2 w-full'>
       <span className='text-xl font-semibold'>{getI18nText(SETTINGS_I18N_TEXT, 'LANGUAGE', router)}</span>
       <div className='mt-2'>
         {LOCALES.map((locale) => (
           <label
-            className='inline-flex items-center mt-2 mr-4 w-full h-10 sm:w-28'
+            className='inline-flex items-center mt-2 h-10 w-full sm:w-1/4 md:w-1/5 lg:w-1/6'
             key={locale.code}
             htmlFor={`rd-${locale.code}`}
           >

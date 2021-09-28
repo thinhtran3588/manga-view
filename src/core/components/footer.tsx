@@ -16,8 +16,8 @@ export const FOOTER_I18N_TEXT: I18nText = {
 export const Footer = (): JSX.Element => {
   const router = useRouter();
   return (
-    <footer className='bg-gray-600'>
-      <div className='container mx-auto text-white py-4'>
+    <footer className='bg-gray-300 dark:bg-gray-700'>
+      <div className='container mx-auto  py-4'>
         <a
           href={SITE_AUTHOR_LINK}
           target='_blank'
@@ -26,7 +26,7 @@ export const Footer = (): JSX.Element => {
         >
           {getI18nText(FOOTER_I18N_TEXT, 'COPYRIGHT', router)}
           <span className='mx-2'>
-            <Image src='/tqt-icon.svg' alt='Vercel Logo' width={30} height={30} />
+            <Image src='/tqt-icon.svg' alt='TQT Logo' width={25} height={25} />
           </span>
           {SITE_AUTHOR}.
         </a>

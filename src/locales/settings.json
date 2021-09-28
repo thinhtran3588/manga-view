@@ -1,8 +1,16 @@
 {
   "EN": {
-    "LANGUAGE": "Language"
+    "LANGUAGE": "Language",
+    "THEME": "Theme",
+    "THEME_DARK": "Dark",
+    "THEME_LIGHT": "Light",
+    "THEME_SYSTEM": "System"
   },
   "VI": {
-    "LANGUAGE": "Ngôn ngữ"
+    "LANGUAGE": "Ngôn ngữ",
+    "THEME": "Chủ đề",
+    "THEME_DARK": "Tối",
+    "THEME_LIGHT": "Sáng",
+    "THEME_SYSTEM": "Theo hệ thống"
   }
 }
