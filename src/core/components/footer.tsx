@@ -16,7 +16,7 @@ export const FOOTER_I18N_TEXT: I18nText = {
 export const Footer = (): JSX.Element => {
   const router = useRouter();
   return (
-    <footer className='bg-gray-300 dark:bg-gray-700'>
+    <footer className='bg-gray-200 dark:bg-gray-800'>
       <div className='container mx-auto  py-4'>
         <a
           href={SITE_AUTHOR_LINK}
