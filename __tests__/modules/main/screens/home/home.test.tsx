@@ -19,7 +19,7 @@ describe('Home', () => {
     <button
       class="bg-gradient dark:bg-gradient-light py-2 px-4 rounded-full text-white font-bold"
     >
-      Test button
+      View manga
     </button>
   </div>
 </div>
