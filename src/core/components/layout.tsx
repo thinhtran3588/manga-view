@@ -35,7 +35,7 @@ export const Layout = (props: LayoutProps): JSX.Element => {
   return (
     <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
       <Header menuItems={menuItems} />
-      <main className='flex flex-1 container mx-auto p-4'>{children}</main>
+      <main className='flex flex-1 container mx-auto p-2'>{children}</main>
       <Footer />
     </div>
   );

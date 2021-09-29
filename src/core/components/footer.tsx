@@ -26,7 +26,7 @@ export const Footer = (): JSX.Element => {
         >
           {getI18nText(FOOTER_I18N_TEXT, 'COPYRIGHT', router)}
           <span className='mx-2'>
-            <Image src='/tqt-icon.svg' alt='TQT Logo' width={25} height={25} />
+            <Image src='/icons/tqt-icon.svg' alt='TQT Logo' width={25} height={25} />
           </span>
           {SITE_AUTHOR}.
         </a>
