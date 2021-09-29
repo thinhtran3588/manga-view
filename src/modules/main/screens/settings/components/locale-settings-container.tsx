@@ -1,12 +1,25 @@
 import {useDispatch, useSelector} from 'react-redux';
+import {useRouter} from 'next/router';
 import {Dispatch, RootState} from '@store';
-import {LocaleSettings} from './locale-settings';
+import {getI18nText} from '@core/helpers/get-i18n-text';
+import SETTINGS_I18N_TEXT from '@locales/settings.json';
+import {LOCALES} from '@core/constants';
+import {BaseSettings} from './base-settings';
 
 export const LocaleSettingsContainer = (): JSX.Element => {
   const currentLocale = useSelector((state: RootState) => state.settings.locale);
   const {
     settings: {setLocale},
   } = useDispatch<Dispatch>();
+  const router = useRouter();
 
-  return <LocaleSettings currentLocale={currentLocale} setLocale={setLocale} />;
+  return (
+    <BaseSettings
+      title={getI18nText(SETTINGS_I18N_TEXT, 'LANGUAGE', router)}
+      currentValue={currentLocale}
+      setValue={setLocale}
+      options={LOCALES}
+      name='language'
+    />
+  );
 };

@@ -13,7 +13,6 @@ export const Settings: NextPage = (): JSX.Element => {
       <Seo title={getI18nText(SITE_I18N_TEXT, 'TAB_SETTINGS', router)} />
       <div className='flex flex-col w-full'>
         <LocaleSettingsContainer />
-        <hr />
         <ThemeSettingsContainer />
       </div>
     </>

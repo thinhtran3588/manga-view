@@ -33,7 +33,7 @@ export const Layout = (props: LayoutProps): JSX.Element => {
   const menuItems: MenuItem[] = MENU_ITEMS.map((item) => ({...item, current: router.route === item.href}));
 
   return (
-    <div className='font-roboto flex flex-col min-h-screen dark:bg-gray-700 dark:text-white'>
+    <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
       <Header menuItems={menuItems} />
       <main className='flex flex-1 container mx-auto p-4'>{children}</main>
       <Footer />

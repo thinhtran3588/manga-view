@@ -1,26 +1,26 @@
 export const LOCALES = [
   {
-    code: 'en',
-    title: 'English',
+    value: 'en',
+    text: 'English',
   },
   {
-    code: 'vi',
-    title: 'Tiếng Việt',
+    value: 'vi',
+    text: 'Tiếng Việt',
   },
 ];
 
 export const THEMES = [
   {
-    code: 'light',
-    textKey: 'THEME_LIGHT',
+    value: 'light',
+    text: 'THEME_LIGHT',
   },
   {
-    code: 'dark',
-    textKey: 'THEME_DARK',
+    value: 'dark',
+    text: 'THEME_DARK',
   },
   {
-    code: '',
-    textKey: 'THEME_SYSTEM',
+    value: '',
+    text: 'THEME_SYSTEM',
   },
 ];
 

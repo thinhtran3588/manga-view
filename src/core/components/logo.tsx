@@ -1,5 +1,3 @@
-import {Theme} from '@core/interfaces';
-
 /* eslint-disable max-len */
 export interface LogoProps {
   width?: number;
