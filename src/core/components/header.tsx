@@ -69,11 +69,11 @@ export const Header = (props: HeaderProps): JSX.Element => {
                 <a
                   className={clsx(
                     `block px-8 py-4 font-semibold text-xl border-b-4
-                    hover:bg-gray-300 dark:hover:bg-gray-600 hover:border-gray-200 dark:hover:border-gray-600`,
+                    hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`,
                     item.current
                       ? `border-primary hover:border-primary text-primary
                          dark:border-primary-light dark:hover:border-primary-light dark:text-primary-light`
-                      : 'border-transparent dark:border-gray-700',
+                      : 'border-transparent',
                   )}
                   onClick={closeMenu}
                   role='link'
