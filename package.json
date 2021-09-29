@@ -11,8 +11,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-redux": "^7.2.5",
-    "redux-persist": "^6.0.0",
-    "sass": "^1.42.1"
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^11.1.2",
@@ -41,6 +40,7 @@
     "postcss": "^8.3.7",
     "prettier": "2.4.1",
     "react-test-renderer": "^17.0.2",
+    "sass": "^1.42.1",
     "tailwindcss": "^2.2.15",
     "typescript": "^4.4.3"
   },
@@ -53,9 +53,9 @@
     "lint": "prettier --check . && eslint . --ext .js,.jsx,.ts,.tsx && tsc --noEmit",
     "lint-fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "start": "next start",
-    "validate": "yarn lint && yarn test:ci",
     "test": "jest --watch",
-    "test:ci": "jest --ci --coverage"
+    "test:ci": "jest --ci --coverage",
+    "validate": "yarn lint && yarn test:ci"
   },
   "version": "0.1.0"
 }
