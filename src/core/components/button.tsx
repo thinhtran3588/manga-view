@@ -9,7 +9,7 @@ export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonEleme
 export const Button = React.forwardRef<HTMLButtonElement>((props: ButtonProps, ref): JSX.Element => {
   const {className, children, ...other} = props;
   const buttonClassName = clsx(
-    'bg-gradient dark:bg-gradient-light py-2 px-4 rounded-2xl text-white font-bold',
+    'bg-gradient dark:bg-gradient-light py-2 px-4 rounded-full text-white font-bold',
     className,
   );
   return (
