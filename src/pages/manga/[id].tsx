@@ -1,5 +1,5 @@
-import {Manga} from '@main/screens/manga/manga';
+import {MangaScreen} from '@main/screens/manga/manga';
 
-export default Manga;
+export default MangaScreen;
 
 export {getServerSideProps} from '@main/screens/manga/manga';

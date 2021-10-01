@@ -1,0 +1,26 @@
+{
+  "EN": {
+    "MANGA_OTHER_NAME": "Other name",
+    "MANGA_AUTHOR": "Author",
+    "MANGA_STATUS": "Status",
+    "MANGA_LAST_UPDATED": "Last updated",
+    "MANGA_DESCRIPTION": "Description",
+    "MANGA_GENRES": "Genres",
+    "MANGA_CHAPTERS": "Chapters",
+    "MANGA_READ": "Read",
+    "MANGA_DETAIL": "Detail",
+    "MANGA_READ_FROM_BEGINNING": "Read from beginning"
+  },
+  "VI": {
+    "MANGA_OTHER_NAME": "Tên khác",
+    "MANGA_AUTHOR": "Tác giả",
+    "MANGA_STATUS": "Tình trạng",
+    "MANGA_LAST_UPDATED": "Cập nhật",
+    "MANGA_DESCRIPTION": "Nội dung",
+    "MANGA_GENRES": "Thể loại",
+    "MANGA_CHAPTERS": "Chương",
+    "MANGA_READ": "Đọc",
+    "MANGA_DETAIL": "Chi tiết",
+    "MANGA_READ_FROM_BEGINNING": "Đọc từ đầu"
+  }
+}

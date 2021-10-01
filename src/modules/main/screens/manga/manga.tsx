@@ -1,34 +1,67 @@
+import Link from 'next/link';
 import type {GetServerSideProps, NextPage} from 'next';
 import {Seo} from '@core/components/seo';
-import {Button} from '@core/components/button';
+import {MangaCard} from '@main/components/manga-card';
+import type {Chapter, Manga} from '@main/interfaces';
+import {Card} from '@core/components/card';
+import clsx from 'clsx';
 
 export interface MangaProps {
   children?: React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  params: any;
+  manga: Manga;
 }
-export const Manga: NextPage<MangaProps> = (props: MangaProps): JSX.Element => {
-  const {params} = props;
+export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Element => {
+  const {manga} = props;
   return (
     <div className='flex flex-col w-full'>
-      <Seo title={params?.id} />
-      {JSON.stringify(params)}
-      <Button>Read</Button>
-      <div className='-mx-2'>
-        {Array.from(Array(20), (x, i) => i).map((i) => (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src='/sample-image.jpeg' key={i} alt='Img' width='100%' />
-        ))}
-      </div>
+      <Seo title={manga.name} />
+      <MangaCard manga={manga} mode='full' className='mb-2' />
+      {manga.chapters && manga.chapters.length > 0 && (
+        <Card title='Chapters'>
+          {manga.chapters.map((chapter, i) => (
+            <Link href='/' key={chapter.id}>
+              <a
+                className={clsx(
+                  'block w-full p-3 hover:bg-gray-400 hover:text-white dark:hover:bg-gray-500 ',
+                  i % 2 === 0 ? '' : 'bg-gray-200 dark:bg-gray-700',
+                )}
+              >
+                {chapter.name}
+              </a>
+            </Link>
+          ))}
+        </Card>
+      )}
     </div>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const {params} = context;
+export const getServerSideProps: GetServerSideProps = async (_context) => {
+  // const {params} = context;
+  const manga: Manga = {
+    id: 'abcs scc',
+    name: `name `,
+    otherName: `otherName `,
+    author: `author `,
+    status: `status `,
+    lastUpdated: `lastUpdated`,
+    // eslint-disable-next-line max-len
+    description: `description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description`,
+    genres: [`kid`, 's', 'sss', 'scc', 'ss'],
+    chapters: Array.from(Array(20), (x, i) => i).map(
+      (i) =>
+        ({
+          id: i.toString(),
+          name: `name ${i}`,
+          mangaId: 'id',
+          imageUrls: [],
+        } as Chapter),
+    ),
+  } as Manga;
   return {
     props: {
-      params,
+      manga,
     },
   };
 };
