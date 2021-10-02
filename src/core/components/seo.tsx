@@ -25,7 +25,6 @@ export const Seo = (props: SeoProps): JSX.Element => {
       <title>{pageTitle}</title>
       <meta name='description' content={pageDescription} />
       <meta name='twitter:card' content='summary' />
-      <meta name='twitter:url' content={url} />
       <meta name='twitter:title' content={pageTitle} />
       <meta name='twitter:description' content={pageDescription} />
       <meta name='twitter:image' content={pageImageUrl} />
@@ -33,8 +32,14 @@ export const Seo = (props: SeoProps): JSX.Element => {
       <meta property='og:type' content='website' />
       <meta property='og:title' content={pageTitle} />
       <meta property='og:description' content={pageDescription} />
-      <meta property='og:url' content={SITE_URL} />
       <meta property='og:image' content={pageImageUrl} />
+      {url && (
+        <>
+          <meta name='twitter:url' content={url} />
+          <meta property='og:url' content={url} />
+          <link rel='canonical' href={url} />
+        </>
+      )}
     </Head>
   );
 };
