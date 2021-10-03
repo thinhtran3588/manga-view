@@ -25,7 +25,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
   return (
     <header
       className='sticky top-0 backdrop-filter backdrop-blur  
-    firefox:bg-opacity-90 shadow-xl'
+    firefox:bg-opacity-90 shadow-xl z-50'
     >
       <div className='container mx-auto'>
         <div className='flex items-center flex-wrap'>
@@ -38,8 +38,8 @@ export const Header = (props: HeaderProps): JSX.Element => {
             <button
               type='button'
               onClick={toggleMenuVisible}
-              className='p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-500'
-              title='Menu'
+              className='p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600'
+              title={getI18nText(SITE_I18N_TEXT, menuVisible ? 'CLOSE' : 'MENU', router)}
             >
               {menuVisible ? (
                 <svg xmlns='http://www.w3.org/2000/svg' className='h-8 w-8' viewBox='0 0 20 20' fill='currentColor'>

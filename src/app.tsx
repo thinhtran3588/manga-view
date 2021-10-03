@@ -12,7 +12,9 @@ import {RootState, store} from '@store';
 import type {NextComponentType, NextPageContext} from 'next';
 
 interface BaseAppProps {
-  Component: NextComponentType<NextPageContext, any, {}>;
+  Component: NextComponentType<NextPageContext, any, {}> & {
+    hideLayout?: boolean;
+  };
   pageProps: any;
 }
 
@@ -34,6 +36,19 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  if (Component.hideLayout) {
+    return (
+      <>
+        <Head>
+          <meta name='viewport' content='width=device-width, initial-scale=1' />
+          <title>{getI18nText(SITE_I18N_TEXT, 'SITE_NAME', router)}</title>
+          <meta name='description' content={getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router)} />
+        </Head>
+        <Component {...pageProps} />
+      </>
+    );
+  }
 
   return (
     <>

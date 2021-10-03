@@ -1,5 +1,7 @@
 {
   "EN": {
+    "CLOSE": "Close",
+    "MENU": "Menu",
     "SITE_DESCRIPTION": "View your beloved manga instantly without ads",
     "SITE_NAME": "Manga View",
     "TAB_FAVORITES": "Favorites",
@@ -7,6 +9,8 @@
     "TAB_SETTINGS": "Settings"
   },
   "VI": {
+    "CLOSE": "Đóng",
+    "MENU": "Danh mục",
     "SITE_DESCRIPTION": "Xem truyện tranh yêu thích của bạn tức thời, không quảng cáo",
     "SITE_NAME": "Manga View",
     "TAB_FAVORITES": "Yêu thích",

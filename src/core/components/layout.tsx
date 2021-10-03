@@ -23,6 +23,7 @@ const MENU_ITEMS: MenuItem[] = [
     icon: '',
   },
 ];
+
 export interface LayoutProps {
   children?: React.ReactNode;
 }

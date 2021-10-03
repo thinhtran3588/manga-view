@@ -21,6 +21,10 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     router.push(`/manga/${manga.id}`, `/manga/${manga.id}`);
   };
 
+  const readManga = (): void => {
+    router.push(`/read/${manga.id}/0`, `/read/${manga.id}/0`);
+  };
+
   return (
     <Card
       className={clsx('p-1 hover:cursor-pointer', className)}
@@ -98,16 +102,20 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         </div>
       </div>
       <div className={clsx('flex w-full mt-2', mode === 'compact' ? '' : 'flex-col md:flex-row')}>
-        <Button className='flex-1 mx-1 mb-2'>{getI18nText(MAIN_I18N_TEXT, 'MANGA_READ', router)}</Button>
+        <Button className='flex-1 mx-1 mb-2' onClick={readManga}>
+          {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ', router)}
+        </Button>
         {mode === 'compact' && (
-          <Button className='flex-1 mx-1 mb-2' onClick={viewDetail}>
+          <Button className='flex-1 mx-1 mb-2' onClick={viewDetail} color='primary' variant='outline'>
             {getI18nText(MAIN_I18N_TEXT, 'MANGA_DETAIL', router)}
           </Button>
         )}
         {mode === 'full' && (
-          <Button className='flex-1 mx-1 mb-2 overflow-hidden' onClick={viewDetail}>
-            {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
-          </Button>
+          <>
+            <Button className='flex-1 mx-1 mb-2 overflow-hidden' onClick={readManga} color='info' variant='outline'>
+              {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
+            </Button>
+          </>
         )}
       </div>
       <p className={clsx('', mode === 'compact' ? 'h-36 overflow-hidden' : '')}>{manga.description}</p>

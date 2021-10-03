@@ -1,50 +1,46 @@
-import Link from 'next/link';
-import clsx from 'clsx';
-import reverse from 'lodash/fp/reverse';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
+import {Footer} from '@core/components/footer';
 import {Seo} from '@core/components/seo';
-import {MangaCard} from '@main/components/manga-card';
 import type {Chapter, Manga} from '@main/interfaces';
-import {Card} from '@core/components/card';
+import {Header} from './components/header';
 
-export interface MangaProps {
+export interface ReadProps {
   children?: React.ReactNode;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   manga: Manga;
+  chapter: Chapter;
+  params: unknown;
 }
-export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Element => {
-  const {manga} = props;
-  const displayChapters = reverse(manga.chapters || []);
+export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
+  const {manga, chapter} = props;
+
+  const onChangeChapter = (_chapterId: string): void => {
+    // console.log(chapterId);
+  };
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
       <Seo title={manga.name} description={manga.description} imageUrl={manga.coverUrl} />
-      <MangaCard manga={manga} mode='full' className='mb-2' />
-      {displayChapters && displayChapters.length > 0 && (
-        <Card title='Chapters'>
-          {displayChapters.map((chapter, i) => (
-            <Link href='/' key={chapter.id}>
-              <a
-                className={clsx(
-                  'block w-full p-3 hover:bg-primary hover:text-white dark:hover:bg-primary-light',
-                  i % 2 === 0 ? 'bg-gray-100 dark:bg-gray-700' : 'bg-gray-300 dark:bg-gray-800',
-                )}
-              >
-                {chapter.name}
-              </a>
-            </Link>
+      <Header chapters={manga.chapters || []} currentChapterId={chapter.id} onChangeChapter={onChangeChapter} />
+      <main className='flex flex-1 container mx-auto'>
+        <div className='flex flex-col w-full'>
+          {chapter.imageUrls.map((imageUrl, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={imageUrl} key={imageUrl} alt={`img${i}`} width='100%' />
           ))}
-        </Card>
-      )}
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 };
 
+Read.hideLayout = true;
+
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context;
-
-  const manga: Manga = {
-    id: 'abcs scc',
+  const manga = {
+    id: params?.mangaId,
     name: `name `,
     otherName: `otherName `,
     author: `author `,
@@ -59,17 +55,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
           id: i.toString(),
           name: `name ${i}`,
           mangaId: 'id',
-          imageUrls: [],
         } as Chapter),
     ),
   } as Manga;
 
+  const chapter = {
+    id: params?.chapterId,
+    name: 'chapter 1',
+    mangaId: manga.id,
+    imageUrls: Array.from(Array(20), (x, i) => i).map(() => '/sample-image.jpeg'),
+  } as Chapter;
+
   return {
     props: {
       manga,
-      params,
+      chapter,
     },
-    revalidate: 60 * 60,
+    revalidate: 60 * 60 * 4,
   };
 };
 

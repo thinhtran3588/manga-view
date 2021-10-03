@@ -3,13 +3,28 @@
 import clsx from 'clsx';
 import {forwardRef} from 'react';
 import type {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
+import {Color} from '@core/interfaces';
 
-export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>;
+export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+  color?: Color;
+  variant?: 'contained' | 'outline';
+};
+
+const getButtonClassName = (color: Color, variant: 'contained' | 'outline'): string => {
+  const buttonColor = color === 'default' ? 'gradient' : color;
+  if (variant === 'contained') {
+    return `bg-${buttonColor} dark:bg-${buttonColor}-light text-white py-2 px-4`;
+  }
+
+  return `border-${buttonColor} dark:border-${buttonColor}-light 
+    text-${buttonColor} dark:text-${buttonColor}-light border-2 py-0 px-2`;
+};
 
 export const Button = forwardRef<HTMLButtonElement>((props: ButtonProps, ref): JSX.Element => {
-  const {className, children, ...other} = props;
+  const {className, children, color = 'default', variant = 'contained', ...other} = props;
   const buttonClassName = clsx(
-    'bg-gradient dark:bg-gradient-light disabled:opacity-50 dis py-2 px-4 rounded-full text-white font-bold shadow-xl',
+    'disabled:opacity-50 rounded-full font-bold shadow-xl',
+    getButtonClassName(color, variant),
     className,
   );
   return (
