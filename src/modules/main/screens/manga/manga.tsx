@@ -4,8 +4,9 @@ import reverse from 'lodash/fp/reverse';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {Seo} from '@core/components/seo';
 import {MangaCard} from '@main/components/manga-card';
-import type {Chapter, Manga} from '@main/interfaces';
+import type {Manga} from '@main/interfaces';
 import {Card} from '@core/components/card';
+import {getManga} from '@api/main/services/mangas/get-manga';
 
 export interface MangaProps {
   children?: React.ReactNode;
@@ -41,33 +42,25 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const {params} = context;
-
-  const manga: Manga = {
-    id: 'abcs scc',
-    name: `name `,
-    otherName: `otherName `,
-    author: `author `,
-    status: `status `,
-    lastUpdated: `lastUpdated`,
-    // eslint-disable-next-line max-len
-    description: `description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description description`,
-    genres: [`kid`, 's', 'sss', 'scc', 'ss'],
-    chapters: Array.from(Array(20), (x, i) => i).map(
-      (i) =>
-        ({
-          id: i.toString(),
-          name: `name ${i}`,
-          mangaId: 'id',
-          imageUrls: [],
-        } as Chapter),
-    ),
+  const id = context.params?.id;
+  let manga = {
+    id: '',
+    author: '',
+    coverUrl: '',
+    description: '',
+    lastUpdated: '',
+    name: '',
+    otherName: '',
+    status: '',
+    genres: [],
   } as Manga;
+  if (id) {
+    manga = await getManga(id as string);
+  }
 
   return {
     props: {
       manga,
-      params,
     },
     revalidate: 60 * 60,
   };

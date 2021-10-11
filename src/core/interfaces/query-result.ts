@@ -14,6 +14,6 @@ export type OffsetQueryResult<T> = {
 export type CursorQueryResult<T> = {
   data: T[];
   pagination: {
-    nextToken?: string;
+    nextPage?: string;
   };
 };

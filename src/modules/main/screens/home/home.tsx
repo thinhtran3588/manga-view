@@ -1,6 +1,6 @@
 import {useRouter} from 'next/router';
 import {useDebounce} from 'use-debounce';
-import {ChangeEvent, useState, useEffect, useCallback} from 'react';
+import {ChangeEvent, useState, useEffect, useCallback, useRef} from 'react';
 import {useImmer} from 'use-immer';
 import type {NextPage} from 'next';
 import type {Manga} from '@main/interfaces';
@@ -11,41 +11,43 @@ import {Button} from '@core/components/button';
 import {MangaCard} from '@main/components/manga-card';
 import {searchManga} from '@main/services/manga/search-manga';
 import {getI18nText} from '@core/helpers/get-i18n-text';
+import {handleError} from '@core/helpers/handle-error';
 
 interface MangaInfo {
   data: Manga[];
-  nextToken?: string;
+  nextPage?: string;
 }
 
 export const Home: NextPage = (): JSX.Element => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchTermDebounced] = useDebounce((searchTerm || '').trim(), 300);
-  const [mangas, setMangas] = useImmer<MangaInfo>({data: [], nextToken: ''});
+  const [mangas, setMangas] = useImmer<MangaInfo>({data: [], nextPage: ''});
   const [loading, setLoading] = useState(false);
+  // eslint-disable-next-line no-null/no-null
+  const searchTextRef = useRef<HTMLInputElement>(null);
 
   const search = useCallback(
-    async (newSearchTerm: string, nextToken?: string): Promise<void> => {
+    async (newSearchTerm: string, nextPage?: string): Promise<void> => {
       if (!newSearchTerm) {
         return;
       }
 
       try {
         setLoading(true);
-        if (!nextToken) {
+        if (!nextPage) {
           setMangas((draftState) => {
             draftState.data = [];
-            draftState.nextToken = undefined;
+            draftState.nextPage = undefined;
           });
         }
-        const result = await searchManga(newSearchTerm, nextToken);
+        const result = await searchManga(newSearchTerm, nextPage);
         setMangas((draftState) => {
-          draftState.data = [...(nextToken ? draftState.data : []), ...result.data];
-          draftState.nextToken = result.pagination.nextToken;
+          draftState.data = [...(nextPage ? draftState.data : []), ...result.data];
+          draftState.nextPage = result.pagination.nextPage;
         });
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
+        handleError(error);
       } finally {
         setLoading(false);
       }
@@ -54,11 +56,16 @@ export const Home: NextPage = (): JSX.Element => {
   );
 
   const onLoadMore = (): void => {
-    search(searchTermDebounced, mangas.nextToken);
+    search(searchTermDebounced, mangas.nextPage);
   };
 
   const onSearchTextChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
+  };
+
+  const onClearSearchText = (): void => {
+    setSearchTerm('');
+    searchTextRef.current?.focus();
   };
 
   useEffect(() => {
@@ -73,7 +80,9 @@ export const Home: NextPage = (): JSX.Element => {
         className='w-full mb-2'
         value={searchTerm}
         onChange={onSearchTextChange}
+        onClearInput={onClearSearchText}
         autoFocus
+        ref={searchTextRef}
       />
       <div className='flex flex-row flex-wrap'>
         {mangas.data.map((manga) => (
@@ -84,11 +93,11 @@ export const Home: NextPage = (): JSX.Element => {
       </div>
       {loading && (
         <div className='w-full text-center'>
-          <span>{getI18nText(HOME_I18N_TEXT, mangas.nextToken ? 'LOADING' : 'SEARCHING', router)}...</span>
+          <span>{getI18nText(HOME_I18N_TEXT, mangas.nextPage ? 'LOADING' : 'SEARCHING', router)}...</span>
         </div>
       )}
-      {mangas.nextToken && !loading && (
-        <Button onClick={onLoadMore} disabled={loading}>
+      {mangas.nextPage && !loading && (
+        <Button className='mt-2' onClick={onLoadMore} disabled={loading}>
           Load more
         </Button>
       )}
