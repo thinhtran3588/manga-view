@@ -33,10 +33,28 @@ describe('Home', () => {
         />
       </svg>
       <input
-        class="bg-transparent outline-none ml-2"
+        class="bg-transparent outline-none ml-2 flex-1"
         placeholder="Search manga"
         value=""
       />
+      <button
+        type="button"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6 18L18 6M6 6l12 12"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
     </div>
     <div
       class="flex flex-row flex-wrap"
