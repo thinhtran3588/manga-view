@@ -9,7 +9,7 @@ export const homeScreen = createModel()({
     searchTerm: '',
   } as HomeScreenState,
   reducers: {
-    setLocale(draftState, searchTerm: string) {
+    setSearchTerm(draftState, searchTerm: string) {
       draftState.searchTerm = searchTerm;
       return draftState;
     },

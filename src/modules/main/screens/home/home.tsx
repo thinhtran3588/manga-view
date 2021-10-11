@@ -12,6 +12,8 @@ import {MangaCard} from '@main/components/manga-card';
 import {searchManga} from '@main/services/manga/search-manga';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import {handleError} from '@core/helpers/handle-error';
+import {useDispatch, useSelector} from 'react-redux';
+import {Dispatch, RootState} from '@store';
 
 interface MangaInfo {
   data: Manga[];
@@ -20,7 +22,10 @@ interface MangaInfo {
 
 export const Home: NextPage = (): JSX.Element => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState('');
+  const searchTerm = useSelector((state: RootState) => state.homeScreen.searchTerm);
+  const {
+    homeScreen: {setSearchTerm},
+  } = useDispatch<Dispatch>();
   const [searchTermDebounced] = useDebounce((searchTerm || '').trim(), 300);
   const [mangas, setMangas] = useImmer<MangaInfo>({data: [], nextPage: ''});
   const [loading, setLoading] = useState(false);
