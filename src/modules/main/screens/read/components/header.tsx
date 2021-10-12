@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import reverse from 'lodash/fp/reverse';
 import last from 'lodash/fp/last';
 import first from 'lodash/fp/first';
@@ -23,6 +23,10 @@ export const Header = (props: HeaderProps): JSX.Element => {
   const [selectedValue, setValue] = useState(currentChapterId);
   const isLastChapter = last(chapters)?.id === currentChapterId;
   const isFirstChapter = first(chapters)?.id === currentChapterId;
+
+  useEffect(() => {
+    setValue(currentChapterId);
+  }, [currentChapterId]);
 
   const onChangeChapter = (chapterId: string): void => {
     if (chapterId !== currentChapterId) {

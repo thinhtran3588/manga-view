@@ -17,7 +17,7 @@ const getButtonClassName = (color: Color, variant: 'contained' | 'outline'): str
   }
 
   return `border-${buttonColor} dark:border-${buttonColor}-light 
-    text-${buttonColor} dark:text-${buttonColor}-light border-2 py-0 px-2`;
+    text-${buttonColor} dark:text-${buttonColor}-light border-2 py-2 px-4`;
 };
 
 export const Button = forwardRef<HTMLButtonElement>((props: ButtonProps, ref): JSX.Element => {

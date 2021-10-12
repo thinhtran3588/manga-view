@@ -6,6 +6,7 @@ import {Card} from '@core/components/card';
 import type {Manga} from '@main/interfaces';
 import {Button} from '@core/components/button';
 import {getI18nText} from '@core/helpers/get-i18n-text';
+import last from 'lodash/fp/last';
 
 export interface MangaCardProps {
   className?: string;
@@ -18,11 +19,23 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
   const router = useRouter();
 
   const viewDetail = (): void => {
-    router.push(`/manga/${manga.id}`, `/manga/${manga.id}`);
+    router.push(`/manga/${manga.id}`);
   };
 
-  const readManga = (): void => {
-    router.push(`/read/${manga.id}/0`, `/read/${manga.id}/0`);
+  const readFirstChapter = (): void => {
+    if (manga.chapters && manga.chapters.length > 0) {
+      const firstChapter = manga.chapters[0];
+      router.push(`/read/${manga.id}/${firstChapter.id}`);
+    }
+  };
+
+  const readLastChapter = (): void => {
+    if (manga.chapters && manga.chapters.length > 0) {
+      const lastChapter = last(manga.chapters);
+      router.push(`/read/${manga.id}/${lastChapter?.id}`);
+    } else {
+      router.push(`/read/${manga.id}/0`);
+    }
   };
 
   return (
@@ -121,7 +134,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         </div>
       </div>
       <div className={clsx('flex w-full mt-2', mode === 'compact' ? '' : 'flex-col md:flex-row')}>
-        <Button className='flex-1 mx-1 mb-2' onClick={readManga}>
+        <Button className='flex-1 mx-1 mb-2' onClick={readLastChapter}>
           {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ', router)}
         </Button>
         {mode === 'compact' && (
@@ -131,7 +144,12 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         )}
         {mode === 'full' && (
           <>
-            <Button className='flex-1 mx-1 mb-2 overflow-hidden' onClick={readManga} color='info' variant='outline'>
+            <Button
+              className='flex-1 mx-1 mb-2 overflow-hidden'
+              onClick={readFirstChapter}
+              color='info'
+              variant='outline'
+            >
               {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
             </Button>
           </>

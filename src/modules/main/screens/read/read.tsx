@@ -1,3 +1,6 @@
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
+import last from 'lodash/fp/last';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
@@ -15,6 +18,15 @@ export interface ReadProps {
 }
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
   const {manga, chapter} = props;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (chapter.id === '0' && manga.chapters && manga.chapters.length > 0) {
+      const lastChapter = last(manga.chapters);
+      router.push(`/read/${manga.id}/${lastChapter?.id}`);
+    }
+  }, [manga, chapter, router]);
+
   return (
     <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
@@ -56,12 +68,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const chapterId = params?.chapterId as string;
   const chapter = {
     id: chapterId,
-    name: manga.chapters?.find((c) => c.id === chapterId)?.name,
+    name: manga.chapters?.find((c) => c.id === chapterId)?.name || '',
     mangaId: manga.id,
     imageUrls: [],
     originalUrl: '',
   } as Chapter;
-  if (mangaId && chapterId) {
+  if (mangaId && chapterId && chapterId !== '0') {
     chapter.imageUrls = await getChapterImages(manga, chapterId);
   }
 
