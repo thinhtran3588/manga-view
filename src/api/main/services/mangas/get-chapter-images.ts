@@ -12,6 +12,8 @@ const getExtension = (url: string): string => {
   return '';
 };
 
+const addHttpsUrl = (url: string): string => (url.includes('http') ? url : `https:${url}`);
+
 export const getChapterImages: MangaService['getChapterImages'] = async (manga, chapterId) => {
   try {
     const chapterUrl = manga.chapters?.find((c) => c.id === chapterId)?.originalUrl || '';
@@ -27,12 +29,7 @@ export const getChapterImages: MangaService['getChapterImages'] = async (manga, 
         return chapterEl.getAttribute('data-original') || '';
       })
       .filter((url) => url)
-      .map(
-        (url) =>
-          `/api/proxy-image/img${getExtension(url)}?url=${encodeURIComponent(
-            url.includes('http') ? url : `https:${url}`,
-          )}`,
-      );
+      .map((url) => `/api/proxy-image/img${getExtension(url)}?url=${encodeURIComponent(addHttpsUrl(url))}`);
   } catch (error) {
     return [];
   }
