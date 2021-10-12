@@ -58,7 +58,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     id: chapterId,
     name: manga.chapters?.find((c) => c.id === chapterId)?.name,
     mangaId: manga.id,
-    imageUrls: Array.from(Array(20), (x, i) => i).map(() => '/sample-image.jpeg'),
+    imageUrls: [],
+    originalUrl: '',
   } as Chapter;
   if (mangaId && chapterId) {
     chapter.imageUrls = await getChapterImages(manga, chapterId);
