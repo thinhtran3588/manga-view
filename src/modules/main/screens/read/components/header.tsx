@@ -87,7 +87,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
             onClick={viewNextChapter}
             className={`mr-2 p-2 rounded-full disabled:opacity-50
               bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80`}
-            title={getI18nText(READ_I18N_TEXT, 'PREVIOUS', router)}
+            title={getI18nText(READ_I18N_TEXT, 'NEXT', router)}
             disabled={isLastChapter}
           >
             <svg
