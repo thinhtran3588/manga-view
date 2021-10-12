@@ -3,18 +3,16 @@ import last from 'lodash/fp/last';
 import reverse from 'lodash/fp/reverse';
 import {parse} from 'node-html-parser';
 import {Chapter, Manga, MangaService} from '@api/main/interfaces';
+import {normalizeName} from '@api/core/helpers/normalize-name';
+import {DEFAULT_BROWSER_HEADERS} from '@api/core/constants';
 
 const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
 
 export const getManga: MangaService['getManga'] = async (id: string) => {
   try {
-    const searchUrl = `${MANGA_BASE_URL}/${id}`;
-    const {data} = await axios(searchUrl, {
-      headers: {
-        'User-Agent':
-          // eslint-disable-next-line max-len
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36 Edg/94.0.992.31',
-      },
+    const mangaUrl = `${MANGA_BASE_URL}/${id}`;
+    const {data} = await axios(mangaUrl, {
+      headers: DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
 
@@ -38,6 +36,8 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
       lastUpdated = lastUpdated
         .substring(1, lastUpdated.length - 1)
         .replace('Cập nhật lúc:', '')
+        .replace('[', '')
+        .replace(']', '')
         .trim();
     }
 
@@ -52,12 +52,15 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
         .querySelectorAll('.list-chapter .row a')
         .map((el) => {
           const chapterEl = el as unknown as HTMLLinkElement;
-          const chapterId = last(chapterEl.getAttribute('href')?.split('/'));
+          const chapterName = chapterEl.textContent || '';
+          const chapterNameNormalized = normalizeName(chapterName);
+          const chapterOriginalId = last(chapterEl.getAttribute('href')?.split('/'));
+          const chapterId = `${chapterNameNormalized}-${chapterOriginalId}`;
           return {
             id: chapterId,
             name: chapterEl.textContent,
             mangaId: id,
-            url: chapterEl.getAttribute('href'),
+            originalUrl: chapterEl.getAttribute('href'),
           } as Chapter;
         })
         .filter((c) => c.id && c.name),

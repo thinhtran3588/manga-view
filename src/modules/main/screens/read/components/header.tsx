@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import {useState} from 'react';
+import reverse from 'lodash/fp/reverse';
+import last from 'lodash/fp/last';
+import first from 'lodash/fp/first';
 import {ListBox} from '@core/components/list-box';
 import {LogoCompact} from '@core/components/logo-compact';
 import {getI18nText} from '@core/helpers/get-i18n-text';
@@ -8,41 +11,38 @@ import READ_I18N_TEXT from '@locales/read.json';
 import {Chapter} from '@main/interfaces';
 
 export interface HeaderProps {
+  mangaId: string;
   chapters: Chapter[];
   currentChapterId: string;
-  onChangeChapter: (chapterId: string) => void;
 }
-const options = [
-  {value: '1', text: 'Durward Reynolds s fqwf qwf ', unavailable: false},
-  {value: '2', text: 'Kenton Towne', unavailable: false},
-  {value: '3', text: 'Therese Wunsch', unavailable: false},
-  {value: '4', text: 'Benedict Kessler', unavailable: true},
-  {value: '5', text: 'Katelyn Rohan', unavailable: false},
-  {value: '6', text: 'Durward Reynolds', unavailable: false},
-  {value: '7', text: 'Kenton Towne', unavailable: false},
-  {value: '8', text: 'Therese Wunsch', unavailable: false},
-  {value: '9', text: 'Benedict Kessler', unavailable: true},
-  {value: '10', text: 'Katelyn Rohan', unavailable: false},
-  {value: '11', text: 'Durward Reynolds', unavailable: false},
-  {value: '12', text: 'Kenton Towne', unavailable: false},
-  {value: '13', text: 'Therese Wunsch', unavailable: false},
-  {value: '14', text: 'Benedict Kessler', unavailable: true},
-  {value: '15', text: 'Katelyn Rohan', unavailable: false},
-  {value: '16', text: 'Benedict Kessler', unavailable: true},
-  {value: '17', text: 'Katelyn Rohan', unavailable: false},
-  {value: '18', text: 'Durward Reynolds', unavailable: false},
-  {value: '19', text: 'Kenton Towne', unavailable: false},
-  {value: '20', text: 'Therese Wunsch', unavailable: false},
-];
 
-export const Header = (_props: HeaderProps): JSX.Element => {
-  // const {chapters, currentChapterId, onChangeChapter} = props;
+export const Header = (props: HeaderProps): JSX.Element => {
+  const {chapters, currentChapterId, mangaId} = props;
+  const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
-  const [menuVisible, setMenuVisible] = useState(false);
-  const [selectedValue, setValue] = useState('1');
+  const [selectedValue, setValue] = useState(currentChapterId);
+  const isLastChapter = last(chapters)?.id === currentChapterId;
+  const isFirstChapter = first(chapters)?.id === currentChapterId;
 
-  const toggleMenuVisible = (): void => {
-    setMenuVisible(!menuVisible);
+  const onChangeChapter = (chapterId: string): void => {
+    if (chapterId !== currentChapterId) {
+      router.push(`/read/${mangaId}/${chapterId}`);
+    }
+    setValue(chapterId);
+  };
+
+  const viewPrevChapter = (): void => {
+    const currentChapterIndex = chapters.findIndex((c) => c.id === currentChapterId);
+    if (currentChapterIndex > 0) {
+      onChangeChapter(chapters[currentChapterIndex - 1].id);
+    }
+  };
+
+  const viewNextChapter = (): void => {
+    const currentChapterIndex = chapters.findIndex((c) => c.id === currentChapterId);
+    if (currentChapterIndex < chapters.length - 1) {
+      onChangeChapter(chapters[currentChapterIndex + 1].id);
+    }
   };
 
   return (
@@ -59,10 +59,11 @@ export const Header = (_props: HeaderProps): JSX.Element => {
           </Link>
           <button
             type='button'
-            onClick={toggleMenuVisible}
+            onClick={viewPrevChapter}
             className={`p-2 rounded-full disabled:opacity-50
               bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80`}
             title={getI18nText(READ_I18N_TEXT, 'PREVIOUS', router)}
+            disabled={isFirstChapter}
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -76,17 +77,18 @@ export const Header = (_props: HeaderProps): JSX.Element => {
           </button>
           <ListBox
             selectedValue={selectedValue}
-            setValue={setValue}
+            setValue={onChangeChapter}
             options={options}
             containerClassName='flex-1 mx-2'
             optionContainerClassName='top-14 sm:top-12'
           />
           <button
             type='button'
-            onClick={toggleMenuVisible}
+            onClick={viewNextChapter}
             className={`mr-2 p-2 rounded-full disabled:opacity-50
               bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80`}
             title={getI18nText(READ_I18N_TEXT, 'PREVIOUS', router)}
+            disabled={isLastChapter}
           >
             <svg
               xmlns='http://www.w3.org/2000/svg'
