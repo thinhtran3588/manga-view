@@ -28,3 +28,5 @@ export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://mangaview.t
 export const SITE_NAME = 'Manga View';
 export const SITE_AUTHOR = 'Thinh Tran';
 export const SITE_AUTHOR_LINK = 'https://thinhtran.pro';
+
+export const VERSION = '0.1.0';
