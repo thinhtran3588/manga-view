@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import {useRouter} from 'next/router';
-import type {I18nText} from '@core/interfaces';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import {SITE_AUTHOR, SITE_AUTHOR_LINK, VERSION} from '@core/constants';
 import SITE_I18N_TEXT from '@locales/site.json';
