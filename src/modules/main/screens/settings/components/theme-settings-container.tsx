@@ -20,7 +20,7 @@ export const ThemeSettingsContainer = (): JSX.Element => {
 
   return (
     <BaseSettings
-      title={getI18nText(SETTINGS_I18N_TEXT, 'LANGUAGE', router)}
+      title={getI18nText(SETTINGS_I18N_TEXT, 'THEME', router)}
       currentValue={currentTheme}
       setValue={setTheme as (value: string) => void}
       options={options}
