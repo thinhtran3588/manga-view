@@ -1,10 +1,12 @@
 {
   "EN": {
     "NEXT": "Next",
-    "PREVIOUS": "Previous"
+    "PREVIOUS": "Previous",
+    "VIEW_DETAIL": "View detail"
   },
   "VI": {
     "NEXT": "Sau",
-    "PREVIOUS": "Trước"
+    "PREVIOUS": "Trước",
+    "VIEW_MANGA": "Xem chi tiết"
   }
 }

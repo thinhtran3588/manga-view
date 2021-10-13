@@ -98,7 +98,7 @@ export const Home: NextPage = (): JSX.Element => {
         ))}
       </div>
       {loading && (
-        <div className='w-full flex justify-center'>
+        <div className='w-full flex justify-center my-2'>
           <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
         </div>
       )}

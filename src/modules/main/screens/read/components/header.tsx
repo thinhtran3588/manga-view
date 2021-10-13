@@ -15,10 +15,11 @@ export interface HeaderProps {
   mangaId: string;
   chapters: Chapter[];
   currentChapterId: string;
+  setLoading: (loading: boolean) => void;
 }
 
 export const Header = (props: HeaderProps): JSX.Element => {
-  const {chapters, currentChapterId, mangaId} = props;
+  const {chapters, currentChapterId, mangaId, setLoading} = props;
   const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
   const [selectedValue, setValue] = useState(currentChapterId);
@@ -31,9 +32,15 @@ export const Header = (props: HeaderProps): JSX.Element => {
 
   const onChangeChapter = (chapterId: string): void => {
     if (chapterId !== currentChapterId) {
+      setLoading(true);
       router.push(`/read/${mangaId}/${chapterId}`);
     }
     setValue(chapterId);
+  };
+
+  const onViewDetail = (): void => {
+    setLoading(true);
+    router.push(`/manga/${mangaId}`);
   };
 
   const viewPrevChapter = (): void => {
@@ -62,6 +69,31 @@ export const Header = (props: HeaderProps): JSX.Element => {
               <LogoCompact className='h-10 w-10' />
             </a>
           </Link>
+          <button
+            type='button'
+            onClick={onViewDetail}
+            className={`mr-2 p-2 rounded-full disabled:opacity-50
+              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
+              hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`}
+            title={getI18nText(READ_I18N_TEXT, 'VIEW_DETAIL', router)}
+            disabled={isFirstChapter}
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={2}
+                // eslint-disable-next-line max-len
+                d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
+              />
+            </svg>
+          </button>
           <button
             type='button'
             onClick={viewPrevChapter}

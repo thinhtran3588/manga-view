@@ -1,5 +1,5 @@
 import {useRouter} from 'next/router';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import last from 'lodash/fp/last';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
@@ -19,30 +19,42 @@ export interface ReadProps {
 }
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
   const {manga, chapter} = props;
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     if (chapter.id === '0' && manga.chapters && manga.chapters.length > 0) {
+      setLoading(true);
       const lastChapter = last(manga.chapters);
       router.push(`/read/${manga.id}/${lastChapter?.id}`);
     }
   }, [manga, chapter, router]);
 
+  useEffect(() => {
+    setLoading(false);
+  }, [manga]);
+
   return (
     <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
-      <Header chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} />
+      <Header
+        chapters={manga.chapters || []}
+        mangaId={manga.id}
+        currentChapterId={chapter.id}
+        setLoading={setLoading}
+      />
       <main className='flex flex-1 container mx-auto'>
         <div className='flex flex-col w-full'>
-          {chapter.id === '0' && (
-            <div className='w-full flex justify-center mt-2'>
+          {loading && (
+            <div className='w-full flex justify-center my-2'>
               <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
             </div>
           )}
-          {chapter.imageUrls?.map((imageUrl, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={imageUrl} key={imageUrl} alt={`img${i}`} width='100%' />
-          ))}
+          {!loading &&
+            chapter.imageUrls?.map((imageUrl, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={imageUrl} key={imageUrl} alt={`img${i}`} width='100%' />
+            ))}
         </div>
       </main>
       <Footer />
