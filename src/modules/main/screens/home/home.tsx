@@ -14,6 +14,7 @@ import {getI18nText} from '@core/helpers/get-i18n-text';
 import {handleError} from '@core/helpers/handle-error';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dispatch, RootState} from '@store';
+import {Loading} from '@core/components/loading';
 
 interface MangaInfo {
   data: Manga[];
@@ -97,8 +98,8 @@ export const Home: NextPage = (): JSX.Element => {
         ))}
       </div>
       {loading && (
-        <div className='w-full text-center'>
-          <span>{getI18nText(HOME_I18N_TEXT, mangas.nextPage ? 'LOADING' : 'SEARCHING', router)}...</span>
+        <div className='w-full flex justify-center'>
+          <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
         </div>
       )}
       {mangas.nextPage && !loading && (

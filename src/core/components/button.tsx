@@ -3,11 +3,13 @@
 import clsx from 'clsx';
 import {forwardRef} from 'react';
 import type {ButtonHTMLAttributes, DetailedHTMLProps} from 'react';
-import {Color} from '@core/interfaces';
+import type {Color} from '@core/interfaces';
+import {Loading} from './loading';
 
 export type ButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
   color?: Color;
   variant?: 'contained' | 'outline';
+  loading?: boolean;
 };
 
 const getButtonClassName = (color: Color, variant: 'contained' | 'outline'): string => {
@@ -21,14 +23,22 @@ const getButtonClassName = (color: Color, variant: 'contained' | 'outline'): str
 };
 
 export const Button = forwardRef<HTMLButtonElement>((props: ButtonProps, ref): JSX.Element => {
-  const {className, children, color = 'default', variant = 'contained', ...other} = props;
+  const {className, children, color = 'default', variant = 'contained', loading = false, disabled, ...other} = props;
   const buttonClassName = clsx(
-    'disabled:opacity-50 rounded-full font-bold shadow-xl',
+    'disabled:opacity-50 rounded-full font-bold shadow-xl flex items-center justify-center',
     getButtonClassName(color, variant),
     className,
   );
   return (
-    <button ref={ref} className={buttonClassName} {...other}>
+    <button ref={ref} className={buttonClassName} disabled={loading || disabled} {...other}>
+      {loading && (
+        <Loading
+          className={clsx(
+            'mr-2 fill-current h-6 w-6',
+            variant === 'contained' ? 'text-white dark:text-white' : 'text-primary dark:text-primary-light',
+          )}
+        />
+      )}
       {children}
     </button>
   );

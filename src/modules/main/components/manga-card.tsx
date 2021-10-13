@@ -1,12 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
+import last from 'lodash/fp/last';
+import {useState} from 'react';
+import type {Manga} from '@main/interfaces';
 import MAIN_I18N_TEXT from '@locales/main.json';
 import {Card} from '@core/components/card';
-import type {Manga} from '@main/interfaces';
 import {Button} from '@core/components/button';
 import {getI18nText} from '@core/helpers/get-i18n-text';
-import last from 'lodash/fp/last';
 
 export interface MangaCardProps {
   className?: string;
@@ -16,14 +17,19 @@ export interface MangaCardProps {
 
 export const MangaCard = (props: MangaCardProps): JSX.Element => {
   const {manga, className, mode = 'compact'} = props;
+  const [readLoading, setReadLoading] = useState(false);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [readFirstLoading, setReadFirstLoading] = useState(false);
   const router = useRouter();
 
   const viewDetail = (): void => {
+    setDetailLoading(true);
     router.push(`/manga/${manga.id}`);
   };
 
   const readFirstChapter = (): void => {
     if (manga.chapters && manga.chapters.length > 0) {
+      setReadFirstLoading(true);
       const firstChapter = manga.chapters[0];
       router.push(`/read/${manga.id}/${firstChapter.id}`);
     }
@@ -31,9 +37,11 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
 
   const readLastChapter = (): void => {
     if (manga.chapters && manga.chapters.length > 0) {
+      setReadLoading(true);
       const lastChapter = last(manga.chapters);
       router.push(`/read/${manga.id}/${lastChapter?.id}`);
     } else {
+      setReadLoading(true);
       router.push(`/read/${manga.id}/0`);
     }
   };
@@ -134,11 +142,17 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         </div>
       </div>
       <div className={clsx('flex w-full mt-2', mode === 'compact' ? '' : 'flex-col md:flex-row')}>
-        <Button className='flex-1 mx-1 mb-2' onClick={readLastChapter}>
+        <Button className='flex-1 mx-1 mb-2' onClick={readLastChapter} loading={readLoading}>
           {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ', router)}
         </Button>
         {mode === 'compact' && (
-          <Button className='flex-1 mx-1 mb-2' onClick={viewDetail} color='primary' variant='outline'>
+          <Button
+            className='flex-1 mx-1 mb-2'
+            onClick={viewDetail}
+            color='primary'
+            variant='outline'
+            loading={detailLoading}
+          >
             {getI18nText(MAIN_I18N_TEXT, 'MANGA_DETAIL', router)}
           </Button>
         )}
@@ -149,6 +163,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
               onClick={readFirstChapter}
               color='info'
               variant='outline'
+              loading={readFirstLoading}
             >
               {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
             </Button>

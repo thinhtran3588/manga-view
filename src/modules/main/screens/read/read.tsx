@@ -5,6 +5,7 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
 import {Footer} from '@core/components/footer';
+import {Loading} from '@core/components/loading';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
 import {Header} from './components/header';
@@ -33,6 +34,11 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
       <Header chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} />
       <main className='flex flex-1 container mx-auto'>
         <div className='flex flex-col w-full'>
+          {chapter.id === '0' && (
+            <div className='w-full flex justify-center mt-2'>
+              <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
+            </div>
+          )}
           {chapter.imageUrls?.map((imageUrl, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={imageUrl} key={imageUrl} alt={`img${i}`} width='100%' />

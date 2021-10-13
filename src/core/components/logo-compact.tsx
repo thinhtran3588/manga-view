@@ -1,21 +1,20 @@
 /* eslint-disable max-len */
+import clsx from 'clsx';
+
 export interface LogoProps {
-  width?: number;
-  height?: number;
+  className?: string;
 }
 
 export const LogoCompact = (props: LogoProps): JSX.Element => {
-  const {width, height} = props;
+  const {className} = props;
 
   return (
     <>
       <svg
-        width={width || 1024}
-        height={height || 1024}
         viewBox='0 0 1024 1024'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='dark:hidden'
+        className={clsx('dark:hidden', className)}
       >
         <path
           d='M153.486 217.9V189.4H328.286L601.886 770.8L570.536 843H447.036L153.486 217.9ZM690.236 568.45H686.436L622.786 722.35L541.086 547.55L690.236 189.4H870.736V843H690.236V568.45ZM153.486 311.95L328.286 684.35V843H153.486V311.95Z'
@@ -36,12 +35,10 @@ export const LogoCompact = (props: LogoProps): JSX.Element => {
         </defs>
       </svg>
       <svg
-        width={width || 1024}
-        height={height || 1024}
         viewBox='0 0 1024 1024'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
-        className='hidden dark:block'
+        className={clsx('hidden dark:block', className)}
       >
         <path
           d='M153.486 217.9V189.4H328.286L601.886 770.8L570.536 843H447.036L153.486 217.9ZM690.236 568.45H686.436L622.786 722.35L541.086 547.55L690.236 189.4H870.736V843H690.236V568.45ZM153.486 311.95L328.286 684.35V843H153.486V311.95Z'

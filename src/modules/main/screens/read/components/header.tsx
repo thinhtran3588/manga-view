@@ -8,6 +8,7 @@ import {ListBox} from '@core/components/list-box';
 import {LogoCompact} from '@core/components/logo-compact';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import READ_I18N_TEXT from '@locales/read.json';
+import SITE_I18N_TEXT from '@locales/site.json';
 import {Chapter} from '@main/interfaces';
 
 export interface HeaderProps {
@@ -57,15 +58,16 @@ export const Header = (props: HeaderProps): JSX.Element => {
       <div className='container mx-auto'>
         <div className='flex items-center'>
           <Link href='/'>
-            <a className='block mx-4 my-2' title='Home'>
-              <LogoCompact width={40} height={40} />
+            <a className='block mx-4 my-2' title={getI18nText(SITE_I18N_TEXT, 'TAB_HOME', router)}>
+              <LogoCompact className='h-10 w-10' />
             </a>
           </Link>
           <button
             type='button'
             onClick={viewPrevChapter}
             className={`p-2 rounded-full disabled:opacity-50
-              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80`}
+              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
+              hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`}
             title={getI18nText(READ_I18N_TEXT, 'PREVIOUS', router)}
             disabled={isFirstChapter}
           >
@@ -85,12 +87,14 @@ export const Header = (props: HeaderProps): JSX.Element => {
             options={options}
             containerClassName='flex-1 mx-2'
             optionContainerClassName='top-14 sm:top-12'
+            buttonClassName='hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600'
           />
           <button
             type='button'
             onClick={viewNextChapter}
             className={`mr-2 p-2 rounded-full disabled:opacity-50
-              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80`}
+              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
+              hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`}
             title={getI18nText(READ_I18N_TEXT, 'NEXT', router)}
             disabled={isLastChapter}
           >

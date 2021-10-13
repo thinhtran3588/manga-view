@@ -30,8 +30,8 @@ export const Header = (props: HeaderProps): JSX.Element => {
       <div className='container mx-auto'>
         <div className='flex items-center flex-wrap'>
           <Link href='/'>
-            <a className='block mx-4 my-2' title='Home'>
-              <Logo width={240} height={40} />
+            <a className='block mx-4 my-2' title={getI18nText(SITE_I18N_TEXT, 'TAB_HOME', router)}>
+              <Logo className='h-8' />
             </a>
           </Link>
           <div className='lg:hidden flex flex-1 justify-end'>
