@@ -8,12 +8,12 @@ export const Footer = (): JSX.Element => {
   const router = useRouter();
   return (
     <footer className='bg-white dark:bg-gray-800'>
-      <div className='container mx-auto py-4 flex-wrap justify-between flex items-center'>
+      <div className='container mx-auto py-4 flex-wrap justify-between flex items-center text-sm'>
         <a
           href={SITE_AUTHOR_LINK}
           target='_blank'
           rel='noopener noreferrer'
-          className='mx-4 font-semibold text-sm md:text-xl text-center items-center'
+          className='mx-4 font-semibold text-center items-center'
         >
           <span>{getI18nText(SITE_I18N_TEXT, 'CREATED_BY', router)}</span>
           <span className='mx-2'>
@@ -21,7 +21,7 @@ export const Footer = (): JSX.Element => {
           </span>
           <span> {SITE_AUTHOR}.</span>
         </a>
-        <span className='text-sm md:text-xl mx-4'>
+        <span className='mx-4'>
           {getI18nText(SITE_I18N_TEXT, 'VERSION', router)}: {VERSION}
         </span>
       </div>
