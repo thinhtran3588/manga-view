@@ -4,11 +4,10 @@ import last from 'lodash/fp/last';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
-import {Footer} from '@core/components/footer';
 import {Loading} from '@core/components/loading';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
-import {Header} from './components/header';
+import {Nav} from './components/nav';
 
 export interface ReadProps {
   children?: React.ReactNode;
@@ -35,15 +34,10 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
   }, [manga]);
 
   return (
-    <div className='font-roboto flex flex-col min-h-screen bg-gray-200 dark:bg-gray-700 dark:text-white'>
+    <div className='font-roboto flex flex-col h-screen dark:text-white'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
-      <Header
-        chapters={manga.chapters || []}
-        mangaId={manga.id}
-        currentChapterId={chapter.id}
-        setLoading={setLoading}
-      />
-      <main className='flex flex-1 container mx-auto'>
+      <Nav chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} setLoading={setLoading} />
+      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 mb-14 pb-14 lg:mb-0 bg-gray-200 dark:bg-gray-700'>
         <div className='flex flex-col w-full'>
           {loading && (
             <div className='w-full flex justify-center my-2'>
@@ -57,7 +51,6 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
             ))}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

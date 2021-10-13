@@ -18,7 +18,7 @@ export interface HeaderProps {
   setLoading: (loading: boolean) => void;
 }
 
-export const Header = (props: HeaderProps): JSX.Element => {
+export const Nav = (props: HeaderProps): JSX.Element => {
   const {chapters, currentChapterId, mangaId, setLoading} = props;
   const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
@@ -59,7 +59,7 @@ export const Header = (props: HeaderProps): JSX.Element => {
 
   return (
     <header
-      className='sticky top-0 backdrop-filter backdrop-blur  
+      className='fixed bottom-0 lg:bottom-auto lg:top-0 inset-x-0 backdrop-filter backdrop-blur  
     firefox:bg-opacity-90 shadow-xl z-50'
     >
       <div className='container mx-auto'>
