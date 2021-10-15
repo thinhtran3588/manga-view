@@ -11,6 +11,12 @@ const MENU_ITEMS: MenuItem[] = [
     icon: '',
   },
   {
+    key: 'TAB_RECENT',
+    href: '/recent',
+    current: false,
+    icon: '',
+  },
+  {
     key: 'TAB_FAVORITES',
     href: '/favorites',
     current: false,

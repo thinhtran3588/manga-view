@@ -2,11 +2,13 @@
   "EN": {
     "SEARCH_MANGA": "Search manga",
     "SEARCHING": "Searching",
-    "LOADING": "Loading"
+    "LOADING": "Loading",
+    "RECENT": "Recent"
   },
   "VI": {
     "SEARCH_MANGA": "Tìm truyện",
     "SEARCHING": "Đang tìm kiếm",
-    "LOADING": "Đang tải"
+    "LOADING": "Đang tải",
+    "RECENT": "Gần đây"
   }
 }

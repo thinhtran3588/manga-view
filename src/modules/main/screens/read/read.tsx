@@ -1,12 +1,14 @@
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
 import last from 'lodash/fp/last';
+import {useDispatch} from 'react-redux';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
 import {Loading} from '@core/components/loading';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
+import {Dispatch} from '@store';
 import {Nav} from './components/nav';
 
 export interface ReadProps {
@@ -16,9 +18,13 @@ export interface ReadProps {
   chapter: Chapter;
   params: unknown;
 }
+
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
   const {manga, chapter} = props;
   const [loading, setLoading] = useState(false);
+  const {
+    recentMangas: {addRecentManga},
+  } = useDispatch<Dispatch>();
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +33,10 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
       const lastChapter = last(manga.chapters);
       router.push(`/read/${manga.id}/${lastChapter?.id}`);
     }
-  }, [manga, chapter, router]);
+    if (chapter.id !== '0') {
+      addRecentManga({manga, chapterId: chapter.id});
+    }
+  }, [manga, chapter, router, addRecentManga]);
 
   useEffect(() => {
     setLoading(false);
@@ -40,7 +49,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
       <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 mb-14 pb-14 lg:mb-0 bg-gray-200 dark:bg-gray-700'>
         <div className='flex flex-col w-full'>
           {loading && (
-            <div className='w-full flex justify-center my-2'>
+            <div className='w-full flex items-center justify-center my-2 flex-1'>
               <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
             </div>
           )}

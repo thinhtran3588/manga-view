@@ -29,9 +29,6 @@ exports[`Home renders successfully 1`] = `
       />
       
     </div>
-    <div
-      class="flex flex-row flex-wrap"
-    />
     
   </div>
 </div>
