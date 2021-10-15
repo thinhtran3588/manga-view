@@ -29,4 +29,4 @@ export const SITE_NAME = 'Manga View';
 export const SITE_AUTHOR = 'Thinh Tran';
 export const SITE_AUTHOR_LINK = 'https://thinhtran.pro';
 
-export const VERSION = '0.1.0';
+export const VERSION = '0.2.0';
