@@ -1,15 +1,16 @@
 /* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx';
+import Link from 'next/link';
 import {useRouter} from 'next/router';
 import last from 'lodash/fp/last';
 import {useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import type {Manga} from '@main/interfaces';
 import MAIN_I18N_TEXT from '@locales/main.json';
 import {Card} from '@core/components/card';
 import {Button} from '@core/components/button';
 import {getI18nText} from '@core/helpers/get-i18n-text';
-import type {RootState} from '@store';
+import {Dispatch, RootState} from '@store';
 
 export interface MangaCardProps {
   className?: string;
@@ -24,6 +25,10 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
   const [readFirstLoading, setReadFirstLoading] = useState(false);
   const [readCurrentLoading, setReadCurrentLoading] = useState(false);
   const currentChapterId = useSelector((state: RootState) => state.recentMangas.currentChapters[manga.id]);
+  const isFavorite = useSelector((state: RootState) => state.favoriteMangas.ids.includes(manga.id));
+  const {
+    favoriteMangas: {toggleFavoriteManga},
+  } = useDispatch<Dispatch>();
   const router = useRouter();
 
   const viewDetail = (): void => {
@@ -57,10 +62,56 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     }
   };
 
+  const toggleFavorite = (): void => {
+    toggleFavoriteManga(manga);
+  };
+
   return (
     <Card
       className={clsx('p-1 hover:cursor-pointer', className)}
-      title={manga.name}
+      CustomHeader={
+        <div className='font-semibold pb-2  flex justify-center items-center'>
+          <Link href={`/manga/${manga.id}`}>
+            <a className='block flex-1 text-primary dark:text-primary-light'>{manga.name}</a>
+          </Link>
+          <button
+            type='button'
+            onClick={toggleFavorite}
+            className={clsx(
+              'p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-600',
+              isFavorite ? 'text-error dark:text-error-light' : '',
+            )}
+            title={getI18nText(MAIN_I18N_TEXT, isFavorite ? 'MANGA_REMOVE_FAVORITE' : 'MANGA_ADD_FAVORITE', router)}
+          >
+            {isFavorite ? (
+              <svg xmlns='http://www.w3.org/2000/svg' className='h-6 w-6' viewBox='0 0 20 20' fill='currentColor'>
+                <path
+                  fillRule='evenodd'
+                  // eslint-disable-next-line max-len
+                  d='M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-6 w-6'
+                fill='none'
+                viewBox='0 0 24 24'
+                stroke='currentColor'
+              >
+                <path
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth={2}
+                  // eslint-disable-next-line max-len
+                  d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+      }
       contentClassName='flex flex-row flex-wrap mt-2'
       headerClassName='text-primary dark:text-primary-light'
     >

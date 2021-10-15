@@ -1,5 +1,6 @@
 {
   "EN": {
+    "MANGA_ADD_FAVORITE": "Add favorite",
     "MANGA_AUTHOR": "Author",
     "MANGA_CHAPTERS": "Chapters",
     "MANGA_CONTINUE_READING": "Continue reading",
@@ -10,11 +11,13 @@
     "MANGA_OTHER_NAME": "Other name",
     "MANGA_READ": "Read",
     "MANGA_READ_FROM_BEGINNING": "Read from beginning",
+    "MANGA_REMOVE_FAVORITE": "Remove favorite",
     "MANGA_STATUS": "Status",
     "NO_MANGAS_FOUND": "No mangas found",
     "VIEW_MORE": "View more"
   },
   "VI": {
+    "MANGA_ADD_FAVORITE": "Thêm yêu thích",
     "MANGA_AUTHOR": "Tác giả",
     "MANGA_CHAPTERS": "Chương",
     "MANGA_CONTINUE_READING": "Tiếp tục đọc",
@@ -25,6 +28,7 @@
     "MANGA_OTHER_NAME": "Tên khác",
     "MANGA_READ": "Đọc",
     "MANGA_READ_FROM_BEGINNING": "Đọc từ đầu",
+    "MANGA_REMOVE_FAVORITE": "Bỏ yêu thích",
     "MANGA_STATUS": "Tình trạng",
     "NO_MANGAS_FOUND": "Không tìm thấy truyện",
     "VIEW_MORE": "Xem tiếp"

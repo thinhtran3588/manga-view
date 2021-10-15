@@ -12,13 +12,16 @@ export const favoriteMangas = createModel()({
     ids: [],
   } as FavoriteMangasState,
   reducers: {
-    addFavoriteManga(draftState, manga: Manga) {
+    toggleFavoriteManga(draftState, manga: Manga) {
       if (!draftState.ids) {
         draftState.ids = [];
       }
       if (!draftState.ids.includes(manga.id)) {
         draftState.mangas[manga.id] = manga;
         draftState.ids = [manga.id, ...draftState.ids];
+      } else {
+        delete draftState.mangas[manga.id];
+        draftState.ids = draftState.ids.filter((id) => id !== manga.id);
       }
       return draftState;
     },
