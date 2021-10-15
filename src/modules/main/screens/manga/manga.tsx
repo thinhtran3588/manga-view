@@ -3,9 +3,9 @@ import clsx from 'clsx';
 import reverse from 'lodash/fp/reverse';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {Seo} from '@core/components/seo';
-import {MangaCard} from '@main/components/manga-card';
 import type {Manga} from '@main/interfaces';
 import {Card} from '@core/components/card';
+import {MangaCard} from '@main/components/manga-card';
 import {getManga} from '@api/main/services/mangas/get-manga';
 
 export interface MangaProps {
@@ -18,25 +18,29 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
   const displayChapters = reverse(manga.chapters || []);
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex w-full flex-wrap'>
       <Seo title={manga.name} description={manga.description} imageUrl={manga.coverUrl} />
-      <MangaCard manga={manga} mode='full' className='mb-2' />
-      {displayChapters && displayChapters.length > 0 && (
-        <Card title='Chapters'>
-          {displayChapters.map((chapter, i) => (
-            <Link href={`/read/${manga.id}/${chapter.id}`} key={chapter.id}>
-              <a
-                className={clsx(
-                  'block w-full p-3 hover:bg-primary hover:text-white dark:hover:bg-primary-light',
-                  i % 2 === 0 ? 'bg-gray-100 dark:bg-gray-700' : 'bg-gray-300 dark:bg-gray-800',
-                )}
-              >
-                {chapter.name}
-              </a>
-            </Link>
-          ))}
+      <div className='mb-2 w-full lg:w-1/2'>
+        <MangaCard manga={manga} mode='full' className='h-full' />
+      </div>
+      <div className='mb-2 w-full lg:w-1/2 lg:pl-2'>
+        <Card title='Chapters' contentClassName='h-full'>
+          <div>
+            {displayChapters.map((chapter, i) => (
+              <Link href={`/read/${manga.id}/${chapter.id}`} key={chapter.id}>
+                <a
+                  className={clsx(
+                    'block w-full p-3 hover:bg-primary hover:text-white dark:hover:bg-primary-light',
+                    i % 2 === 0 ? 'bg-gray-100 dark:bg-gray-700' : 'bg-gray-300 dark:bg-gray-800',
+                  )}
+                >
+                  {chapter.name}
+                </a>
+              </Link>
+            ))}
+          </div>
         </Card>
-      )}
+      </div>
     </div>
   );
 };

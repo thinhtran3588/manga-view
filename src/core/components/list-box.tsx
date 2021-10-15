@@ -12,6 +12,7 @@ export interface HeadlessuiListboxProps {
   containerClassName?: string;
   buttonClassName?: string;
   optionContainerClassName?: string;
+  optionContainerClassNameOverride?: string;
   optionClassName?: string;
 }
 
@@ -24,6 +25,7 @@ export const ListBox = (props: HeadlessuiListboxProps): JSX.Element => {
     buttonClassName,
     optionClassName,
     optionContainerClassName,
+    optionContainerClassNameOverride,
   } = props;
 
   return (
@@ -49,11 +51,14 @@ export const ListBox = (props: HeadlessuiListboxProps): JSX.Element => {
           </svg>
         </HeadlessuiListbox.Button>
         <HeadlessuiListbox.Options
-          className={clsx(
-            `top-12 left-0 right-0 rounded-xl pt-3 pb-3 max-h-72 overflow-auto
-            bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 fixed sm:absolute`,
-            optionContainerClassName,
-          )}
+          className={
+            optionContainerClassNameOverride ||
+            clsx(
+              `top-12 left-0 right-0 pt-3 pb-3 max-h-72 overflow-auto
+            bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 absolute`,
+              optionContainerClassName,
+            )
+          }
         >
           {options.map((option) => (
             <HeadlessuiListbox.Option

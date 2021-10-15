@@ -43,10 +43,10 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
   }, [manga]);
 
   return (
-    <div className='font-roboto flex flex-col h-screen dark:text-white'>
+    <div className='font-roboto flex flex-col min-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
       <Nav chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} setLoading={setLoading} />
-      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 mb-14 pb-14 lg:mb-0 bg-gray-200 dark:bg-gray-700'>
+      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 pb-14 lg:pb-0 '>
         <div className='flex flex-col w-full'>
           {loading && (
             <div className='w-full flex items-center justify-center my-2 flex-1'>

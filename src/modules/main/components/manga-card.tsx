@@ -36,14 +36,6 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     router.push(`/manga/${manga.id}`);
   };
 
-  const readFirstChapter = (): void => {
-    if (manga.chapters && manga.chapters.length > 0) {
-      setReadFirstLoading(true);
-      const firstChapter = manga.chapters[0];
-      router.push(`/read/${manga.id}/${firstChapter.id}`);
-    }
-  };
-
   const readLastChapter = (): void => {
     if (manga.chapters && manga.chapters.length > 0) {
       setReadLastLoading(true);
@@ -52,6 +44,14 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     } else {
       setReadLastLoading(true);
       router.push(`/read/${manga.id}/0`);
+    }
+  };
+
+  const readFirstChapter = (): void => {
+    if (manga.chapters && manga.chapters.length > 0) {
+      setReadFirstLoading(true);
+      const firstChapter = manga.chapters[0];
+      router.push(`/read/${manga.id}/${firstChapter?.id}`);
     }
   };
 
@@ -70,7 +70,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     <Card
       className={clsx('p-1 hover:cursor-pointer', className)}
       CustomHeader={
-        <div className='font-semibold pb-2  flex justify-center items-center'>
+        <div className='font-semibold pb-2 flex justify-center items-center'>
           <Link href={`/manga/${manga.id}`}>
             <a className='block flex-1 text-primary dark:text-primary-light'>{manga.name}</a>
           </Link>
@@ -119,7 +119,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         <img src={manga.coverUrl} width='100%' alt={manga.name} />
       </div>
       <div className='w-2/3 pl-2'>
-        <div className='flex'>
+        <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
           <span className='mr-1'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -136,9 +136,14 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
               />
             </svg>
           </span>
+          {mode === 'full' && (
+            <span className='hidden md:block font-semibold text-secondary dark:text-secondary-light'>
+              {getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}:&nbsp;
+            </span>
+          )}
           <span>{manga.status}</span>
         </div>
-        <div className='flex'>
+        <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}>
           <span className='mr-1'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -155,9 +160,14 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
               />
             </svg>
           </span>
+          {mode === 'full' && (
+            <span className='hidden md:block font-semibold text-success dark:text-success-light'>
+              {getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}:&nbsp;
+            </span>
+          )}
           <span>{manga.author}</span>
         </div>
-        <div className='flex'>
+        <div className='flex' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}>
           <span className='mr-1'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
@@ -174,49 +184,28 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
               />
             </svg>
           </span>
+          {mode === 'full' && (
+            <span className='hidden md:block font-semibold text-info dark:text-info-light'>
+              {getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}:&nbsp;
+            </span>
+          )}
           <span>{manga.lastUpdated}</span>
         </div>
-        <div className='flex mt-1'>
-          <span className='mr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                // eslint-disable-next-line max-len
-                d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'
-              />
-            </svg>
-          </span>
-          <span className='flex flex-1 flex-wrap'>
-            {manga.genres.map((genre) => (
-              <span key={genre} className='mr-2 mb-2 rounded-full p-0 px-2 bg-warning text-white'>
-                {genre}
-              </span>
-            ))}
-          </span>
-        </div>
       </div>
-      <div className={clsx('flex w-full mt-2', mode === 'compact' ? '' : 'flex-col md:flex-row')}>
+      <div className={clsx('flex w-full mt-2 flex-col')}>
         {!currentChapterId && (
-          <Button className='flex-1 mx-1 mb-2' onClick={readLastChapter} loading={readLastLoading}>
+          <Button className='flex-1 mb-2' onClick={readLastChapter} loading={readLastLoading}>
             {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ', router)}
           </Button>
         )}
         {currentChapterId && (
-          <Button className='flex-1 mx-1 mb-2' onClick={readCurrentChapter} loading={readCurrentLoading}>
+          <Button className='flex-1 mb-2' onClick={readCurrentChapter} loading={readCurrentLoading}>
             {getI18nText(MAIN_I18N_TEXT, 'MANGA_CONTINUE_READING', router)}
           </Button>
         )}
         {mode === 'compact' && (
           <Button
-            className='flex-1 mx-1 mb-2'
+            className='flex-1 mb-2'
             onClick={viewDetail}
             color='primary'
             variant='outline'
@@ -226,20 +215,25 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
           </Button>
         )}
         {mode === 'full' && (
-          <>
-            <Button
-              className='flex-1 mx-1 mb-2 overflow-hidden'
-              onClick={readFirstChapter}
-              color='info'
-              variant='outline'
-              loading={readFirstLoading}
-            >
-              {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
-            </Button>
-          </>
+          <Button
+            className='flex-1 mb-2'
+            onClick={readFirstChapter}
+            color='primary'
+            variant='outline'
+            loading={readFirstLoading}
+          >
+            {getI18nText(MAIN_I18N_TEXT, 'MANGA_READ_FROM_BEGINNING', router)}
+          </Button>
         )}
       </div>
-      <p className={clsx('whitespace-pre-line', mode === 'compact' ? 'h-36 overflow-hidden' : '')}>
+      <div className='flex flex-wrap'>
+        {manga.genres.map((genre) => (
+          <span key={genre} className='m-1 rounded-full p-0 px-2 bg-warning text-white'>
+            {genre}
+          </span>
+        ))}
+      </div>
+      <p className={clsx('w-full text-justify flex-grow', mode === 'compact' ? 'max-h-60 overflow-hidden' : '')}>
         {manga.description}
       </p>
     </Card>

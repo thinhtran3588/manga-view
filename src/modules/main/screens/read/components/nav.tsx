@@ -118,8 +118,9 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             setValue={onChangeChapter}
             options={options}
             containerClassName='flex-1 mx-2'
-            optionContainerClassName='top-14 sm:top-12'
             buttonClassName='hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600'
+            optionContainerClassNameOverride='-top-72 left-0 right-0 pt-3 pb-3 max-h-72 overflow-auto
+            bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 fixed lg:absolute lg:top-12'
           />
           <button
             type='button'

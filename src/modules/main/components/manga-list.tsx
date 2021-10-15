@@ -11,11 +11,9 @@ export const MangaList = (props: MangaListProps): JSX.Element => {
   return (
     <div>
       <h1 className='font-bold'>{title}</h1>
-      <div className='flex flex-row flex-wrap'>
+      <div className='grid grid-flow-row grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-1'>
         {mangas.map((manga) => (
-          <div key={manga.id} className='p-1 w-full sm:w-1/2 xl:w-1/3'>
-            <MangaCard manga={manga} />
-          </div>
+          <MangaCard manga={manga} key={manga.id} mode='compact' />
         ))}
       </div>
     </div>
