@@ -59,7 +59,7 @@ export const Nav = (props: HeaderProps): JSX.Element => {
 
   return (
     <header
-      className='fixed bottom-0 lg:bottom-auto lg:top-0 inset-x-0 backdrop-filter backdrop-blur  
+      className='fixed bottom-0 lg:bottom-auto  inset-x-0 backdrop-filter backdrop-blur  
     firefox:bg-opacity-90 shadow-xl z-50'
     >
       <div className='container mx-auto'>
@@ -119,8 +119,9 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             options={options}
             containerClassName='flex-1 mx-2'
             buttonClassName='hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600'
-            optionContainerClassNameOverride='-top-72 left-0 right-0 pt-3 pb-3 max-h-72 overflow-auto
-            bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 fixed lg:absolute lg:top-12'
+            optionContainerClassNameOverride='left-0 right-0 max-h-72 overflow-auto
+            bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 absolute bottom-14 lg:top-12 lg:bottom-auto'
+            containerPositionClassName='static lg:relative'
           />
           <button
             type='button'

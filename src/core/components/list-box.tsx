@@ -10,6 +10,7 @@ export interface HeadlessuiListboxProps {
     disable?: boolean;
   }[];
   containerClassName?: string;
+  containerPositionClassName?: string;
   buttonClassName?: string;
   optionContainerClassName?: string;
   optionContainerClassNameOverride?: string;
@@ -22,6 +23,7 @@ export const ListBox = (props: HeadlessuiListboxProps): JSX.Element => {
     setValue,
     options,
     containerClassName,
+    containerPositionClassName = 'relative',
     buttonClassName,
     optionClassName,
     optionContainerClassName,
@@ -29,7 +31,7 @@ export const ListBox = (props: HeadlessuiListboxProps): JSX.Element => {
   } = props;
 
   return (
-    <div className={clsx('flex relative min-w-0', containerClassName)}>
+    <div className={clsx('flex min-w-0', containerPositionClassName, containerClassName)}>
       <HeadlessuiListbox value={selectedValue} onChange={setValue}>
         <HeadlessuiListbox.Button
           className={clsx(
@@ -54,7 +56,7 @@ export const ListBox = (props: HeadlessuiListboxProps): JSX.Element => {
           className={
             optionContainerClassNameOverride ||
             clsx(
-              `top-12 left-0 right-0 pt-3 pb-3 max-h-72 overflow-auto
+              `top-12 left-0 right-0 max-h-72 overflow-auto
             bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 absolute`,
               optionContainerClassName,
             )
