@@ -2,6 +2,7 @@ import axios from 'axios';
 import {parse} from 'node-html-parser';
 import {Manga, MangaService} from '@api/main/interfaces';
 import {handleError} from '@api/core/helpers/handle-error';
+import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
 
 const SEARCH_URL = 'http://www.nettruyenpro.com/tim-truyen';
 const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
@@ -73,7 +74,7 @@ export const search: MangaService['search'] = async (query) => {
       const description = descriptionEl?.textContent;
 
       const coverEl = item.querySelector('.image img') as unknown as HTMLImageElement;
-      const coverUrl = coverEl?.getAttribute('data-original');
+      const coverUrl = getProxyImageUrl(coverEl?.getAttribute('data-original') || '');
 
       return {id, name, otherName, author, status, lastUpdated, description, coverUrl, genres} as Manga;
     });

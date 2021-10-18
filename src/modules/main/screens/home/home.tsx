@@ -16,6 +16,7 @@ import {handleError} from '@core/helpers/handle-error';
 import {Dispatch, RootState} from '@store';
 import {Loading} from '@core/components/loading';
 import {MangaList} from '@main/components/manga-list';
+import {NoSsr} from '@core/components/no-ssr';
 
 interface MangaInfo {
   data: Manga[];
@@ -100,9 +101,11 @@ export const Home: NextPage = (): JSX.Element => {
         autoFocus
         ref={searchTextRef}
       />
-      {!searchTermDebounced && !loading && recentMangas.length > 0 && (
-        <MangaList mangas={recentMangas} title={getI18nText(HOME_I18N_TEXT, 'RECENT', router)} />
-      )}
+      <NoSsr>
+        {!searchTermDebounced && !loading && recentMangas.length > 0 && (
+          <MangaList mangas={recentMangas} title={getI18nText(HOME_I18N_TEXT, 'RECENT', router)} />
+        )}
+      </NoSsr>
       {searchTermDebounced && (
         <>
           <MangaList mangas={searchMangas.data} />
