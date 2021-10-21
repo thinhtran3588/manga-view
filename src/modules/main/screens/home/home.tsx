@@ -111,7 +111,7 @@ export const Home: NextPage = (): JSX.Element => {
           <MangaList mangas={searchMangas.data} />
           {loading && (
             <div className='w-full flex items-center justify-center my-2 flex-1'>
-              <Loading className='h-10 w-10 fill-current text-primary dark:text-primary-light' />
+              <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
             </div>
           )}
           {!loading && searchMangas.data.length === 0 && (

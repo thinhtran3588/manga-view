@@ -34,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement>((props: ButtonProps, ref): J
       {loading && (
         <Loading
           className={clsx(
-            'mr-2 fill-current h-6 w-6',
+            'mr-2 h-6 w-6',
             variant === 'contained' ? 'text-white dark:text-white' : 'text-primary dark:text-primary-light',
           )}
         />

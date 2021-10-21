@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 export interface LoadingProps {
   className?: string;
 }
@@ -16,7 +18,7 @@ export const Loading = (props: LoadingProps): JSX.Element => {
       viewBox='0 0 100 100'
       enableBackground='new 0 0 100 100'
       xmlSpace='preserve'
-      className={className}
+      className={clsx('fill-current', className)}
     >
       <path
         d='M31.6,3.5C5.9,13.6-6.6,42.7,3.5,68.4c10.1,25.7,39.2,38.3,64.9,28.1l-3.1-7.9c-21.3,8.4-45.4-2-53.8-23.3
