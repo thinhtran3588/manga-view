@@ -1,16 +1,22 @@
 {
   "EN": {
     "LANGUAGE": "Language",
+    "NO": "No",
+    "PRELOAD_NEXT_CHAPTER": "Preload next chapter",
     "THEME": "Theme",
     "THEME_DARK": "Dark",
     "THEME_LIGHT": "Light",
-    "THEME_SYSTEM": "System"
+    "THEME_SYSTEM": "System",
+    "YES": "Yes"
   },
   "VI": {
     "LANGUAGE": "Ngôn ngữ",
+    "NO": "Không",
+    "PRELOAD_NEXT_CHAPTER": "Tải trước chương sau",
     "THEME": "Chủ đề",
     "THEME_DARK": "Tối",
     "THEME_LIGHT": "Sáng",
-    "THEME_SYSTEM": "Theo hệ thống"
+    "THEME_SYSTEM": "Theo hệ thống",
+    "YES": "Có"
   }
 }

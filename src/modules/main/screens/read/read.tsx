@@ -3,14 +3,14 @@ import {useRouter} from 'next/router';
 import {useEffect, useState, Fragment} from 'react';
 import {useImmer} from 'use-immer';
 import last from 'lodash/fp/last';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
 import {Loading} from '@core/components/loading';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
-import {Dispatch} from '@store';
+import {Dispatch, RootState} from '@store';
 import {Nav} from './components/nav';
 
 export interface ReadProps {
@@ -18,12 +18,14 @@ export interface ReadProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   manga: Manga;
   chapter: Chapter;
+  nextChapter: Chapter;
   params: unknown;
 }
 
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
-  const {manga, chapter} = props;
+  const {manga, chapter, nextChapter} = props;
   const [loading, setLoading] = useState(false);
+  const preloadNextChapter = useSelector((state: RootState) => state.nextChapter.preload);
   const {
     recentMangas: {addRecentManga},
   } = useDispatch<Dispatch>();
@@ -50,7 +52,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
 
   useEffect(() => {
     setLoading(false);
-  }, [manga]);
+  }, [manga, chapter]);
 
   return (
     <div className='font-roboto flex flex-col min-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
@@ -81,6 +83,13 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                 />
               </Fragment>
             ))}
+          {preloadNextChapter && nextChapter && (
+            <div className='next-chapter'>
+              {nextChapter.imageUrls?.map((imageUrl, i) => (
+                <img src={imageUrl} alt={`img${i}`} width='0%' className='min-h-x' onLoad={() => onImageLoaded(i)} />
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>
@@ -123,6 +132,23 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // clear chapter urls
   manga.chapters?.map((c) => ({...c, originalUrl: ''}));
 
+  // get next chapter
+  let nextChapter: Chapter | undefined;
+  const currentChapterIndex = manga.chapters?.findIndex((c) => c.id === chapterId);
+  if (
+    currentChapterIndex !== undefined &&
+    manga.chapters &&
+    currentChapterIndex > -1 &&
+    currentChapterIndex < manga.chapters?.length
+  ) {
+    const nextChapterImageUrls = await getChapterImages(manga, manga.chapters[currentChapterIndex + 1].id);
+    nextChapter = {
+      ...manga.chapters[currentChapterIndex + 1],
+      imageUrls: nextChapterImageUrls,
+      originalUrl: '',
+    };
+  }
+
   return {
     props: {
       manga: {
@@ -130,6 +156,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         chapters: manga.chapters?.map((c) => ({...c, originalUrl: ''})),
       },
       chapter,
+      nextChapter,
     },
     revalidate: 60 * 60 * 4,
   };

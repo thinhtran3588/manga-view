@@ -5,6 +5,7 @@ import SITE_I18N_TEXT from '@locales/site.json';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import {LocaleSettingsContainer} from './components/locale-settings-container';
 import {ThemeSettingsContainer} from './components/theme-settings-container';
+import {NextChapterPreloadSettingsContainer} from './components/next-chapter-preload-settings-container';
 
 export const Settings: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -14,6 +15,7 @@ export const Settings: NextPage = (): JSX.Element => {
       <div className='flex flex-col w-full'>
         <LocaleSettingsContainer />
         <ThemeSettingsContainer />
+        <NextChapterPreloadSettingsContainer />
       </div>
     </>
   );
