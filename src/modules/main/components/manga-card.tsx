@@ -4,7 +4,6 @@ import Link from 'next/link';
 import {useRouter} from 'next/router';
 import last from 'lodash/fp/last';
 import {useEffect, useState} from 'react';
-import {Transition} from '@headlessui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import type {Manga} from '@main/interfaces';
 import MAIN_I18N_TEXT from '@locales/main.json';
