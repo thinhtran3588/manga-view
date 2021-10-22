@@ -2,6 +2,7 @@ import {useRouter} from 'next/router';
 import type {MenuItem} from '@core/interfaces';
 import {Footer} from './footer';
 import {Header} from './header';
+import {ScrollToTopButton} from './scroll-to-top-button';
 
 const MENU_ITEMS: MenuItem[] = [
   {
@@ -44,6 +45,7 @@ export const Layout = (props: LayoutProps): JSX.Element => {
       <Header menuItems={menuItems} />
       <main className='flex flex-1 container mx-auto p-2'>{children}</main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };

@@ -8,6 +8,7 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
 import {Loading} from '@core/components/loading';
+import {ScrollToTopButton} from '@core/components/scroll-to-top-button';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
 import {Dispatch, RootState} from '@store';
@@ -58,7 +59,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     <div className='font-roboto flex flex-col min-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
       <Nav chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} setLoading={setLoading} />
-      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 pb-14 lg:pb-0 max-w-6xl'>
+      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 pb-14 lg:pb-0 max-w-3xl'>
         <div className='flex flex-col w-full'>
           {loading && (
             <div className='w-full flex items-center justify-center my-2 flex-1'>
@@ -86,12 +87,20 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
           {preloadNextChapter && nextChapter && (
             <div className='next-chapter'>
               {nextChapter.imageUrls?.map((imageUrl, i) => (
-                <img src={imageUrl} alt={`img${i}`} width='0%' className='min-h-x' onLoad={() => onImageLoaded(i)} />
+                <img
+                  key={imageUrl}
+                  src={imageUrl}
+                  alt={`img${i}`}
+                  width='0%'
+                  className='min-h-x'
+                  onLoad={() => onImageLoaded(i)}
+                />
               ))}
             </div>
           )}
         </div>
       </main>
+      <ScrollToTopButton className='bottom-16 lg:bottom-10 right-10' />
     </div>
   );
 };
@@ -133,13 +142,14 @@ export const getStaticProps: GetStaticProps = async (context) => {
   manga.chapters?.map((c) => ({...c, originalUrl: ''}));
 
   // get next chapter
-  let nextChapter: Chapter | undefined;
+  // eslint-disable-next-line no-null/no-null
+  let nextChapter: Chapter | null = null;
   const currentChapterIndex = manga.chapters?.findIndex((c) => c.id === chapterId);
   if (
     currentChapterIndex !== undefined &&
     manga.chapters &&
     currentChapterIndex > -1 &&
-    currentChapterIndex < manga.chapters?.length
+    currentChapterIndex < manga.chapters?.length - 1
   ) {
     const nextChapterImageUrls = await getChapterImages(manga, manga.chapters[currentChapterIndex + 1].id);
     nextChapter = {
