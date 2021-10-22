@@ -21,6 +21,22 @@ module.exports = {
         'error-light': '#ef5350',
         'info-light': '#03a9f4',
       },
+      minHeight: {
+        2: '2rem',
+        4: '4rem',
+        6: '6rem',
+        8: '8rem',
+        10: '10rem',
+        12: '12rem',
+      },
+      maxHeight: {
+        2: '2rem',
+        4: '4rem',
+        6: '6rem',
+        8: '8rem',
+        10: '10rem',
+        12: '12rem',
+      },
     },
   },
   variants: {
