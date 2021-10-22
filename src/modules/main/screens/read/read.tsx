@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+import clsx from 'clsx';
 import {useRouter} from 'next/router';
 import {useEffect, useState, Fragment} from 'react';
 import {useImmer} from 'use-immer';
@@ -30,13 +31,13 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
   const {
     recentMangas: {addRecentManga},
   } = useDispatch<Dispatch>();
-  const [readyStates, setReadyStates] = useImmer<{[id: number]: boolean}>({});
+  const [readyStates, setReadyStates] = useImmer<{[id: string]: boolean}>({});
 
   const router = useRouter();
 
   const onImageLoaded = (imageIndex: number): void => {
     setReadyStates((draftState) => {
-      draftState[imageIndex] = true;
+      draftState[imageIndex.toString()] = true;
     });
   };
 
@@ -53,7 +54,12 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
 
   useEffect(() => {
     setLoading(false);
-  }, [manga, chapter]);
+    setReadyStates((draftState) => {
+      Object.keys(draftState).forEach((key: string) => {
+        delete draftState[key];
+      });
+    });
+  }, [manga, chapter, setReadyStates]);
 
   return (
     <div className='font-roboto flex flex-col min-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
@@ -69,7 +75,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
           {!loading &&
             chapter.imageUrls?.map((imageUrl, i) => (
               <Fragment key={imageUrl}>
-                {!readyStates[i] && (
+                {!readyStates[i.toString()] && (
                   <div className='w-full p-2 flex flex-col justify-center items-center'>
                     <Loading className='h-6 w-6 text-primary dark:text-primary-light' />
                     <span>img{i}</span>
@@ -78,8 +84,11 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                 <img
                   src={imageUrl}
                   alt={`img${i}`}
-                  width={readyStates[i] ? '100%' : '0%'}
-                  className='min-h-x'
+                  width={readyStates[i.toString()] ? '100%' : '0%'}
+                  className={clsx(
+                    'transition-opacity duration-1000',
+                    readyStates[i.toString()] ? 'opacity-100' : 'opacity-0',
+                  )}
                   onLoad={() => onImageLoaded(i)}
                 />
               </Fragment>
@@ -87,14 +96,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
           {preloadNextChapter && nextChapter && (
             <div className='next-chapter'>
               {nextChapter.imageUrls?.map((imageUrl, i) => (
-                <img
-                  key={imageUrl}
-                  src={imageUrl}
-                  alt={`img${i}`}
-                  width='0%'
-                  className='min-h-x'
-                  onLoad={() => onImageLoaded(i)}
-                />
+                <img key={imageUrl} src={imageUrl} alt={`img${i}`} width='0%' className='min-h-x' />
               ))}
             </div>
           )}

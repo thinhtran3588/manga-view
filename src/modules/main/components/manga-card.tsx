@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import {useRouter} from 'next/router';
 import last from 'lodash/fp/last';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import {Transition} from '@headlessui/react';
 import {useDispatch, useSelector} from 'react-redux';
 import type {Manga} from '@main/interfaces';
 import MAIN_I18N_TEXT from '@locales/main.json';
@@ -26,6 +27,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
   const [readCurrentLoading, setReadCurrentLoading] = useState(false);
   const currentChapterId = useSelector((state: RootState) => state.recentMangas.currentChapters[manga.id]);
   const isFavorite = useSelector((state: RootState) => state.favoriteMangas.ids.includes(manga.id));
+  const [visible, setVisible] = useState(false);
   const {
     favoriteMangas: {toggleFavoriteManga},
   } = useDispatch<Dispatch>();
@@ -66,11 +68,21 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     toggleFavoriteManga(manga);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setVisible(true);
+    }, 100);
+  }, []);
+
   return (
     <Card
-      className={clsx('p-1 hover:cursor-pointer', className)}
+      className={clsx(
+        'p-1 hover:cursor-pointer transition-opacity duration-1000',
+        visible ? 'opacity-100' : 'opacity-0',
+        className,
+      )}
       CustomHeader={
-        <div className='font-semibold pb-2 flex justify-center items-center'>
+        <div className='font-semibold pb-2 flex justify-center items-center '>
           <Link href={`/manga/${manga.id}`}>
             <a className='block flex-1 text-primary dark:text-primary-light'>{manga.name}</a>
           </Link>
@@ -116,7 +128,12 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
       headerClassName='text-primary dark:text-primary-light'
     >
       <div className='w-1/3'>
-        <img src={manga.coverUrl} width='100%' alt={manga.name} />
+        <img
+          src={manga.coverUrl}
+          width='100%'
+          alt={manga.name}
+          className='min-h-0 sm:min-h-12 object-contain object-top'
+        />
       </div>
       <div className='w-2/3 pl-2'>
         <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
