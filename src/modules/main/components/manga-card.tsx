@@ -81,9 +81,16 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         className,
       )}
       CustomHeader={
-        <div className='font-semibold pb-2 flex justify-center items-center '>
+        <div className='font-semibold pb-2 flex justify-center items-center'>
           <Link href={`/manga/${manga.id}`}>
-            <a className='block flex-1 text-primary dark:text-primary-light sm:truncate'>{manga.name}</a>
+            <a
+              className={clsx(
+                'block flex-1 text-primary dark:text-primary-light',
+                mode === 'compact' ? 'sm:truncate' : '',
+              )}
+            >
+              {manga.name}
+            </a>
           </Link>
           <button
             type='button'
@@ -131,7 +138,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
           src={manga.coverUrl}
           width='100%'
           alt={manga.name}
-          className='min-h-0 sm:min-h-10 object-contain object-top'
+          className={clsx('h-40 object-contain object-top', mode === 'compact' ? '' : 'lg:h-auto')}
         />
       </div>
       <div className='w-2/3 pl-2'>
@@ -249,7 +256,12 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
           </span>
         ))}
       </div>
-      <p className={clsx('w-full text-justify flex-grow', mode === 'compact' ? 'max-h-60 overflow-hidden' : '')}>
+      {mode === 'full' && (
+        <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
+          {getI18nText(MAIN_I18N_TEXT, 'MANGA_OVERVIEW', router)}:&nbsp;
+        </div>
+      )}
+      <p className={clsx('w-full text-justify flex-grow', mode === 'compact' ? 'max-h-36 overflow-hidden' : '')}>
         {manga.description}
       </p>
     </Card>
