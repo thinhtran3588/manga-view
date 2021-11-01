@@ -1,10 +1,12 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {useRouter} from 'next/router';
 import {Dispatch, RootState} from '@store';
-import {THEMES} from '@core/constants';
+import CONSTANTS from '@core/constants.json';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import SETTINGS_I18N_TEXT from '@locales/settings.json';
 import {BaseSettings} from './base-settings';
+
+const {THEMES} = CONSTANTS;
 
 export const ThemeSettingsContainer = (): JSX.Element => {
   const currentTheme = useSelector((state: RootState) => state.settings.theme);
