@@ -14,10 +14,18 @@ export interface CardProps {
 export const Card = (props: CardProps): JSX.Element => {
   const {title, className, headerClassName, contentClassName, CustomHeader, CustomFooter, children} = props;
   return (
-    <div className={clsx('bg-white dark:bg-gray-600 shadow-xl p-2 rounded-xl', className)}>
-      {Boolean(title) && !CustomHeader && <div className={clsx(headerClassName, 'font-semibold pb-2')}>{title}</div>}
+    <div className={clsx('transition-all duration-700 bg-white dark:bg-gray-600 shadow-xl p-2 rounded-md', className)}>
+      {Boolean(title) && !CustomHeader && (
+        <div
+          className={clsx(
+            headerClassName,
+            'font-semibold bg-primary dark:bg-primary-light text-white -m-2 rounded-t-md p-2',
+          )}
+        >
+          {title}
+        </div>
+      )}
       {Boolean(CustomHeader) && <>{CustomHeader}</>}
-      {Boolean(title || Boolean(CustomHeader)) && <hr />}
       <div className={clsx('', contentClassName)}>{children}</div>
       {Boolean(CustomFooter) && <>{CustomFooter}</>}
     </div>

@@ -2,5 +2,6 @@ export interface MenuItem {
   key: string;
   href: string;
   current: boolean;
-  icon: string;
+  icon: JSX.Element;
+  focusedIcon: JSX.Element;
 }

@@ -1,0 +1,45 @@
+{
+  "COLOR": {
+    "ERROR": "#D32F2F",
+    "ERROR_LIGHT": "#EF5350",
+    "INFO": "#0288D1",
+    "INFO_LIGHT": "#03A9F4",
+    "PRIMARY": "#2563EB",
+    "PRIMARY_LIGHT": "#60A5FA",
+    "SECONDARY": "#7C3AED",
+    "SECONDARY_LIGHT": "#A78BFA",
+    "SUCCESS": "#059669",
+    "SUCCESS_LIGHT": "#4CAF50",
+    "WARNING": "#ED6C02",
+    "WARNING_LIGHT": "#FF9800"
+  },
+  "LOCALES": [
+    {
+      "text": "English",
+      "value": "en"
+    },
+    {
+      "text": "Tiếng Việt",
+      "value": "vi"
+    }
+  ],
+  "SITE_AUTHOR": "Thinh Tran",
+  "SITE_AUTHOR_LINK": "https://thinhtran.pro",
+  "SITE_NAME": "Web template",
+  "SITE_URL": "https://web.xyz",
+  "THEMES": [
+    {
+      "text": "THEME_LIGHT",
+      "value": "light"
+    },
+    {
+      "text": "THEME_DARK",
+      "value": "dark"
+    },
+    {
+      "text": "THEME_SYSTEM",
+      "value": ""
+    }
+  ],
+  "VERSION": "0.4.0"
+}

@@ -12,11 +12,9 @@ export const Settings: NextPage = (): JSX.Element => {
   return (
     <>
       <Seo title={getI18nText(SITE_I18N_TEXT, 'TAB_SETTINGS', router)} />
-      <div className='flex flex-col w-full'>
-        <LocaleSettingsContainer />
-        <ThemeSettingsContainer />
-        <NextChapterPreloadSettingsContainer />
-      </div>
+      <LocaleSettingsContainer />
+      <ThemeSettingsContainer />
+      <NextChapterPreloadSettingsContainer />
     </>
   );
 };
