@@ -19,7 +19,7 @@ export const Seo = (props: SeoProps): JSX.Element => {
   const siteDescription = getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router);
   const pageTitle = title ? `${title} - ${siteTitle}` : siteTitle;
   const pageDescription = description || siteDescription;
-  const pageImageUrl = imageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || SITE_URL}/icons/android-chrome-192x192.png`;
+  const pageImageUrl = imageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || SITE_URL}/icons/android-chrome-512x512.png`;
 
   return (
     <Head>
