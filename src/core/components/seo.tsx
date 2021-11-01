@@ -2,8 +2,9 @@ import {useRouter} from 'next/router';
 import Head from 'next/head';
 import SITE_I18N_TEXT from '@locales/site.json';
 import {getI18nText} from '@core/helpers/get-i18n-text';
-import {SITE_AUTHOR, SITE_URL} from '@core/constants';
+import CONSTANTS from '@core/constants.json';
 
+const {SITE_AUTHOR, SITE_URL} = CONSTANTS;
 export interface SeoProps {
   url?: string;
   title?: string;
@@ -18,7 +19,7 @@ export const Seo = (props: SeoProps): JSX.Element => {
   const siteDescription = getI18nText(SITE_I18N_TEXT, 'SITE_DESCRIPTION', router);
   const pageTitle = title ? `${title} - ${siteTitle}` : siteTitle;
   const pageDescription = description || siteDescription;
-  const pageImageUrl = imageUrl || `${SITE_URL}/icons/android-chrome-192x192.png`;
+  const pageImageUrl = imageUrl || `${process.env.NEXT_PUBLIC_SITE_URL || SITE_URL}/icons/app-icon-200x200.png`;
 
   return (
     <Head>

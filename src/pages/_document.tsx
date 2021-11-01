@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/google-font-display */
-import {SITE_NAME} from '@core/constants';
+import CONSTANTS from '@core/constants.json';
 import Document, {Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext} from 'next/document';
+
+const {SITE_NAME} = CONSTANTS;
 
 class MyDocument extends Document {
   static getInitialProps = async (ctx: DocumentContext): Promise<DocumentInitialProps> => {
