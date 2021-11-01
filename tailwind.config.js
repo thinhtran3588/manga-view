@@ -1,4 +1,5 @@
-/* eslint-disable global-require */
+const CONSTANTS = require('./src/core/constants.json');
+
 module.exports = {
   purge: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class', // or 'media' or 'class'
@@ -8,18 +9,18 @@ module.exports = {
         roboto: ['Roboto'],
       },
       colors: {
-        primary: '#2563EB',
-        secondary: '#7C3AED',
-        success: '#059669',
-        warning: '#ED6C02',
-        error: '#d32f2f',
-        info: '#0288d1',
-        'primary-light': '#60A5FA',
-        'secondary-light': '#A78BFA',
-        'success-light': '#4caf50',
-        'warning-light': '#ff9800',
-        'error-light': '#ef5350',
-        'info-light': '#03a9f4',
+        primary: CONSTANTS.COLOR.PRIMARY,
+        secondary: CONSTANTS.COLOR.SECONDARY,
+        success: CONSTANTS.COLOR.SUCCESS,
+        warning: CONSTANTS.COLOR.WARNING,
+        error: CONSTANTS.COLOR.ERROR,
+        info: CONSTANTS.COLOR.INFO,
+        'primary-light': CONSTANTS.COLOR.PRIMARY_LIGHT,
+        'secondary-light': CONSTANTS.COLOR.SECONDARY_LIGHT,
+        'success-light': CONSTANTS.COLOR.SUCCESS_LIGHT,
+        'warning-light': CONSTANTS.COLOR.WARNING_LIGHT,
+        'error-light': CONSTANTS.COLOR.ERROR_LIGHT,
+        'info-light': CONSTANTS.COLOR.INFO_LIGHT,
       },
       minHeight: {
         2: '2rem',
@@ -36,6 +37,9 @@ module.exports = {
         8: '8rem',
         10: '10rem',
         12: '12rem',
+      },
+      transitionProperty: {
+        width: 'width',
       },
     },
   },

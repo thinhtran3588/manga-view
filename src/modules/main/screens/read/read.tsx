@@ -94,9 +94,9 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
               </Fragment>
             ))}
           {preloadNextChapter && nextChapter && (
-            <div className='next-chapter'>
-              {nextChapter.imageUrls?.map((imageUrl, i) => (
-                <img key={imageUrl} src={imageUrl} alt={`img${i}`} width='0%' className='min-h-x' />
+            <div className='next-chapter h-0'>
+              {nextChapter.imageUrls?.map((imageUrl) => (
+                <img key={imageUrl} src={imageUrl} alt='' width='0%' className='min-h-x' />
               ))}
             </div>
           )}
