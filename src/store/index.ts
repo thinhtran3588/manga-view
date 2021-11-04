@@ -7,7 +7,8 @@ import {models, RootModel} from './models';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['settings', 'favoriteMangas', 'recentMangas', 'nextChapter'], // only those ones will be persisted
+  // only those ones will be persisted
+  whitelist: ['settings', 'favoriteMangas', 'recentMangas', 'nextChapter', 'viewMode'],
 };
 
 export const store = init<RootModel>({

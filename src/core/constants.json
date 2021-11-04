@@ -41,5 +41,9 @@
       "value": ""
     }
   ],
-  "VERSION": "0.4.0"
+  "VERSION": "0.4.0",
+  "VIEW_MODE": {
+    "ALL_IMAGES": "0",
+    "ONE_IMAGE": "1"
+  }
 }

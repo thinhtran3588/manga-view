@@ -1,12 +1,16 @@
 {
   "EN": {
     "NEXT": "Next",
+    "NEXT_IMAGE": "Next image",
     "PREVIOUS": "Previous",
+    "PREVIOUS_IMAGE": "Previous image",
     "VIEW_DETAIL": "View detail"
   },
   "VI": {
     "NEXT": "Sau",
+    "NEXT_IMAGE": "Ảnh sau",
     "PREVIOUS": "Trước",
+    "PREVIOUS_IMAGE": "Ảnh trước",
     "VIEW_MANGA": "Xem chi tiết"
   }
 }
