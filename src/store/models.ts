@@ -4,6 +4,7 @@ import {homeScreen} from '@main/models/home-screen';
 import {favoriteMangas} from '@main/models/favorite-mangas';
 import {recentMangas} from '@main/models/recent-mangas';
 import {nextChapter} from '@main/models/next-chapter';
+import {viewMode} from '@main/models/view-mode';
 
 export interface RootModel extends Models<RootModel> {
   settings: typeof settings;
@@ -11,6 +12,7 @@ export interface RootModel extends Models<RootModel> {
   favoriteMangas: typeof favoriteMangas;
   recentMangas: typeof recentMangas;
   nextChapter: typeof nextChapter;
+  viewMode: typeof viewMode;
 }
 
-export const models: RootModel = {settings, homeScreen, favoriteMangas, recentMangas, nextChapter};
+export const models: RootModel = {settings, homeScreen, favoriteMangas, recentMangas, nextChapter, viewMode};

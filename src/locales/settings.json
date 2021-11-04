@@ -7,6 +7,9 @@
     "THEME_DARK": "Dark",
     "THEME_LIGHT": "Light",
     "THEME_SYSTEM": "System",
+    "VIEW_MODE": "View mode",
+    "VIEW_MODE_ALL_IMAGES": "View all images",
+    "VIEW_MODE_ONE_IMAGE": "View one image",
     "YES": "Yes"
   },
   "VI": {
@@ -17,6 +20,9 @@
     "THEME_DARK": "Tối",
     "THEME_LIGHT": "Sáng",
     "THEME_SYSTEM": "Theo hệ thống",
+    "VIEW_MODE": "Chế độ xem",
+    "VIEW_MODE_ALL_IMAGES": "Xem tất cả ảnh",
+    "VIEW_MODE_ONE_IMAGE": "Xem 1 ảnh",
     "YES": "Có"
   }
 }

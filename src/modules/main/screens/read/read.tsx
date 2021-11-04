@@ -10,6 +10,7 @@ import {getManga} from '@api/main/services/mangas/get-manga';
 import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
 import {Loading} from '@core/components/loading';
 import {ScrollToTopButton} from '@core/components/scroll-to-top-button';
+import {NoSsr} from '@core/components/no-ssr';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
 import {Dispatch, RootState} from '@store';
@@ -27,7 +28,9 @@ export interface ReadProps {
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
   const {manga, chapter, nextChapter} = props;
   const [loading, setLoading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const preloadNextChapter = useSelector((state: RootState) => state.nextChapter.preload);
+  const viewMode = useSelector((state: RootState) => state.viewMode.mode);
   const {
     recentMangas: {addRecentManga},
   } = useDispatch<Dispatch>();
@@ -59,50 +62,66 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
         delete draftState[key];
       });
     });
+    setCurrentImageIndex(0);
   }, [manga, chapter, setReadyStates]);
 
   return (
-    <div className='font-roboto flex flex-col min-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
+    <div className='font-roboto flex flex-col min-h-screen max-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
-      <Nav chapters={manga.chapters || []} mangaId={manga.id} currentChapterId={chapter.id} setLoading={setLoading} />
-      <main className='flex flex-1 container mx-auto pt-0 lg:pt-14 pb-14 lg:pb-0 max-w-3xl'>
-        <div className='flex flex-col w-full'>
-          {loading && (
-            <div className='w-full flex items-center justify-center my-2 flex-1'>
-              <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
-            </div>
+      <NoSsr>
+        <Nav
+          chapters={manga.chapters || []}
+          manga={manga}
+          currentChapter={chapter}
+          setLoading={setLoading}
+          currentImageIndex={currentImageIndex}
+          setCurrentImageIndex={setCurrentImageIndex}
+        />
+        <main
+          className={clsx(
+            'flex flex-1 container mx-auto max-w-3xl mb-16 lg:mt-14 lg:mb-0',
+            viewMode === '0' ? '' : 'max-h-screen overflow-hidden',
           )}
-          {!loading &&
-            chapter.imageUrls?.map((imageUrl, i) => (
-              <Fragment key={imageUrl}>
-                {!readyStates[i.toString()] && (
-                  <div className='w-full p-2 flex flex-col justify-center items-center'>
-                    <Loading className='h-6 w-6 text-primary dark:text-primary-light' />
-                    <span>img{i}</span>
-                  </div>
-                )}
-                <img
-                  src={imageUrl}
-                  alt={`img${i}`}
-                  width={readyStates[i.toString()] ? '100%' : '0%'}
-                  className={clsx(
-                    'transition-opacity duration-1000',
-                    readyStates[i.toString()] ? 'opacity-100' : 'opacity-0',
+        >
+          <div className='flex flex-col w-full flex-1 justify-center'>
+            {loading && (
+              <div className='w-full flex items-center justify-center my-2 flex-1'>
+                <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
+              </div>
+            )}
+            {!loading &&
+              chapter.imageUrls?.map((imageUrl, i) => (
+                <Fragment key={imageUrl}>
+                  {!readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) && (
+                    <div className='w-full p-2 flex flex-col justify-center items-center'>
+                      <Loading className='h-6 w-6 text-primary dark:text-primary-light' />
+                      <span>img{i}</span>
+                    </div>
                   )}
-                  onLoad={() => onImageLoaded(i)}
-                />
-              </Fragment>
-            ))}
-          {preloadNextChapter && nextChapter && (
-            <div className='next-chapter h-0'>
-              {nextChapter.imageUrls?.map((imageUrl) => (
-                <img key={imageUrl} src={imageUrl} alt='' width='0%' className='min-h-x' />
+                  <img
+                    src={imageUrl}
+                    alt={`img${i}`}
+                    width={readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) ? '100%' : '0%'}
+                    className={clsx(
+                      'transition-opacity duration-1000',
+                      readyStates[i.toString()] ? 'opacity-100' : 'opacity-0',
+                      viewMode === '1' && currentImageIndex === i ? 'object-contain h-full' : '',
+                    )}
+                    onLoad={() => onImageLoaded(i)}
+                  />
+                </Fragment>
               ))}
-            </div>
-          )}
-        </div>
-      </main>
-      <ScrollToTopButton className='bottom-16 lg:bottom-10 right-10' />
+            {preloadNextChapter && nextChapter && (
+              <div className='next-chapter h-0'>
+                {nextChapter.imageUrls?.map((imageUrl) => (
+                  <img key={imageUrl} src={imageUrl} alt='' width='0%' className='min-h-x' />
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+        <ScrollToTopButton className='bottom-16 lg:bottom-10 right-10' />
+      </NoSsr>
     </div>
   );
 };
