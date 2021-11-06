@@ -45,5 +45,15 @@
   "VIEW_MODE": {
     "ALL_IMAGES": "0",
     "ONE_IMAGE": "1"
-  }
+  },
+  "SOURCES": [
+    {
+      "text": "nettruyenpro",
+      "value": "1"
+    },
+    {
+      "text": "blogtruyen",
+      "value": "2"
+    }
+  ]
 }

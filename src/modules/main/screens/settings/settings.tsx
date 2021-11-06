@@ -7,6 +7,7 @@ import {LocaleSettingsContainer} from './components/locale-settings-container';
 import {ThemeSettingsContainer} from './components/theme-settings-container';
 import {NextChapterPreloadSettingsContainer} from './components/next-chapter-preload-settings-container';
 import {ViewModeSettingsContainer} from './components/view-mode-settings-container';
+import {SourceSettingsContainer} from './components/source-settings-container';
 
 export const Settings: NextPage = (): JSX.Element => {
   const router = useRouter();
@@ -17,6 +18,7 @@ export const Settings: NextPage = (): JSX.Element => {
       <ThemeSettingsContainer />
       <NextChapterPreloadSettingsContainer />
       <ViewModeSettingsContainer />
+      <SourceSettingsContainer />
     </>
   );
 };

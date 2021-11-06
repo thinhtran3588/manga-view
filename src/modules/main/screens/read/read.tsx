@@ -171,7 +171,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     originalUrl: '',
   } as Chapter;
   if (mangaId && chapterId && chapterId !== '0') {
-    chapter.imageUrls = await getChapterImages(manga, chapterId);
+    chapter.imageUrls = await mangaServices[sourceId].getChapterImages(manga, chapterId);
   }
 
   // clear chapter urls

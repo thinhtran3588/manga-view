@@ -26,7 +26,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
     const author = authorEl?.innerText || '';
 
     const statusEl = htmlContent.querySelector('.status .col-xs-8') as unknown as HTMLParagraphElement;
-    const status = statusEl?.textContent;
+    const status = statusEl?.textContent || '';
 
     const genres: string[] = htmlContent.querySelectorAll('.kind a').map((el) => el.textContent || '');
 
@@ -42,7 +42,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
     }
 
     const descriptionEl = htmlContent.querySelector('.detail-content p') as unknown as HTMLParagraphElement;
-    const description = descriptionEl?.textContent;
+    const description = descriptionEl?.textContent || '';
 
     const coverEl = htmlContent.querySelector('.detail-info img') as unknown as HTMLImageElement;
     const coverUrl = coverEl?.getAttribute('src') || '';

@@ -27,7 +27,7 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
         <Card title='Chapters' contentClassName='h-full'>
           <div className='mt-4'>
             {displayChapters.map((chapter, i) => (
-              <Link href={`/read/${manga.id}/${chapter.id}`} key={chapter.id}>
+              <Link href={`/read/${manga.sourceId}/${manga.id}/${chapter.id}`} key={chapter.id}>
                 <a
                   className={clsx(
                     'block w-full p-3 hover:bg-primary hover:text-white dark:hover:bg-primary-light',

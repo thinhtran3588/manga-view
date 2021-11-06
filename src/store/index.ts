@@ -8,7 +8,7 @@ const persistConfig = {
   key: 'root',
   storage,
   // only those ones will be persisted
-  whitelist: ['settings', 'favoriteMangas', 'recentMangas', 'nextChapter', 'viewMode'],
+  whitelist: ['settings', 'favoriteMangas', 'recentMangas', 'nextChapter', 'viewMode', 'mangaSource'],
 };
 
 export const store = init<RootModel>({
