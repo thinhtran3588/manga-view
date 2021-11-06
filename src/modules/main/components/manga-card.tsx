@@ -34,17 +34,23 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
 
   const viewDetail = (): void => {
     setDetailLoading(true);
-    router.push(`/manga/${manga.id}`);
+    router.push(`/manga/${manga.sourceId}/${manga.id}`);
+  };
+
+  const readChapter = (sourceId: string, mangaId: string, chapterId: string): void => {
+    router.push(`/read/${sourceId || '1'}/${mangaId}/${chapterId}`);
   };
 
   const readLastChapter = (): void => {
     if (manga.chapters && manga.chapters.length > 0) {
       setReadLastLoading(true);
       const lastChapter = last(manga.chapters);
-      router.push(`/read/${manga.id}/${lastChapter?.id}`);
+      if (lastChapter) {
+        readChapter(manga.sourceId, manga.id, lastChapter.id);
+      }
     } else {
       setReadLastLoading(true);
-      router.push(`/read/${manga.id}/0`);
+      readChapter(manga.sourceId, manga.id, '0');
     }
   };
 
@@ -52,14 +58,16 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
     if (manga.chapters && manga.chapters.length > 0) {
       setReadFirstLoading(true);
       const firstChapter = manga.chapters[0];
-      router.push(`/read/${manga.id}/${firstChapter?.id}`);
+      if (firstChapter) {
+        readChapter(manga.sourceId, manga.id, firstChapter.id);
+      }
     }
   };
 
   const readCurrentChapter = (): void => {
     if (currentChapterId) {
       setReadCurrentLoading(true);
-      router.push(`/read/${manga.id}/${currentChapterId}`);
+      readChapter(manga.sourceId, manga.id, currentChapterId);
     }
   };
 

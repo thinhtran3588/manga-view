@@ -76,7 +76,18 @@ export const search: MangaService['search'] = async (query) => {
       const coverEl = item.querySelector('.image img') as unknown as HTMLImageElement;
       const coverUrl = getProxyImageUrl(coverEl?.getAttribute('data-original') || '');
 
-      return {id, name, otherName, author, status, lastUpdated, description, coverUrl, genres} as Manga;
+      return {
+        sourceId: '1',
+        id,
+        name,
+        otherName,
+        author,
+        status,
+        lastUpdated,
+        description,
+        coverUrl,
+        genres,
+      } as Manga;
     });
 
     let nextPage = '';

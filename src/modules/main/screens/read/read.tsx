@@ -6,8 +6,8 @@ import {useImmer} from 'use-immer';
 import last from 'lodash/fp/last';
 import {useDispatch, useSelector} from 'react-redux';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
-import {getManga} from '@api/main/services/mangas/get-manga';
-import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
+import {mangaServices} from '@api/main/services/mangas';
+import {getChapterImages} from '@api/main/services/mangas/nettruyenpro/get-chapter-images';
 import {Loading} from '@core/components/loading';
 import {ScrollToTopButton} from '@core/components/scroll-to-top-button';
 import {NoSsr} from '@core/components/no-ssr';
@@ -130,8 +130,10 @@ Read.hideLayout = true;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context;
+  const sourceId = (params?.sourceId as string) || '1';
   const mangaId = params?.mangaId as string;
   let manga = {
+    sourceId,
     id: '',
     author: '',
     coverUrl: '',
@@ -144,7 +146,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     chapters: [],
   } as Manga;
   if (mangaId) {
-    manga = await getManga(params?.mangaId as string);
+    manga = await mangaServices[sourceId].getManga(params?.mangaId as string);
   }
 
   const chapterId = params?.chapterId as string;

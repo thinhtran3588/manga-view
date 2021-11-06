@@ -1,6 +1,7 @@
 import {Chapter} from './chapter';
 
 export interface Manga {
+  sourceId: string;
   id: string;
   name: string;
   otherName?: string;
