@@ -67,6 +67,12 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     setCurrentImageIndex(0);
   }, [manga, chapter, setReadyStates]);
 
+  useEffect(() => {
+    if (viewMode === '0') {
+      document.getElementById(`img-${currentImageIndex}`)?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }, [viewMode, currentImageIndex]);
+
   return (
     <div className='font-roboto flex flex-col min-h-screen max-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
@@ -103,6 +109,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                     </div>
                   )}
                   <img
+                    id={`img-${i}`}
                     src={imageUrl}
                     alt={`img${i}`}
                     width={readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) ? '100%' : '0%'}
