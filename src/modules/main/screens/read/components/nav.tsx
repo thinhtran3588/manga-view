@@ -28,27 +28,27 @@ export const Nav = (props: HeaderProps): JSX.Element => {
   const isLastChapter = last(chapters)?.id === currentChapter.id;
   const isFirstChapter = first(chapters)?.id === currentChapter.id;
 
+  const readChapter = useCallback(
+    (sourceId: string, mangaId: string, chapterId: string): void => {
+      router.push(`/read/${sourceId || '1'}/${mangaId}/${chapterId}`);
+    },
+    [router],
+  );
+
   const onChangeChapter = useCallback(
-    (chapterId: string, showLastImage: boolean = false): void => {
+    (chapterId: string): void => {
       if (chapterId !== currentChapter.id) {
         setLoading(true);
-        router.push({
-          pathname: `/read/${manga.id}/${chapterId}`,
-          query: showLastImage
-            ? {
-                showLastImage,
-              }
-            : undefined,
-        });
+        readChapter(manga.sourceId, manga.id, chapterId);
       }
       setValue(chapterId);
     },
-    [currentChapter.id, manga.id, router, setLoading],
+    [readChapter, manga.sourceId, currentChapter.id, manga.id, setLoading],
   );
 
   const onViewDetail = (): void => {
     setLoading(true);
-    router.push(`/manga/${manga.id}`);
+    router.push(`/manga/${manga.sourceId}/${manga.id}`);
   };
 
   const viewPrevChapter = useCallback((): void => {

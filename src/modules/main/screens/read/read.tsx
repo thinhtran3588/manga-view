@@ -48,7 +48,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     if (chapter.id === '0' && manga.chapters && manga.chapters.length > 0) {
       setLoading(true);
       const lastChapter = last(manga.chapters);
-      router.push(`/read/${manga.id}/${lastChapter?.id}`);
+      router.push(`/read/${manga.sourceId}/${manga.id}/${lastChapter?.id}`);
     }
     if (chapter.id !== '0') {
       addRecentManga({manga, chapterId: chapter.id});
