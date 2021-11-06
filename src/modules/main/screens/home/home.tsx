@@ -90,42 +90,46 @@ export const Home: NextPage = (): JSX.Element => {
   }, [search, searchTermDebounced, setSearchMangas]);
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='flex flex-col w-full h-full flex-1 relative pt-12 '>
       <Seo />
-      <SearchBar
-        placeholder={getI18nText(HOME_I18N_TEXT, 'SEARCH_MANGA', router)}
-        className='w-full mb-2'
-        value={searchTerm}
-        onChange={onSearchTextChange}
-        onClearInput={onClearSearchText}
-        autoFocus
-        ref={searchTextRef}
-      />
-      <NoSsr>
-        {!searchTermDebounced && !loading && recentMangas.length > 0 && (
-          <MangaList mangas={recentMangas} title={getI18nText(HOME_I18N_TEXT, 'RECENT', router)} />
+      <div className='absolute top-0 inset-x-0 bg-gray-200 dark:bg-gray-700'>
+        <SearchBar
+          placeholder={getI18nText(HOME_I18N_TEXT, 'SEARCH_MANGA', router)}
+          className='w-full'
+          value={searchTerm}
+          onChange={onSearchTextChange}
+          onClearInput={onClearSearchText}
+          autoFocus
+          ref={searchTextRef}
+        />
+      </div>
+      <div className='h-full overflow-auto'>
+        <NoSsr>
+          {!searchTermDebounced && !loading && recentMangas.length > 0 && (
+            <MangaList mangas={recentMangas} title={getI18nText(HOME_I18N_TEXT, 'RECENT', router)} />
+          )}
+        </NoSsr>
+        {searchTermDebounced && (
+          <>
+            <MangaList mangas={searchMangas.data} />
+            {loading && (
+              <div className='w-full flex items-center justify-center my-2 flex-1'>
+                <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
+              </div>
+            )}
+            {!loading && searchMangas.data.length === 0 && (
+              <div className='w-full flex items-center justify-center my-2 flex-1'>
+                {getI18nText(MAIN_I18N_TEXT, 'NO_MANGAS_FOUND', router)}
+              </div>
+            )}
+            {searchMangas.nextPage && !loading && (
+              <Button className='mt-2' onClick={onLoadMore} disabled={loading}>
+                {getI18nText(MAIN_I18N_TEXT, 'VIEW_MORE', router)}
+              </Button>
+            )}
+          </>
         )}
-      </NoSsr>
-      {searchTermDebounced && (
-        <>
-          <MangaList mangas={searchMangas.data} />
-          {loading && (
-            <div className='w-full flex items-center justify-center my-2 flex-1'>
-              <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
-            </div>
-          )}
-          {!loading && searchMangas.data.length === 0 && (
-            <div className='w-full flex items-center justify-center my-2 flex-1'>
-              {getI18nText(MAIN_I18N_TEXT, 'NO_MANGAS_FOUND', router)}
-            </div>
-          )}
-          {searchMangas.nextPage && !loading && (
-            <Button className='mt-2' onClick={onLoadMore} disabled={loading}>
-              {getI18nText(MAIN_I18N_TEXT, 'VIEW_MORE', router)}
-            </Button>
-          )}
-        </>
-      )}
+      </div>
     </div>
   );
 };
