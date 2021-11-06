@@ -67,6 +67,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
     );
 
     return {
+      sourceId: '1',
       id,
       name,
       otherName,
@@ -80,6 +81,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
     } as Manga;
   } catch (error) {
     return {
+      sourceId: '1',
       id: '',
       author: '',
       coverUrl: '',

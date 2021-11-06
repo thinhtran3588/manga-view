@@ -6,7 +6,7 @@ import {Seo} from '@core/components/seo';
 import type {Manga} from '@main/interfaces';
 import {Card} from '@core/components/card';
 import {MangaCard} from '@main/components/manga-card';
-import {getManga} from '@api/main/services/mangas/get-manga';
+import {mangaServices} from '@api/main/services/mangas';
 
 export interface MangaProps {
   children?: React.ReactNode;
@@ -25,7 +25,7 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
       </div>
       <div className='mb-2 w-full lg:w-1/2 lg:pl-2'>
         <Card title='Chapters' contentClassName='h-full'>
-          <div>
+          <div className='mt-4'>
             {displayChapters.map((chapter, i) => (
               <Link href={`/read/${manga.id}/${chapter.id}`} key={chapter.id}>
                 <a
@@ -46,8 +46,10 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const sourceId = (context.params?.sourceId as string) || '1';
   const id = context.params?.id;
   let manga = {
+    sourceId,
     id: '',
     author: '',
     coverUrl: '',
@@ -58,8 +60,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
     status: '',
     genres: [],
   } as Manga;
-  if (id) {
-    manga = await getManga(id as string);
+  if (sourceId && id) {
+    manga = await mangaServices[sourceId].getManga(id as string);
   }
 
   return {

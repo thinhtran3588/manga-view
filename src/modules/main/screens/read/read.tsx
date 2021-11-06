@@ -6,14 +6,16 @@ import {useImmer} from 'use-immer';
 import last from 'lodash/fp/last';
 import {useDispatch, useSelector} from 'react-redux';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
-import {getManga} from '@api/main/services/mangas/get-manga';
-import {getChapterImages} from '@api/main/services/mangas/get-chapter-images';
+import {mangaServices} from '@api/main/services/mangas';
+import {getChapterImages} from '@api/main/services/mangas/nettruyenpro/get-chapter-images';
 import {Loading} from '@core/components/loading';
 import {ScrollToTopButton} from '@core/components/scroll-to-top-button';
 import {NoSsr} from '@core/components/no-ssr';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
 import {Dispatch, RootState} from '@store';
+import MAIN_I18N_TEXT from '@locales/main.json';
+import {getI18nText} from '@core/helpers/get-i18n-text';
 import {Nav} from './components/nav';
 
 export interface ReadProps {
@@ -48,7 +50,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     if (chapter.id === '0' && manga.chapters && manga.chapters.length > 0) {
       setLoading(true);
       const lastChapter = last(manga.chapters);
-      router.push(`/read/${manga.id}/${lastChapter?.id}`);
+      router.push(`/read/${manga.sourceId}/${manga.id}/${lastChapter?.id}`);
     }
     if (chapter.id !== '0') {
       addRecentManga({manga, chapterId: chapter.id});
@@ -65,6 +67,12 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     setCurrentImageIndex(0);
   }, [manga, chapter, setReadyStates]);
 
+  useEffect(() => {
+    if (viewMode === '0') {
+      document.getElementById(`img-${currentImageIndex}`)?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }
+  }, [viewMode, currentImageIndex]);
+
   return (
     <div className='font-roboto flex flex-col min-h-screen max-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
@@ -79,7 +87,8 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
         />
         <main
           className={clsx(
-            'flex flex-1 container mx-auto max-w-3xl mb-16 lg:mt-14 lg:mb-0',
+            `flex flex-1 container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0 
+              dark:text-white bg-gray-200 dark:bg-gray-700`,
             viewMode === '0' ? '' : 'max-h-screen overflow-hidden',
           )}
         >
@@ -95,17 +104,21 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                   {!readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) && (
                     <div className='w-full p-2 flex flex-col justify-center items-center'>
                       <Loading className='h-6 w-6 text-primary dark:text-primary-light' />
-                      <span>img{i}</span>
+                      <span>
+                        {getI18nText(MAIN_I18N_TEXT, 'MANGA_IMAGE', router)} {i + 1}
+                      </span>
                     </div>
                   )}
                   <img
+                    id={`img-${i}`}
                     src={imageUrl}
                     alt={`img${i}`}
                     width={readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) ? '100%' : '0%'}
                     className={clsx(
                       'transition-opacity duration-1000',
                       readyStates[i.toString()] ? 'opacity-100' : 'opacity-0',
-                      viewMode === '1' && currentImageIndex === i ? 'object-contain h-full' : '',
+                      viewMode === '1' && currentImageIndex === i ? 'object-contain' : '',
+                      readyStates[i.toString()] && viewMode === '1' && currentImageIndex === i ? 'h-full' : '',
                     )}
                     onLoad={() => onImageLoaded(i)}
                   />
@@ -130,8 +143,10 @@ Read.hideLayout = true;
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const {params} = context;
+  const sourceId = (params?.sourceId as string) || '1';
   const mangaId = params?.mangaId as string;
   let manga = {
+    sourceId,
     id: '',
     author: '',
     coverUrl: '',
@@ -144,7 +159,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     chapters: [],
   } as Manga;
   if (mangaId) {
-    manga = await getManga(params?.mangaId as string);
+    manga = await mangaServices[sourceId].getManga(params?.mangaId as string);
   }
 
   const chapterId = params?.chapterId as string;
