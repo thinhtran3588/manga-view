@@ -25,7 +25,7 @@ export const MangaScreen: NextPage<MangaProps> = (props: MangaProps): JSX.Elemen
       </div>
       <div className='mb-2 w-full lg:w-1/2 lg:pl-2'>
         <Card title='Chapters' contentClassName='h-full'>
-          <div>
+          <div className='mt-4'>
             {displayChapters.map((chapter, i) => (
               <Link href={`/read/${manga.id}/${chapter.id}`} key={chapter.id}>
                 <a

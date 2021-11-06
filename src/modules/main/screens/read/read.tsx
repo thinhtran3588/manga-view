@@ -14,6 +14,8 @@ import {NoSsr} from '@core/components/no-ssr';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
 import {Dispatch, RootState} from '@store';
+import MAIN_I18N_TEXT from '@locales/main.json';
+import {getI18nText} from '@core/helpers/get-i18n-text';
 import {Nav} from './components/nav';
 
 export interface ReadProps {
@@ -79,7 +81,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
         />
         <main
           className={clsx(
-            'flex flex-1 container mx-auto max-w-3xl mb-16 lg:mt-14 lg:mb-0',
+            'flex flex-1 container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0',
             viewMode === '0' ? '' : 'max-h-screen overflow-hidden',
           )}
         >
@@ -95,7 +97,9 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                   {!readyStates[i.toString()] && (viewMode === '0' || currentImageIndex === i) && (
                     <div className='w-full p-2 flex flex-col justify-center items-center'>
                       <Loading className='h-6 w-6 text-primary dark:text-primary-light' />
-                      <span>img{i}</span>
+                      <span>
+                        {getI18nText(MAIN_I18N_TEXT, 'MANGA_IMAGE', router)} {i + 1}
+                      </span>
                     </div>
                   )}
                   <img
@@ -105,7 +109,8 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                     className={clsx(
                       'transition-opacity duration-1000',
                       readyStates[i.toString()] ? 'opacity-100' : 'opacity-0',
-                      viewMode === '1' && currentImageIndex === i ? 'object-contain h-full' : '',
+                      viewMode === '1' && currentImageIndex === i ? 'object-contain' : '',
+                      readyStates[i.toString()] && viewMode === '1' && currentImageIndex === i ? 'h-full' : '',
                     )}
                     onLoad={() => onImageLoaded(i)}
                   />
