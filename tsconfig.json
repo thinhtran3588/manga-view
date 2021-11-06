@@ -22,9 +22,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es5",
-    "incremental": true,
-    "importHelpers": true,
-    "removeComments": true
+    "incremental": true
   },
   "exclude": ["node_modules"],
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
