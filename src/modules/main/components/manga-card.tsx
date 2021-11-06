@@ -265,9 +265,19 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         ))}
       </div>
       {mode === 'full' && (
-        <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
-          {getI18nText(MAIN_I18N_TEXT, 'MANGA_OVERVIEW', router)}:&nbsp;
-        </div>
+        <>
+          {manga.otherName && (
+            <>
+              <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
+                {getI18nText(MAIN_I18N_TEXT, 'MANGA_OTHER_NAME', router)}:&nbsp;
+              </div>
+              <p className={clsx('w-full text-justify flex-grow')}>{manga.otherName}</p>
+            </>
+          )}
+          <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
+            {getI18nText(MAIN_I18N_TEXT, 'MANGA_OVERVIEW', router)}:&nbsp;
+          </div>
+        </>
       )}
       <p className={clsx('w-full text-justify flex-grow', mode === 'compact' ? 'max-h-36 overflow-hidden' : '')}>
         {manga.description}

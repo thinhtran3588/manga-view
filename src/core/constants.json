@@ -27,6 +27,16 @@
   "SITE_AUTHOR_LINK": "https://thinhtran.pro",
   "SITE_NAME": "Web template",
   "SITE_URL": "https://web.xyz",
+  "SOURCES": [
+    {
+      "text": "nettruyenpro",
+      "value": "1"
+    },
+    {
+      "text": "blogtruyen",
+      "value": "2"
+    }
+  ],
   "THEMES": [
     {
       "text": "THEME_LIGHT",
@@ -41,7 +51,7 @@
       "value": ""
     }
   ],
-  "VERSION": "0.5.0",
+  "VERSION": "0.6.0",
   "VIEW_MODE": {
     "ALL_IMAGES": "0",
     "ONE_IMAGE": "1"

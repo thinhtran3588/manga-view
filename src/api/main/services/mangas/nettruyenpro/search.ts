@@ -3,6 +3,7 @@ import {parse} from 'node-html-parser';
 import {Manga, MangaService} from '@api/main/interfaces';
 import {handleError} from '@api/core/helpers/handle-error';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
+import {DEFAULT_BROWSER_HEADERS} from '@api/core/constants';
 
 const SEARCH_URL = 'http://www.nettruyenpro.com/tim-truyen';
 const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
@@ -31,15 +32,10 @@ export const search: MangaService['search'] = async (query) => {
       pageIndex = cursor.pageIndex;
     }
 
-    const searchUrl = `${SEARCH_URL}?keyword=${encodeURIComponent(searchTerm)}${
-      pageIndex > 1 ? `&page=${pageIndex}` : ''
-    }`;
+    const pageParam = pageIndex > 1 ? `&p=${pageIndex}` : '';
+    const searchUrl = `${SEARCH_URL}?keyword=${encodeURIComponent(searchTerm)}${pageParam}`;
     const {data} = await axios(searchUrl, {
-      headers: {
-        'User-Agent':
-          // eslint-disable-next-line max-len
-          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36 Edg/94.0.992.31',
-      },
+      headers: DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
     const mangas = htmlContent.querySelectorAll('.items .item').map((item) => {
@@ -74,7 +70,7 @@ export const search: MangaService['search'] = async (query) => {
       const description = descriptionEl?.textContent;
 
       const coverEl = item.querySelector('.image img') as unknown as HTMLImageElement;
-      const coverUrl = getProxyImageUrl(coverEl?.getAttribute('data-original') || '');
+      const coverUrl = getProxyImageUrl(coverEl?.getAttribute('data-original') || '', '1');
 
       return {
         sourceId: '1',

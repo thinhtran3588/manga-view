@@ -26,6 +26,7 @@ interface MangaInfo {
 export const Home: NextPage = (): JSX.Element => {
   const router = useRouter();
   const searchTerm = useSelector((state: RootState) => state.homeScreen.searchTerm);
+  const sourceId = useSelector((state: RootState) => state.mangaSource.source);
   const recentMangasState = useSelector((state: RootState) => state.recentMangas);
   const recentMangas = useMemo(
     () => recentMangasState.ids.map((id) => recentMangasState.mangas[id]),
@@ -58,7 +59,7 @@ export const Home: NextPage = (): JSX.Element => {
             draftState.nextPage = undefined;
           });
         }
-        const result = await searchManga(newSearchTerm, nextPage);
+        const result = await searchManga(newSearchTerm, nextPage, sourceId);
         setSearchMangas((draftState) => {
           draftState.data = [...(nextPage ? draftState.data : []), ...result.data];
           draftState.nextPage = result.pagination.nextPage;
@@ -69,7 +70,7 @@ export const Home: NextPage = (): JSX.Element => {
         setLoading(false);
       }
     },
-    [setSearchMangas],
+    [setSearchMangas, sourceId],
   );
 
   const onLoadMore = (): void => {
@@ -87,7 +88,7 @@ export const Home: NextPage = (): JSX.Element => {
 
   useEffect(() => {
     search(searchTermDebounced);
-  }, [search, searchTermDebounced, setSearchMangas]);
+  }, [search, searchTermDebounced, setSearchMangas, sourceId]);
 
   return (
     <div className='flex flex-col w-full h-full flex-1 relative pt-12 '>

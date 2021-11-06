@@ -10,5 +10,5 @@ const getExtension = (url: string): string => {
 
 const addHttpsUrl = (url: string): string => (url.includes('http') ? url : `https:${url}`);
 
-export const getProxyImageUrl = (url: string): string =>
-  `/api/proxy-image/img${getExtension(url)}?url=${encodeURIComponent(addHttpsUrl(url))}`;
+export const getProxyImageUrl = (url: string, sourceId: string): string =>
+  `/api/proxy-image/img${getExtension(url)}?url=${encodeURIComponent(addHttpsUrl(url))}&sourceId=${sourceId}`;
