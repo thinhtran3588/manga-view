@@ -3,7 +3,7 @@ import {parse} from 'node-html-parser';
 import {Manga, MangaService} from '@api/main/interfaces';
 import {handleError} from '@api/core/helpers/handle-error';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
-import {DEFAULT_BROWSER_HEADERS} from '@api/core/constants';
+import CONSTANTS from '@api/core/constants.json';
 
 const SEARCH_URL = 'http://www.nettruyenpro.com/tim-truyen';
 const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
@@ -35,7 +35,7 @@ export const search: MangaService['search'] = async (query) => {
     const pageParam = pageIndex > 1 ? `&p=${pageIndex}` : '';
     const searchUrl = `${SEARCH_URL}?keyword=${encodeURIComponent(searchTerm)}${pageParam}`;
     const {data} = await axios(searchUrl, {
-      headers: DEFAULT_BROWSER_HEADERS,
+      headers: CONSTANTS.DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
     const mangas = htmlContent.querySelectorAll('.items .item').map((item) => {

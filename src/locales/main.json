@@ -16,6 +16,7 @@
     "MANGA_REMOVE_FAVORITE": "Remove favorite",
     "MANGA_STATUS": "Status",
     "NO_MANGAS_FOUND": "No mangas found",
+    "SEARCH_IN": "Search in",
     "VIEW_MORE": "View more"
   },
   "VI": {
@@ -35,6 +36,7 @@
     "MANGA_REMOVE_FAVORITE": "Bỏ yêu thích",
     "MANGA_STATUS": "Tình trạng",
     "NO_MANGAS_FOUND": "Không tìm thấy truyện",
+    "SEARCH_IN": "Tìm kiếm ở ",
     "VIEW_MORE": "Xem tiếp"
   }
 }

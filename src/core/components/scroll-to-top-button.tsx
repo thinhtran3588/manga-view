@@ -3,6 +3,7 @@ import {useEffect, useState} from 'react';
 import debounce from 'lodash/fp/debounce';
 import {useRouter} from 'next/router';
 import {animateScroll} from 'react-scroll';
+import ChevronDoubleUpIcon from '@heroicons/react/outline/ChevronDoubleUpIcon';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import SITE_I18N_TEXT from '@locales/site.json';
 
@@ -48,15 +49,7 @@ export const ScrollToTopButton = (props: ScrollToTopButtonProps): JSX.Element =>
         )}
         title={getI18nText(SITE_I18N_TEXT, 'SCROLL_TO_TOP', router)}
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          className='h-8 w-8'
-          fill='none'
-          viewBox='0 0 24 24'
-          stroke='currentColor'
-        >
-          <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 11l7-7 7 7M5 19l7-7 7 7' />
-        </svg>
+        <ChevronDoubleUpIcon className='h-8 w-8' />
       </button>
     </div>
   );

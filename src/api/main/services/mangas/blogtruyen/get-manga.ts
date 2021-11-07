@@ -2,7 +2,7 @@ import axios from 'axios';
 import reverse from 'lodash/fp/reverse';
 import {parse} from 'node-html-parser';
 import {Chapter, Manga, MangaService} from '@api/main/interfaces';
-import {DEFAULT_BROWSER_HEADERS} from '@api/core/constants';
+import CONSTANTS from '@api/core/constants.json';
 
 const MANGA_BASE_URL = 'https://blogtruyen.vn//';
 const OTHER_NAME_TITLE = 'Tên khác:';
@@ -15,7 +15,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
     const mangaId = id.split('-')[0];
     const mangaUrl = `${MANGA_BASE_URL}/${mangaId}`;
     const {data} = await axios(mangaUrl, {
-      headers: DEFAULT_BROWSER_HEADERS,
+      headers: CONSTANTS.DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
 

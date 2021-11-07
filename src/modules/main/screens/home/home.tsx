@@ -7,6 +7,7 @@ import type {NextPage} from 'next';
 import type {Manga} from '@main/interfaces';
 import HOME_I18N_TEXT from '@locales/home.json';
 import MAIN_I18N_TEXT from '@locales/main.json';
+import CONSTANTS from '@core/constants.json';
 import {Seo} from '@core/components/seo';
 import {SearchBar} from '@core/components/search-bar';
 import {Button} from '@core/components/button';
@@ -34,6 +35,7 @@ export const Home: NextPage = (): JSX.Element => {
   );
   const {
     homeScreen: {setSearchTerm},
+    mangaSource: {changeMangaSource},
   } = useDispatch<Dispatch>();
   const [searchTermDebounced] = useDebounce((searchTerm || '').trim(), 300);
   const [searchMangas, setSearchMangas] = useImmer<MangaInfo>({data: [], nextPage: ''});
@@ -124,9 +126,23 @@ export const Home: NextPage = (): JSX.Element => {
               </div>
             )}
             {searchMangas.nextPage && !loading && (
-              <Button className='mt-2' onClick={onLoadMore} disabled={loading}>
+              <Button className='mt-2 w-full max-w-2xl mx-auto' onClick={onLoadMore} disabled={loading}>
                 {getI18nText(MAIN_I18N_TEXT, 'VIEW_MORE', router)}
               </Button>
+            )}
+            {!loading && (
+              <>
+                {CONSTANTS.SOURCES.filter((source) => source.value !== sourceId).map((source) => (
+                  <Button
+                    key={source.value}
+                    className='mt-2 w-full max-w-2xl mx-auto'
+                    onClick={() => changeMangaSource(source.value)}
+                    disabled={loading}
+                  >
+                    {getI18nText(MAIN_I18N_TEXT, 'SEARCH_IN', router)} {source.text}
+                  </Button>
+                ))}
+              </>
             )}
           </>
         )}

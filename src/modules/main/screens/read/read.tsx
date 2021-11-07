@@ -9,7 +9,6 @@ import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {mangaServices} from '@api/main/services/mangas';
 import {getChapterImages} from '@api/main/services/mangas/nettruyenpro/get-chapter-images';
 import {Loading} from '@core/components/loading';
-import {ScrollToTopButton} from '@core/components/scroll-to-top-button';
 import {NoSsr} from '@core/components/no-ssr';
 import {Seo} from '@core/components/seo';
 import type {Chapter, Manga} from '@main/interfaces';
@@ -133,7 +132,6 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
             )}
           </div>
         </main>
-        <ScrollToTopButton className='bottom-16 lg:bottom-10 right-10' />
       </NoSsr>
     </div>
   );
