@@ -1,14 +1,14 @@
 import axios from 'axios';
 import {parse} from 'node-html-parser';
 import {MangaService} from '@api/main/interfaces';
-import {DEFAULT_BROWSER_HEADERS} from '@api/core/constants';
+import CONSTANTS from '@api/core/constants.json';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
 
 export const getChapterImages: MangaService['getChapterImages'] = async (manga, chapterId) => {
   try {
     const chapterUrl = manga.chapters?.find((c) => c.id === chapterId)?.originalUrl || '';
     const {data} = await axios(chapterUrl, {
-      headers: DEFAULT_BROWSER_HEADERS,
+      headers: CONSTANTS.DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
 
