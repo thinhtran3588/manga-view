@@ -49,7 +49,7 @@ jobs:
         run: yarn validate
 
       - name: Build
-        run: build-docker
+        run: yarn build-docker
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
