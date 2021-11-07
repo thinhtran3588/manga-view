@@ -90,7 +90,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
       )}
       CustomHeader={
         <div className='font-semibold pb-2 flex justify-center items-center'>
-          <Link href={`/manga/${manga.sourceId || '1'}/${manga.id}`}>
+          <Link href={`/manga/${manga.sourceId || '1'}/${manga.id}`} prefetch={false}>
             <a
               className={clsx(
                 'block flex-1 text-primary dark:text-primary-light',
