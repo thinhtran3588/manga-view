@@ -49,13 +49,20 @@ jobs:
         run: yarn validate
 
       - name: Build
-        run: yarn build
+        run: build-docker
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+      - name: Push image to container registry
+        run: |
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ secrets.DOCKER_URL }}
+          docker tag tqt/manga-view ${{ secrets.DOCKER_URL }}/manga-view:main
+          docker push ${{ secrets.DOCKER_URL }}/manga-view:main
+          docker logout
 
       - name: Telegram Notification End
         uses: appleboy/telegram-action@master

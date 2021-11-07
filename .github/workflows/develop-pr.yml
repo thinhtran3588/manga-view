@@ -50,7 +50,7 @@ jobs:
         run: yarn validate
 
       - name: Build
-        run: yarn build
+        run: yarn build-docker
 
       - name: Telegram Notification End
         uses: appleboy/telegram-action@master
