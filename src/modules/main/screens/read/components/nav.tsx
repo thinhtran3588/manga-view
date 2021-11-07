@@ -4,12 +4,23 @@ import {useState, useEffect, useCallback} from 'react';
 import reverse from 'lodash/fp/reverse';
 import last from 'lodash/fp/last';
 import first from 'lodash/fp/first';
+import {useDispatch, useSelector} from 'react-redux';
+import BookOpenIcon from '@heroicons/react/outline/BookOpenIcon';
+import ChevronLeftIcon from '@heroicons/react/outline/ChevronLeftIcon';
+import ChevronRightIcon from '@heroicons/react/outline/ChevronRightIcon';
+import ChevronUpIcon from '@heroicons/react/outline/ChevronUpIcon';
+import ChevronDownIcon from '@heroicons/react/outline/ChevronDownIcon';
+import DotsVerticalIcon from '@heroicons/react/outline/DotsVerticalIcon';
 import {ListBox} from '@core/components/list-box';
 import {LogoCompact} from '@core/components/logo-compact';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import READ_I18N_TEXT from '@locales/read.json';
 import SITE_I18N_TEXT from '@locales/site.json';
+import SETTINGS_I18N_TEXT from '@locales/settings.json';
+import CONSTANTS from '@core/constants.json';
 import type {Chapter, Manga} from '@main/interfaces';
+import {Dispatch, RootState} from '@store';
+import {MenuItems} from './menu-items';
 
 export interface HeaderProps {
   manga: Manga;
@@ -24,9 +35,24 @@ export const Nav = (props: HeaderProps): JSX.Element => {
   const {chapters, manga, currentChapter, setLoading, currentImageIndex, setCurrentImageIndex} = props;
   const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
+  const [menuVisible, setMenuVisible] = useState(false);
+  const viewMode = useSelector((state: RootState) => state.viewMode.mode);
+  const {
+    viewMode: {changeViewMode},
+  } = useDispatch<Dispatch>();
   const [selectedValue, setValue] = useState(currentChapter.id);
   const isLastChapter = last(chapters)?.id === currentChapter.id;
   const isFirstChapter = first(chapters)?.id === currentChapter.id;
+
+  const toggleViewMode = (): void => {
+    changeViewMode(
+      viewMode === CONSTANTS.VIEW_MODE.ALL_IMAGES ? CONSTANTS.VIEW_MODE.ONE_IMAGE : CONSTANTS.VIEW_MODE.ALL_IMAGES,
+    );
+  };
+
+  const toggleMenuVisible = (): void => {
+    setMenuVisible(!menuVisible);
+  };
 
   const readChapter = useCallback(
     (sourceId: string, mangaId: string, chapterId: string): void => {
@@ -126,27 +152,22 @@ export const Nav = (props: HeaderProps): JSX.Element => {
           <button
             type='button'
             onClick={onViewDetail}
-            className={`mr-2 p-2 rounded-full disabled:opacity-50
+            className={`mr-2 p-2 rounded-full disabled:opacity-50 hidden sm:block
               bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
               hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`}
             title={getI18nText(READ_I18N_TEXT, 'VIEW_DETAIL', router)}
-            disabled={isFirstChapter}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                // eslint-disable-next-line max-len
-                d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
-              />
-            </svg>
+            <BookOpenIcon className='h-6 w-6' />
+          </button>
+          <button
+            type='button'
+            onClick={toggleMenuVisible}
+            className={`mr-2 p-2 rounded-full disabled:opacity-50 sm:hidden
+              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
+              hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-600`}
+            title={getI18nText(READ_I18N_TEXT, 'VIEW_DETAIL', router)}
+          >
+            <DotsVerticalIcon className='h-6 w-6' />
           </button>
           <button
             type='button'
@@ -157,15 +178,7 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             title={getI18nText(READ_I18N_TEXT, 'PREVIOUS', router)}
             disabled={isFirstChapter}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10 19l-7-7m0 0l7-7m-7 7h18' />
-            </svg>
+            <ChevronLeftIcon className='h-6 w-6' />
           </button>
           <ListBox
             selectedValue={selectedValue}
@@ -186,15 +199,32 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             title={getI18nText(READ_I18N_TEXT, 'NEXT', router)}
             disabled={isLastChapter}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M14 5l7 7m0 0l-7 7m7-7H3' />
-            </svg>
+            <ChevronRightIcon className='h-6 w-6' />
+          </button>
+          <button
+            type='button'
+            onClick={toggleViewMode}
+            className={`mr-2 p-2 rounded-full disabled:opacity-50 hidden sm:block
+              bg-gray-300 dark:bg-gray-800 bg-opacity-80 dark:bg-opacity-80
+              hover:bg-gray-100 dark:hover:bg-gray-600 hover:border-gray-100 dark:hover:border-gray-60`}
+            title={getI18nText(
+              SETTINGS_I18N_TEXT,
+              viewMode === CONSTANTS.VIEW_MODE.ALL_IMAGES ? 'VIEW_MODE_ALL_IMAGES' : 'VIEW_MODE_ONE_IMAGE',
+              router,
+            )}
+          >
+            {viewMode === CONSTANTS.VIEW_MODE.ALL_IMAGES && (
+              <svg className='h-6 w-6' viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg' fill='currentColor'>
+                <rect x='28' y='93' width='200' height='69' />
+                <rect x='28' y='40' width='200' height='32' />
+                <rect x='28' y='183' width='200' height='32' />
+              </svg>
+            )}
+            {viewMode === CONSTANTS.VIEW_MODE.ONE_IMAGE && (
+              <svg className='h-6 w-6' viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg' fill='currentColor'>
+                <rect x='28' y='28' width='200' height='199' />
+              </svg>
+            )}
           </button>
           <button
             type='button'
@@ -205,15 +235,7 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             title={getI18nText(READ_I18N_TEXT, 'PREVIOUS_IMAGE', router)}
             disabled={currentImageIndex === 0}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 10l7-7m0 0l7 7m-7-7v18' />
-            </svg>
+            <ChevronUpIcon className='h-6 w-6' />
           </button>
           <button
             type='button'
@@ -224,18 +246,11 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             title={getI18nText(READ_I18N_TEXT, 'NEXT_IMAGE', router)}
             disabled={isLastChapter && currentImageIndex === (currentChapter.imageUrls?.length || 0) - 1}
           >
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 14l-7 7m0 0l-7-7m7 7V3' />
-            </svg>
+            <ChevronDownIcon className='h-6 w-6' />
           </button>
         </div>
       </div>
+      <MenuItems visible={menuVisible} viewMode={viewMode} toggleViewMode={toggleViewMode} viewDetail={onViewDetail} />
     </header>
   );
 };
