@@ -5,6 +5,11 @@ import {useRouter} from 'next/router';
 import last from 'lodash/fp/last';
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import BookOpenIcon from '@heroicons/react/outline/BookOpenIcon';
+import AcademicCapIcon from '@heroicons/react/outline/AcademicCapIcon';
+import UserIcon from '@heroicons/react/outline/UserIcon';
+import ClockIcon from '@heroicons/react/outline/ClockIcon';
+import InformationCircleIcon from '@heroicons/react/outline/InformationCircleIcon';
 import type {Manga} from '@main/interfaces';
 import MAIN_I18N_TEXT from '@locales/main.json';
 import {Card} from '@core/components/card';
@@ -27,6 +32,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
   const currentChapterId = useSelector((state: RootState) => state.recentMangas.currentChapters[manga.id]);
   const isFavorite = useSelector((state: RootState) => state.favoriteMangas.ids.includes(manga.id));
   const [visible, setVisible] = useState(false);
+  const imageFullWidth = mode === 'full' || !(manga.status || manga.author || manga.lastUpdated);
   const {
     favoriteMangas: {toggleFavoriteManga},
   } = useDispatch<Dispatch>();
@@ -89,7 +95,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         className,
       )}
       CustomHeader={
-        <div className='font-semibold pb-2 flex justify-center items-center'>
+        <div className='font-semibold -m-2 px-2 flex justify-center items-center'>
           <Link href={`/manga/${manga.sourceId || '1'}/${manga.id}`} prefetch={false}>
             <a
               className={clsx(
@@ -141,88 +147,46 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
       contentClassName='flex flex-row flex-wrap mt-2'
       headerClassName='text-primary dark:text-primary-light'
     >
-      <div className='w-1/3'>
+      <div className={imageFullWidth ? 'w-full' : 'w-1/3'}>
         <img
           src={manga.coverUrl}
           width='100%'
           alt={manga.name}
-          className={clsx('h-40 object-contain object-top', mode === 'compact' ? '' : 'lg:h-auto')}
+          className={clsx(
+            'object-contain object-top',
+            imageFullWidth ? 'h-60' : 'h-40',
+            mode === 'compact' ? '' : 'lg:h-auto lg:max-h-60',
+          )}
         />
       </div>
-      <div className='w-2/3 pl-2'>
-        <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
-          <span className='mr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-              />
-            </svg>
-          </span>
-          {mode === 'full' && (
-            <span className='hidden md:block font-semibold text-secondary dark:text-secondary-light'>
-              {getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}:&nbsp;
-            </span>
+      {!imageFullWidth && (
+        <div className='w-2/3 pl-2'>
+          {manga.status && (
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
+              <span className='mr-1'>
+                <InformationCircleIcon className='h-6 w-6' />
+              </span>
+              <span className='font-semibold text-secondary dark:text-secondary-light'>{manga.status}</span>
+            </div>
           )}
-          <span>{manga.status}</span>
-        </div>
-        <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}>
-          <span className='mr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-              />
-            </svg>
-          </span>
-          {mode === 'full' && (
-            <span className='hidden md:block font-semibold text-success dark:text-success-light'>
-              {getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}:&nbsp;
-            </span>
+          {manga.author && (
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}>
+              <span className='mr-1'>
+                <UserIcon className='h-6 w-6' />
+              </span>
+              <span className='font-semibold text-success dark:text-success-light'>{manga.author}</span>
+            </div>
           )}
-          <span>{manga.author}</span>
-        </div>
-        <div className='flex' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}>
-          <span className='mr-1'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
-            >
-              <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                strokeWidth={2}
-                d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'
-              />
-            </svg>
-          </span>
-          {mode === 'full' && (
-            <span className='hidden md:block font-semibold text-info dark:text-info-light'>
-              {getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}:&nbsp;
-            </span>
+          {manga.lastUpdated && (
+            <div className='flex' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}>
+              <span className='mr-1'>
+                <ClockIcon className='h-6 w-6' />
+              </span>
+              <span className='font-semibold text-info dark:text-info-light'>{manga.lastUpdated}</span>
+            </div>
           )}
-          <span>{manga.lastUpdated}</span>
         </div>
-      </div>
+      )}
       <div className={clsx('flex w-full mt-2 flex-col')}>
         {!currentChapterId && (
           <Button className='flex-1 mb-2' onClick={readLastChapter} loading={readLastLoading}>
@@ -257,7 +221,7 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
           </Button>
         )}
       </div>
-      <div className='flex flex-wrap'>
+      <div className='flex w-full flex-wrap'>
         {manga.genres.map((genre) => (
           <span key={genre} className='m-1 rounded-full p-0 px-2 bg-warning text-white'>
             {genre}
@@ -265,19 +229,52 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
         ))}
       </div>
       {mode === 'full' && (
-        <>
+        <div>
           {manga.otherName && (
-            <>
-              <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
+              <span className='mr-1'>
+                <AcademicCapIcon className='h-6 w-6' />
+              </span>
+              <span className='whitespace-nowrap'>
                 {getI18nText(MAIN_I18N_TEXT, 'MANGA_OTHER_NAME', router)}:&nbsp;
-              </div>
-              <p className={clsx('w-full text-justify flex-grow')}>{manga.otherName}</p>
-            </>
+              </span>
+              <span className='font-semibold text-error dark:text-error-light'>{manga.otherName}</span>
+            </div>
           )}
-          <div className='hidden md:block w-full font-semibold text-info dark:text-info-light'>
-            {getI18nText(MAIN_I18N_TEXT, 'MANGA_OVERVIEW', router)}:&nbsp;
+          {manga.status && (
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}>
+              <span className='mr-1'>
+                <InformationCircleIcon className='h-6 w-6' />
+              </span>
+              <span className=''>{getI18nText(MAIN_I18N_TEXT, 'MANGA_STATUS', router)}:&nbsp;</span>
+              <span className='font-semibold text-secondary dark:text-secondary-light'>{manga.status}</span>
+            </div>
+          )}
+          {manga.author && (
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}>
+              <span className='mr-1'>
+                <UserIcon className='h-6 w-6' />
+              </span>
+              <span className=''>{getI18nText(MAIN_I18N_TEXT, 'MANGA_AUTHOR', router)}:&nbsp;</span>
+              <span className='font-semibold text-success dark:text-success-light'>{manga.author}</span>
+            </div>
+          )}
+          {manga.lastUpdated && (
+            <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}>
+              <span className='mr-1'>
+                <ClockIcon className='h-6 w-6' />
+              </span>
+              <span className=''>{getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}:&nbsp;</span>
+              <span className='font-semibold text-info dark:text-info-light'>{manga.lastUpdated}</span>
+            </div>
+          )}
+          <div className='flex mb-2' title={getI18nText(MAIN_I18N_TEXT, 'MANGA_LAST_UPDATED', router)}>
+            <span className='mr-1'>
+              <BookOpenIcon className='h-6 w-6' />
+            </span>
+            <span className=''>{getI18nText(MAIN_I18N_TEXT, 'MANGA_OVERVIEW', router)}:&nbsp;</span>
           </div>
-        </>
+        </div>
       )}
       <p className={clsx('w-full text-justify flex-grow', mode === 'compact' ? 'max-h-36 overflow-hidden' : '')}>
         {manga.description}
