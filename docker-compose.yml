@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  web:
+    image: tqt/manga-view
+    # env_file: .env
+    build: .
+    ports:
+      - '3000:3000'
