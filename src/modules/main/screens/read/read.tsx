@@ -86,12 +86,15 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
         />
         <main
           className={clsx(
-            `flex flex-1 container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0 
+            `flex flex-1 
               dark:text-white bg-gray-200 dark:bg-gray-700`,
             viewMode === '0' ? '' : 'max-h-screen overflow-hidden',
           )}
         >
-          <div className='flex flex-col w-full flex-1 justify-center'>
+          <div
+            className={`container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0 
+            flex flex-col w-full flex-1 justify-center`}
+          >
             {loading && (
               <div className='w-full flex items-center justify-center my-2 flex-1'>
                 <Loading className='h-10 w-10 text-primary dark:text-primary-light' />
