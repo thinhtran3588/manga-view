@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {useRouter} from 'next/router';
 import {useEffect, useState, Fragment} from 'react';
 import {useImmer} from 'use-immer';
-import last from 'lodash/fp/last';
+import first from 'lodash/fp/first';
 import {useDispatch, useSelector} from 'react-redux';
 import type {GetStaticPaths, GetStaticProps, NextPage} from 'next';
 import {mangaServices} from '@api/main/services/mangas';
@@ -48,8 +48,8 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
   useEffect(() => {
     if (chapter.id === '0' && manga.chapters && manga.chapters.length > 0) {
       setLoading(true);
-      const lastChapter = last(manga.chapters);
-      router.push(`/read/${manga.sourceId}/${manga.id}/${lastChapter?.id}`);
+      const firstChapter = first(manga.chapters);
+      router.push(`/read/${manga.sourceId}/${manga.id}/${firstChapter?.id}`);
     }
     if (chapter.id !== '0') {
       addRecentManga({manga, chapterId: chapter.id});
