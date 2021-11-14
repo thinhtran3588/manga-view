@@ -51,8 +51,10 @@ export const MangaCard = (props: MangaCardProps): JSX.Element => {
       const firstChapter = manga.chapters[0];
       if (firstChapter) {
         readChapter(manga.sourceId, manga.id, firstChapter.id);
+        return;
       }
     }
+    readChapter(manga.sourceId, manga.id, '0');
   };
 
   const readCurrentChapter = (): void => {
