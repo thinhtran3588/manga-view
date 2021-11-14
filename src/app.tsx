@@ -4,6 +4,7 @@ import Head from 'next/head';
 import {Provider, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
+import smoothscroll from 'smoothscroll-polyfill';
 import type {AppProps} from 'next/app';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import SITE_I18N_TEXT from '@locales/site.json';
@@ -22,6 +23,10 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
   const locale = useSelector((state: RootState) => state.settings.locale);
   const theme = useSelector((state: RootState) => state.settings.theme);
   const router = useRouter();
+
+  useEffect(() => {
+    smoothscroll.polyfill();
+  }, []);
 
   useEffect(() => {
     if (locale !== router.locale) {
