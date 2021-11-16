@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import clsx from 'clsx';
 import {useRouter} from 'next/router';
-import {useEffect, useState, Fragment} from 'react';
+import {useEffect, useState, Fragment, useCallback} from 'react';
 import {useImmer} from 'use-immer';
 import first from 'lodash/fp/first';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,7 +28,10 @@ export interface ReadProps {
 
 export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadProps): JSX.Element => {
   const {manga, chapter, nextChapter} = props;
+  const chapters = manga.chapters || [];
   const [loading, setLoading] = useState(false);
+  const [bottomMenuVisible, setBottomMenuVisible] = useState(true);
+  const [selectedChapterId, setSelectedChapterId] = useState(chapter.id);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const preloadNextChapter = useSelector((state: RootState) => state.nextChapter.preload);
   const viewMode = useSelector((state: RootState) => state.viewMode.mode);
@@ -43,6 +46,83 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     setReadyStates((draftState) => {
       draftState[imageIndex.toString()] = true;
     });
+  };
+
+  const readChapter = useCallback(
+    (sourceId: string, mangaId: string, chapterId: string): void => {
+      router.push(`/read/${sourceId || '1'}/${mangaId}/${chapterId}`);
+    },
+    [router],
+  );
+
+  const onChangeChapter = useCallback(
+    (chapterId: string): void => {
+      if (chapterId !== chapter.id) {
+        setLoading(true);
+        readChapter(manga.sourceId, manga.id, chapterId);
+      }
+      setSelectedChapterId(chapterId);
+    },
+    [readChapter, manga.sourceId, chapter.id, manga.id, setLoading],
+  );
+
+  const onViewDetail = (): void => {
+    setLoading(true);
+    router.push(`/manga/${manga.sourceId}/${manga.id}`);
+  };
+
+  const viewPrevChapter = useCallback((): void => {
+    const currentChapterIndex = chapters.findIndex((c) => c.id === chapter.id);
+    if (currentChapterIndex && currentChapterIndex > 0) {
+      onChangeChapter(chapters[currentChapterIndex - 1].id);
+    }
+  }, [chapters, chapter.id, onChangeChapter]);
+
+  const viewNextChapter = useCallback((): void => {
+    const currentChapterIndex = chapters.findIndex((c) => c.id === chapter.id);
+    if (currentChapterIndex < chapters.length - 1) {
+      onChangeChapter(chapters[currentChapterIndex + 1].id);
+    }
+  }, [chapters, chapter.id, onChangeChapter]);
+
+  const viewPrevImage = useCallback((): void => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1);
+    }
+  }, [currentImageIndex, setCurrentImageIndex]);
+
+  const viewNextImage = useCallback((): void => {
+    if (currentImageIndex < (chapter.imageUrls?.length || 0) - 1) {
+      setCurrentImageIndex(currentImageIndex + 1);
+      return;
+    }
+
+    viewNextChapter();
+  }, [chapter.imageUrls, currentImageIndex, setCurrentImageIndex, viewNextChapter]);
+
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent): void => {
+      switch (event.key) {
+        case 'ArrowUp':
+          viewPrevImage();
+          break;
+        case 'ArrowDown':
+          viewNextImage();
+          break;
+        case 'ArrowLeft':
+          viewPrevChapter();
+          break;
+        case 'ArrowRight':
+          viewNextChapter();
+          break;
+        default:
+      }
+    },
+    [viewNextChapter, viewNextImage, viewPrevChapter, viewPrevImage],
+  );
+
+  const toggleBottomMenuVisible = (): void => {
+    setBottomMenuVisible(!bottomMenuVisible);
   };
 
   useEffect(() => {
@@ -72,17 +152,34 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
     }
   }, [viewMode, currentImageIndex]);
 
+  useEffect(() => {
+    setSelectedChapterId(chapter.id);
+
+    document.addEventListener('keydown', handleKeydown);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [chapter.id, handleKeydown]);
+
   return (
     <div className='font-roboto flex flex-col min-h-screen max-h-screen dark:text-white bg-gray-200 dark:bg-gray-700'>
       <Seo title={`${manga.name} - ${chapter.name}`} description={manga.description} imageUrl={manga.coverUrl} />
       <NoSsr>
         <Nav
-          chapters={manga.chapters || []}
+          chapters={chapters}
           manga={manga}
           currentChapter={chapter}
           setLoading={setLoading}
           currentImageIndex={currentImageIndex}
           setCurrentImageIndex={setCurrentImageIndex}
+          selectedChapterId={selectedChapterId}
+          onViewDetail={onViewDetail}
+          viewPrevChapter={viewPrevChapter}
+          viewNextChapter={viewNextChapter}
+          viewPrevImage={viewPrevImage}
+          viewNextImage={viewNextImage}
+          onChangeChapter={onChangeChapter}
         />
         <main
           className={clsx(
@@ -93,7 +190,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
         >
           <div
             className={`container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0 
-            flex flex-col w-full flex-1 justify-center`}
+            flex flex-col w-full flex-1 justify-center relative`}
           >
             {loading && (
               <div className='w-full flex items-center justify-center my-2 flex-1'>
@@ -133,6 +230,11 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
                 ))}
               </div>
             )}
+            <div className='absolute lg:hidden inset-0 flex'>
+              <div className='w-1/4 bg-blue-100 h-full opacity-20' onClick={viewPrevImage} aria-hidden />
+              <div className='w-1/2 h-full' onClick={toggleBottomMenuVisible} aria-hidden />
+              <div className='w-1/4 bg-green-400 h-full opacity-20' onClick={viewNextImage} aria-hidden />
+            </div>
           </div>
         </main>
       </NoSsr>

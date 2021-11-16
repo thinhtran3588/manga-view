@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import {useRouter} from 'next/router';
-import {useState, useEffect, useCallback} from 'react';
+import {useState} from 'react';
 import reverse from 'lodash/fp/reverse';
 import last from 'lodash/fp/last';
 import first from 'lodash/fp/first';
@@ -26,13 +26,31 @@ export interface HeaderProps {
   manga: Manga;
   currentChapter: Chapter;
   chapters: Chapter[];
-  setLoading: (loading: boolean) => void;
   currentImageIndex: number;
+  selectedChapterId: string;
+  setLoading: (loading: boolean) => void;
   setCurrentImageIndex: (index: number) => void;
+  onViewDetail: () => void;
+  viewPrevChapter: () => void;
+  viewNextChapter: () => void;
+  viewPrevImage: () => void;
+  viewNextImage: () => void;
+  onChangeChapter: (chapterId: string) => void;
 }
 
 export const Nav = (props: HeaderProps): JSX.Element => {
-  const {chapters, manga, currentChapter, setLoading, currentImageIndex, setCurrentImageIndex} = props;
+  const {
+    chapters,
+    currentChapter,
+    currentImageIndex,
+    selectedChapterId,
+    onViewDetail,
+    viewPrevChapter,
+    viewNextChapter,
+    viewPrevImage,
+    viewNextImage,
+    onChangeChapter,
+  } = props;
   const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
   const [menuVisible, setMenuVisible] = useState(false);
@@ -40,7 +58,6 @@ export const Nav = (props: HeaderProps): JSX.Element => {
   const {
     viewMode: {changeViewMode},
   } = useDispatch<Dispatch>();
-  const [selectedValue, setValue] = useState(currentChapter.id);
   const isLastChapter = last(chapters)?.id === currentChapter.id;
   const isFirstChapter = first(chapters)?.id === currentChapter.id;
 
@@ -54,92 +71,9 @@ export const Nav = (props: HeaderProps): JSX.Element => {
     setMenuVisible(!menuVisible);
   };
 
-  const readChapter = useCallback(
-    (sourceId: string, mangaId: string, chapterId: string): void => {
-      router.push(`/read/${sourceId || '1'}/${mangaId}/${chapterId}`);
-    },
-    [router],
-  );
-
-  const onChangeChapter = useCallback(
-    (chapterId: string): void => {
-      if (chapterId !== currentChapter.id) {
-        setLoading(true);
-        readChapter(manga.sourceId, manga.id, chapterId);
-      }
-      setValue(chapterId);
-    },
-    [readChapter, manga.sourceId, currentChapter.id, manga.id, setLoading],
-  );
-
-  const onViewDetail = (): void => {
-    setLoading(true);
-    router.push(`/manga/${manga.sourceId}/${manga.id}`);
-  };
-
-  const viewPrevChapter = useCallback((): void => {
-    const currentChapterIndex = chapters.findIndex((c) => c.id === currentChapter.id);
-    if (currentChapterIndex > 0) {
-      onChangeChapter(chapters[currentChapterIndex - 1].id);
-    }
-  }, [chapters, currentChapter.id, onChangeChapter]);
-
-  const viewNextChapter = useCallback((): void => {
-    const currentChapterIndex = chapters.findIndex((c) => c.id === currentChapter.id);
-    if (currentChapterIndex < chapters.length - 1) {
-      onChangeChapter(chapters[currentChapterIndex + 1].id);
-    }
-  }, [chapters, currentChapter.id, onChangeChapter]);
-
-  const viewPrevImage = useCallback((): void => {
-    if (currentImageIndex > 0) {
-      setCurrentImageIndex(currentImageIndex - 1);
-    }
-  }, [currentImageIndex, setCurrentImageIndex]);
-
-  const viewNextImage = useCallback((): void => {
-    if (currentImageIndex < (currentChapter.imageUrls?.length || 0) - 1) {
-      setCurrentImageIndex(currentImageIndex + 1);
-      return;
-    }
-
-    viewNextChapter();
-  }, [currentChapter.imageUrls, currentImageIndex, setCurrentImageIndex, viewNextChapter]);
-
-  const handleKeydown = useCallback(
-    (event: KeyboardEvent): void => {
-      switch (event.key) {
-        case 'ArrowUp':
-          viewPrevImage();
-          break;
-        case 'ArrowDown':
-          viewNextImage();
-          break;
-        case 'ArrowLeft':
-          viewPrevChapter();
-          break;
-        case 'ArrowRight':
-          viewNextChapter();
-          break;
-        default:
-      }
-    },
-    [viewNextChapter, viewNextImage, viewPrevChapter, viewPrevImage],
-  );
-
-  useEffect(() => {
-    setValue(currentChapter.id);
-
-    document.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  }, [currentChapter.id, handleKeydown]);
-
   return (
     <header
-      className='fixed bottom-0 lg:bottom-auto  inset-x-0 backdrop-filter backdrop-blur  
+      className='fixed bottom-0 lg:bottom-auto inset-x-0 backdrop-filter backdrop-blur  
     firefox:bg-opacity-90 shadow-xl z-50'
     >
       <div className='container mx-auto'>
@@ -181,7 +115,7 @@ export const Nav = (props: HeaderProps): JSX.Element => {
             <ChevronLeftIcon className='h-6 w-6' />
           </button>
           <ListBox
-            selectedValue={selectedValue}
+            selectedValue={selectedChapterId}
             setValue={onChangeChapter}
             options={options}
             containerClassName='flex-1 mx-2'
