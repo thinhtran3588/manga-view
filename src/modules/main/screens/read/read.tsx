@@ -180,6 +180,7 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
           viewPrevImage={viewPrevImage}
           viewNextImage={viewNextImage}
           onChangeChapter={onChangeChapter}
+          bottomMenuVisible={bottomMenuVisible}
         />
         <main
           className={clsx(
@@ -189,8 +190,11 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
           )}
         >
           <div
-            className={`container mx-auto max-w-3xl mb-14 lg:mt-14 lg:mb-0 
-            flex flex-col w-full flex-1 justify-center relative`}
+            className={clsx(
+              `container mx-auto max-w-3xl lg:mt-14 lg:mb-0 
+            flex flex-col w-full flex-1 justify-center relative transition-all duration-700`,
+              bottomMenuVisible ? 'mb-14' : 'mb-0',
+            )}
           >
             {loading && (
               <div className='w-full flex items-center justify-center my-2 flex-1'>
