@@ -235,9 +235,9 @@ export const Read: NextPage<ReadProps> & {hideLayout?: boolean} = (props: ReadPr
               </div>
             )}
             <div className='absolute lg:hidden inset-0 flex'>
-              <div className='w-1/4 bg-blue-100 h-full opacity-20' onClick={viewPrevImage} aria-hidden />
+              <div className='w-1/4 h-full' onClick={viewPrevImage} aria-hidden />
               <div className='w-1/2 h-full' onClick={toggleBottomMenuVisible} aria-hidden />
-              <div className='w-1/4 bg-green-400 h-full opacity-20' onClick={viewNextImage} aria-hidden />
+              <div className='w-1/4 h-full' onClick={viewNextImage} aria-hidden />
             </div>
           </div>
         </main>
