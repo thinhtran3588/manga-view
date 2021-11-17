@@ -30,7 +30,7 @@ export const MenuItems = (props: MenuItemsProps): JSX.Element => {
 
   return (
     <>
-      <div className={clsx(' transition-opacity duration-700 lg:hidden', visible ? 'opacity-100' : 'opacity-0')}>
+      <div className={clsx('transition-opacity duration-700 lg:hidden', visible ? 'opacity-100' : 'opacity-0')}>
         <button
           type='button'
           onClick={gotoHome}

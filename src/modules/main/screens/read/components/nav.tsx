@@ -11,6 +11,7 @@ import ChevronRightIcon from '@heroicons/react/outline/ChevronRightIcon';
 import ChevronUpIcon from '@heroicons/react/outline/ChevronUpIcon';
 import ChevronDownIcon from '@heroicons/react/outline/ChevronDownIcon';
 import DotsVerticalIcon from '@heroicons/react/outline/DotsVerticalIcon';
+import clsx from 'clsx';
 import {ListBox} from '@core/components/list-box';
 import {LogoCompact} from '@core/components/logo-compact';
 import {getI18nText} from '@core/helpers/get-i18n-text';
@@ -28,6 +29,7 @@ export interface HeaderProps {
   chapters: Chapter[];
   currentImageIndex: number;
   selectedChapterId: string;
+  bottomMenuVisible: boolean;
   setLoading: (loading: boolean) => void;
   setCurrentImageIndex: (index: number) => void;
   onViewDetail: () => void;
@@ -50,6 +52,7 @@ export const Nav = (props: HeaderProps): JSX.Element => {
     viewPrevImage,
     viewNextImage,
     onChangeChapter,
+    bottomMenuVisible,
   } = props;
   const options = reverse(chapters || []).map((c) => ({value: c.id, text: c.name}));
   const router = useRouter();
@@ -73,8 +76,11 @@ export const Nav = (props: HeaderProps): JSX.Element => {
 
   return (
     <header
-      className='fixed bottom-0 lg:bottom-auto inset-x-0 backdrop-filter backdrop-blur  
-    firefox:bg-opacity-90 shadow-xl z-50'
+      className={clsx(
+        `fixed bottom-0 lg:bottom-auto inset-x-0 backdrop-filter backdrop-blur  
+    firefox:bg-opacity-90 shadow-xl z-50 transition-all transform duration-700`,
+        bottomMenuVisible ? '-translate-y-0' : 'translate-y-20 lg:translate-y-0',
+      )}
     >
       <div className='container mx-auto'>
         <div className='flex items-center p-2 pr-0'>
