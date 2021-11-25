@@ -22,7 +22,7 @@ export const ScrollToTopButton = (props: ScrollToTopButtonProps): JSX.Element =>
   };
 
   const scrollEvent = debounce(100, () => {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
+    const st = window.scrollY || document.documentElement.scrollTop;
     setVisible(st > lastScrollTop);
     setLastScrollTop(st <= 0 ? 0 : st);
   });
