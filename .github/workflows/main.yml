@@ -60,8 +60,8 @@ jobs:
       - name: Push image to container registry
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} ${{ secrets.DOCKER_URL }}
-          docker tag tqt/manga-view ${{ secrets.DOCKER_URL }}/manga-view:main
-          docker push ${{ secrets.DOCKER_URL }}/manga-view:main
+          docker tag tqt/manga-view ${{ secrets.DOCKER_URL }}/thinhtran3588/manga-view:develop
+          docker push ${{ secrets.DOCKER_URL }}/thinhtran3588/manga-view:main
           docker logout
 
       - name: Telegram Notification End

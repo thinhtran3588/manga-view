@@ -4,15 +4,19 @@ export interface HomeScreenState {
   searchTerm: string;
 }
 
+const state: HomeScreenState = {
+  searchTerm: '',
+};
+
+const setSearchTerm = (draftState: HomeScreenState, searchTerm: string): HomeScreenState => {
+  draftState.searchTerm = searchTerm;
+  return draftState;
+};
+
 export const homeScreen = createModel()({
-  state: {
-    searchTerm: '',
-  } as HomeScreenState,
+  state,
   reducers: {
-    setSearchTerm(draftState, searchTerm: string) {
-      draftState.searchTerm = searchTerm;
-      return draftState;
-    },
+    setSearchTerm,
   },
   effects: (_dispatch) => ({}),
 });

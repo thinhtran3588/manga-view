@@ -4,15 +4,19 @@ export interface MangaSourceState {
   source: string;
 }
 
+const state: MangaSourceState = {
+  source: '1',
+};
+
+const changeMangaSource = (draftState: MangaSourceState, source: string): MangaSourceState => {
+  draftState.source = source;
+  return draftState;
+};
+
 export const mangaSource = createModel()({
-  state: {
-    source: '1',
-  } as MangaSourceState,
+  state,
   reducers: {
-    changeMangaSource(draftState, payload: string) {
-      draftState.source = payload;
-      return draftState;
-    },
+    changeMangaSource,
   },
   effects: (_dispatch) => ({}),
 });

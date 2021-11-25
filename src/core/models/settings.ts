@@ -6,21 +6,26 @@ export interface SettingsState {
   theme: Theme;
 }
 
+const state: SettingsState = {
+  locale: 'en',
+  theme: '',
+};
+
+const setLocale = (draftState: SettingsState, locale: string): SettingsState => {
+  draftState.locale = locale;
+  return draftState;
+};
+
+const setTheme = (draftState: SettingsState, theme: Theme): SettingsState => {
+  draftState.theme = theme;
+  return draftState;
+};
+
 export const settings = createModel()({
-  state: {
-    locale: 'en',
-    theme: '',
-  } as SettingsState,
+  state,
   reducers: {
-    // handle state changes with pure functions
-    setLocale(draftState, locale: string) {
-      draftState.locale = locale;
-      return draftState;
-    },
-    setTheme(draftState, theme: Theme) {
-      draftState.theme = theme;
-      return draftState;
-    },
+    setLocale,
+    setTheme,
   },
   effects: (_dispatch) => ({}),
 });
