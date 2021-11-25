@@ -5,8 +5,8 @@ import {handleError} from '@api/core/helpers/handle-error';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
 import CONSTANTS from '@api/core/constants.json';
 
-const SEARCH_URL = 'http://www.nettruyenpro.com/tim-truyen';
-const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
+const SEARCH_URL = 'https://www.nettruyenpro.com/tim-truyen';
+const MANGA_BASE_URL = 'https://www.nettruyenpro.com/truyen-tranh/';
 const OTHER_NAME_TITLE = 'Tên khác:';
 const STATUS_TITLE = 'Tình trạng:';
 const AUTHOR_TITLE = 'Tác giả:';

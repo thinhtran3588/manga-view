@@ -6,7 +6,7 @@ import {Chapter, Manga, MangaService} from '@api/main/interfaces';
 import {normalizeName} from '@api/core/helpers/normalize-name';
 import CONSTANTS from '@api/core/constants.json';
 
-const MANGA_BASE_URL = 'http://www.nettruyenpro.com/truyen-tranh/';
+const MANGA_BASE_URL = 'https://www.nettruyenpro.com/truyen-tranh/';
 
 export const getManga: MangaService['getManga'] = async (id: string) => {
   try {

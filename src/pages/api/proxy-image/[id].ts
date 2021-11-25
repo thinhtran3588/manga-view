@@ -4,7 +4,7 @@ import mime from 'mime-types';
 import type {NextApiRequest, NextApiResponse} from 'next';
 
 const SOURCES: {[id: string]: string} = {
-  '1': 'http://www.nettruyenpro.com/',
+  '1': 'https://www.nettruyenpro.com/',
   '2': 'https://blogtruyen.vn/',
 };
 
