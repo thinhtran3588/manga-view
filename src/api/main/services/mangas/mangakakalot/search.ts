@@ -5,13 +5,10 @@ import {handleError} from '@api/core/helpers/handle-error';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
 import CONSTANTS from '@api/core/constants.json';
 
-const SEARCH_URL = 'https://www.nettruyenpro.com/tim-truyen';
-const MANGA_BASE_URL = 'https://www.nettruyenpro.com/truyen-tranh/';
-const OTHER_NAME_TITLE = 'Tên khác:';
-const STATUS_TITLE = 'Tình trạng:';
-const AUTHOR_TITLE = 'Tác giả:';
-const LAST_UPDATED_TITLE = 'Ngày cập nhật:';
-const GENRE_TITLE = 'Thể loại:';
+const SEARCH_URL = 'https://ww.mangakakalot.tv/search';
+const MANGA_BASE_URL = '/manga/';
+const AUTHOR_TITLE = 'Author(s) :';
+const LAST_UPDATED_TITLE = 'Updated :';
 
 export const search: MangaService['search'] = async (query) => {
   const searchTerm = (query.searchTerm || '').trim();
@@ -33,50 +30,37 @@ export const search: MangaService['search'] = async (query) => {
     }
 
     const pageParam = pageIndex > 1 ? `&p=${pageIndex}` : '';
-    const searchUrl = `${SEARCH_URL}?keyword=${encodeURIComponent(searchTerm)}${pageParam}`;
+    const searchUrl = `${SEARCH_URL}/${encodeURIComponent(searchTerm)}${pageParam}`;
     const {data} = await axios(searchUrl, {
       headers: CONSTANTS.DEFAULT_BROWSER_HEADERS,
     });
     const htmlContent = parse(data);
-    const mangas = htmlContent.querySelectorAll('.items .item').map((item) => {
-      const nameEl = item.querySelector('a.jtip') as unknown as HTMLAnchorElement;
+    const mangas = htmlContent.querySelectorAll('.panel_story_list .story_item').map((item) => {
+      const nameEl = item.querySelector('.story_name a') as unknown as HTMLAnchorElement;
       const id = nameEl?.getAttribute('href')?.replace(MANGA_BASE_URL, '');
       const name = nameEl?.text;
 
-      let otherName = '';
-      let status = '';
+      const otherName = '';
+      const status = '';
       let author = '';
       let lastUpdated = '';
-      let genres: string[] = [];
-      item.querySelectorAll('.message_main p').forEach((metadataEl) => {
-        if (metadataEl.text.includes(OTHER_NAME_TITLE)) {
-          otherName = metadataEl.text.replace(OTHER_NAME_TITLE, '').trim();
-        } else if (metadataEl.text.includes(STATUS_TITLE)) {
-          status = metadataEl.text.replace(STATUS_TITLE, '').trim();
-        } else if (metadataEl.text.includes(AUTHOR_TITLE)) {
-          author = metadataEl.text.replace(AUTHOR_TITLE, '').trim();
-        } else if (metadataEl.text.includes(LAST_UPDATED_TITLE)) {
-          lastUpdated = metadataEl.text.replace(LAST_UPDATED_TITLE, '').trim();
-        } else if (metadataEl.text.includes(GENRE_TITLE)) {
-          genres = metadataEl.text
-            .replace(GENRE_TITLE, '')
-            .trim()
-            .split(',')
-            .map((g) => g.trim());
+      const genres: string[] = [];
+      item.querySelectorAll('.story_item_right > span').forEach((metadataEl) => {
+        if (metadataEl.textContent.includes(AUTHOR_TITLE)) {
+          author = metadataEl.textContent.replace(AUTHOR_TITLE, '').trim();
+        } else if (metadataEl.textContent.includes(LAST_UPDATED_TITLE)) {
+          lastUpdated = metadataEl.textContent.replace(LAST_UPDATED_TITLE, '').trim();
         }
       });
 
       const descriptionEl = item.querySelector('.box_text') as unknown as HTMLDivElement;
       const description = descriptionEl?.textContent;
 
-      const coverEl = item.querySelector('.image img') as unknown as HTMLImageElement;
-      const coverUrl = getProxyImageUrl(
-        coverEl?.getAttribute('data-original') || '',
-        CONSTANTS.SOURCES.NETTRUYENPRO.ID,
-      );
+      const coverEl = item.querySelector('a img') as unknown as HTMLImageElement;
+      const coverUrl = getProxyImageUrl(coverEl?.getAttribute('src') || '', CONSTANTS.SOURCES.MANGAKAKALOT.ID);
 
       return {
-        sourceId: CONSTANTS.SOURCES.NETTRUYENPRO.ID,
+        sourceId: CONSTANTS.SOURCES.MANGAKAKALOT.ID,
         id,
         name,
         otherName,
@@ -90,7 +74,7 @@ export const search: MangaService['search'] = async (query) => {
     });
 
     let nextPage = '';
-    const paginationPageEls = htmlContent.querySelectorAll('.pagination a');
+    const paginationPageEls = htmlContent.querySelectorAll('.group_page a');
     if (paginationPageEls.length > 0) {
       const lastPageIndexStr = paginationPageEls[paginationPageEls.length - 1].getAttribute('href')?.split('page=')[1];
       const lastPageIndex = lastPageIndexStr ? +lastPageIndexStr : 1;

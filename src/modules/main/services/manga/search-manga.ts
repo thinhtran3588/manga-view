@@ -10,7 +10,7 @@ export const searchManga = async (
 ): Promise<CursorQueryResult<Manga>> => {
   const nextPageParam = nextPage ? `&nextPage=${nextPage}` : '';
   const result = await axios(
-    `/api/mangas?searchTerm=${encodeURIComponent(searchTerm)}}&sourceId=${sourceId}${nextPageParam}`,
+    `/api/mangas?searchTerm=${encodeURIComponent(searchTerm)}&sourceId=${sourceId}${nextPageParam}`,
   );
   return result.data;
 };

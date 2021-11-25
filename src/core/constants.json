@@ -29,12 +29,16 @@
   "SITE_URL": "https://web.xyz",
   "SOURCES": [
     {
-      "text": "nettruyenpro",
+      "text": "www.nettruyenpro.com",
       "value": "1"
     },
     {
-      "text": "blogtruyen",
+      "text": "blogtruyen.vn",
       "value": "2"
+    },
+    {
+      "text": "ww.mangakakalot.tv",
+      "value": "3"
     }
   ],
   "THEMES": [

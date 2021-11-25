@@ -55,10 +55,10 @@ export const search: MangaService['search'] = async (query) => {
         const description = descriptionEl?.textContent;
 
         const coverEl = item.nextElementSibling?.querySelector('img') as unknown as HTMLImageElement;
-        const coverUrl = getProxyImageUrl(coverEl?.getAttribute('src') || '', '2');
+        const coverUrl = getProxyImageUrl(coverEl?.getAttribute('src') || '', CONSTANTS.SOURCES.BLOGTRUYEN.ID);
 
         return {
-          sourceId: '2',
+          sourceId: CONSTANTS.SOURCES.BLOGTRUYEN.ID,
           id,
           name,
           otherName,

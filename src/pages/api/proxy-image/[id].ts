@@ -6,6 +6,7 @@ import type {NextApiRequest, NextApiResponse} from 'next';
 const SOURCES: {[id: string]: string} = {
   '1': 'https://www.nettruyenpro.com/',
   '2': 'https://blogtruyen.vn/',
+  '3': 'https://ww.mangakakalot.tv/',
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse<void>): Promise<void> => {
