@@ -4,15 +4,19 @@ export interface NextChapterState {
   preload: boolean;
 }
 
+const state: NextChapterState = {
+  preload: false,
+};
+
+const togglePreload = (draftState: NextChapterState): NextChapterState => {
+  draftState.preload = !draftState.preload;
+  return draftState;
+};
+
 export const nextChapter = createModel()({
-  state: {
-    preload: false,
-  } as NextChapterState,
+  state,
   reducers: {
-    togglePreload(draftState) {
-      draftState.preload = !draftState.preload;
-      return draftState;
-    },
+    togglePreload,
   },
   effects: (_dispatch) => ({}),
 });

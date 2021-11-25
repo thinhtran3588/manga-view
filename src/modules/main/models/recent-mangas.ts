@@ -9,26 +9,33 @@ export interface RecentMangasState {
   currentChapters: {[mangaId: string]: string};
 }
 
+const state: RecentMangasState = {
+  mangas: {},
+  ids: [],
+  currentChapters: {},
+};
+
+const addRecentManga = (
+  draftState: RecentMangasState,
+  payload: {manga: Manga; chapterId: string},
+): RecentMangasState => {
+  const {manga, chapterId} = payload;
+  if (!draftState.ids) {
+    draftState.ids = [];
+  }
+  draftState.mangas[manga.id] = manga;
+  draftState.ids = [manga.id, ...draftState.ids.filter((id) => id !== manga.id)].slice(0, MAX_RECENT_MANGA_COUNT);
+  if (!draftState.currentChapters) {
+    draftState.currentChapters = {};
+  }
+  draftState.currentChapters[manga.id] = chapterId;
+  return draftState;
+};
+
 export const recentMangas = createModel()({
-  state: {
-    mangas: {},
-    ids: [],
-    currentChapters: {},
-  } as RecentMangasState,
+  state,
   reducers: {
-    addRecentManga(draftState, payload: {manga: Manga; chapterId: string}) {
-      const {manga, chapterId} = payload;
-      if (!draftState.ids) {
-        draftState.ids = [];
-      }
-      draftState.mangas[manga.id] = manga;
-      draftState.ids = [manga.id, ...draftState.ids.filter((id) => id !== manga.id)].slice(0, MAX_RECENT_MANGA_COUNT);
-      if (!draftState.currentChapters) {
-        draftState.currentChapters = {};
-      }
-      draftState.currentChapters[manga.id] = chapterId;
-      return draftState;
-    },
+    addRecentManga,
   },
   effects: (_dispatch) => ({}),
 });
