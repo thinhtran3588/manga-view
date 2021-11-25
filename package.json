@@ -64,7 +64,7 @@
   "private": true,
   "scripts": {
     "analyze": "ANALYZE=true next build",
-    "build": "next build",
+    "build": "rm -r -f .next && next build",
     "build-docker": "docker-compose build",
     "dev": "NODE_ENV=development PORT=3001 next dev",
     "dev-docker": "COMPOSE_FILE=docker-compose.dev.yml docker-compose up --build -d",
