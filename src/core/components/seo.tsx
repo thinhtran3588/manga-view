@@ -23,22 +23,22 @@ export const Seo = (props: SeoProps): JSX.Element => {
 
   return (
     <Head>
-      <title>{pageTitle}</title>
-      <meta name='description' content={pageDescription} />
-      <meta name='twitter:card' content='summary' />
-      <meta name='twitter:title' content={pageTitle} />
-      <meta name='twitter:description' content={pageDescription} />
-      <meta name='twitter:image' content={pageImageUrl} />
-      <meta name='twitter:creator' content={SITE_AUTHOR} />
-      <meta property='og:type' content='website' />
-      <meta property='og:title' content={pageTitle} />
-      <meta property='og:description' content={pageDescription} />
-      <meta property='og:image' content={pageImageUrl} />
+      <title key='title'>{pageTitle}</title>
+      <meta name='description' content={pageDescription} key='description' />
+      <meta name='twitter:card' content='summary' key='twitter-card' />
+      <meta name='twitter:title' content={pageTitle} key='twitter-title' />
+      <meta name='twitter:description' content={pageDescription} key='twitter-description' />
+      <meta name='twitter:image' content={pageImageUrl} key='twitter-image' />
+      <meta name='twitter:creator' content={SITE_AUTHOR} key='twitter-creator' />
+      <meta property='og:type' content='website' key='og-type' />
+      <meta property='og:title' content={pageTitle} key='og-title' />
+      <meta property='og:description' content={pageDescription} key='og-description' />
+      <meta property='og:image' content={pageImageUrl} key='og-image' />
       {url && (
         <>
-          <meta name='twitter:url' content={url} />
-          <meta property='og:url' content={url} />
-          <link rel='canonical' href={url} />
+          <meta name='twitter:url' content={url} key='twitter-url' />
+          <meta property='og:url' content={url} key='og-url' />
+          <link rel='canonical' href={url} key='canonical' />
         </>
       )}
     </Head>
