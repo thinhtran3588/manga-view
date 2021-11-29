@@ -7,6 +7,7 @@ import ClockIcon from '@heroicons/react/outline/ClockIcon';
 import ClockIconIconSolid from '@heroicons/react/solid/ClockIcon';
 import CogIcon from '@heroicons/react/outline/CogIcon';
 import CogIconSolid from '@heroicons/react/solid/CogIcon';
+import {Seo} from '@core/components/seo';
 import type {MenuItem} from '@core/interfaces';
 import {Nav} from './nav';
 
@@ -55,6 +56,7 @@ export const Layout = (props: LayoutProps): JSX.Element => {
       className={`font-roboto min-h-screen max-h-screen 
         transition-all duration-700 bg-gray-200 dark:bg-gray-700 dark:text-white flex`}
     >
+      <Seo />
       <Nav menuItems={menuItems} />
       <main className='mx-auto container p-2 flex-1 overflow-auto mb-14 md:mb-0'>{children}</main>
     </div>

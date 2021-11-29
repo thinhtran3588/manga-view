@@ -5,7 +5,7 @@ export interface MangaSourceState {
 }
 
 const state: MangaSourceState = {
-  source: '1',
+  source: '4',
 };
 
 const changeMangaSource = (draftState: MangaSourceState, source: string): MangaSourceState => {

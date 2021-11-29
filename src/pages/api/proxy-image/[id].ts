@@ -7,6 +7,7 @@ const SOURCES: {[id: string]: string} = {
   '1': 'https://www.nettruyenpro.com/',
   '2': 'https://blogtruyen.vn/',
   '3': 'https://ww.mangakakalot.tv/',
+  '4': 'http://truyenqqtop.com/',
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse<void>): Promise<void> => {

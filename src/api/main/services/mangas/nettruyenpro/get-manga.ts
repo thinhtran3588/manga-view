@@ -5,6 +5,7 @@ import {parse} from 'node-html-parser';
 import {Chapter, Manga, MangaService} from '@api/main/interfaces';
 import {normalizeName} from '@api/core/helpers/normalize-name';
 import CONSTANTS from '@api/core/constants.json';
+import {handleError} from '@api/core/helpers/handle-error';
 
 const MANGA_BASE_URL = 'https://www.nettruyenpro.com/truyen-tranh/';
 
@@ -80,6 +81,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
       chapters,
     } as Manga;
   } catch (error) {
+    handleError(error);
     return {
       sourceId: CONSTANTS.SOURCES.NETTRUYENPRO.ID,
       id: '',

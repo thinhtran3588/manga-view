@@ -8,7 +8,6 @@ import type {Manga} from '@main/interfaces';
 import HOME_I18N_TEXT from '@locales/home.json';
 import MAIN_I18N_TEXT from '@locales/main.json';
 import CONSTANTS from '@core/constants.json';
-import {Seo} from '@core/components/seo';
 import {SearchBar} from '@core/components/search-bar';
 import {Button} from '@core/components/button';
 import {searchManga} from '@main/services/manga/search-manga';
@@ -94,7 +93,6 @@ export const Home: NextPage = (): JSX.Element => {
 
   return (
     <div className='flex flex-col w-full h-full flex-1 relative pt-12 '>
-      <Seo />
       <div className='absolute top-0 inset-x-0 bg-gray-200 dark:bg-gray-700'>
         <SearchBar
           placeholder={getI18nText(HOME_I18N_TEXT, 'SEARCH_MANGA', router)}

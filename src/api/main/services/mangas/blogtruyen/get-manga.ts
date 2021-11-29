@@ -3,6 +3,7 @@ import reverse from 'lodash/fp/reverse';
 import {parse} from 'node-html-parser';
 import {Chapter, Manga, MangaService} from '@api/main/interfaces';
 import CONSTANTS from '@api/core/constants.json';
+import {handleError} from '@api/core/helpers/handle-error';
 
 const MANGA_BASE_URL = 'https://blogtruyen.vn//';
 const OTHER_NAME_TITLE = 'Tên khác:';
@@ -80,6 +81,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
       chapters,
     } as Manga;
   } catch (error) {
+    handleError(error);
     return {
       sourceId: CONSTANTS.SOURCES.BLOGTRUYEN.ID,
       id: '',
