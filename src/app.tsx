@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-props-no-spreading */
 import Head from 'next/head';
-import {Provider, useSelector} from 'react-redux';
+import {Provider, useDispatch, useSelector} from 'react-redux';
 import {useEffect} from 'react';
 import {useRouter} from 'next/router';
 import smoothscroll from 'smoothscroll-polyfill';
 import type {AppProps} from 'next/app';
 import {getI18nText} from '@core/helpers/get-i18n-text';
 import SITE_I18N_TEXT from '@locales/site.json';
+import CONSTANTS from '@core/constants.json';
 import {Layout} from '@core/components/layout';
-import {RootState, store} from '@store';
+import {Dispatch, RootState, store} from '@store';
 import type {NextComponentType, NextPageContext} from 'next';
 
 interface BaseAppProps {
@@ -22,6 +23,10 @@ interface BaseAppProps {
 const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
   const locale = useSelector((state: RootState) => state.settings.locale);
   const theme = useSelector((state: RootState) => state.settings.theme);
+  const mangaSource = useSelector((state: RootState) => state.mangaSource.source);
+  const {
+    mangaSource: {changeMangaSource},
+  } = useDispatch<Dispatch>();
   const router = useRouter();
 
   useEffect(() => {
@@ -41,6 +46,13 @@ const BaseApp = ({Component, pageProps}: BaseAppProps): JSX.Element => {
       document.documentElement.classList.remove('dark');
     }
   }, [theme]);
+
+  useEffect(() => {
+    // change default source if it's not used anymore
+    if (CONSTANTS.SOURCES.filter((m) => m.value === mangaSource).length === 0) {
+      changeMangaSource(CONSTANTS.SOURCES[0].value);
+    }
+  }, [changeMangaSource, mangaSource]);
 
   if (Component.hideLayout) {
     return (

@@ -306,7 +306,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       manga: {
         ...manga,
-        chapters: manga.chapters?.map((c) => ({...c, originalUrl: ''})),
+        chapters: manga.chapters?.map((c) => ({...c, originalUrl: ''})) || [],
       },
       chapter,
       nextChapter,
