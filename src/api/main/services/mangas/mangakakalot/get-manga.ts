@@ -5,6 +5,7 @@ import {parse} from 'node-html-parser';
 import {Chapter, Manga, MangaService} from '@api/main/interfaces';
 import {normalizeName} from '@api/core/helpers/normalize-name';
 import CONSTANTS from '@api/core/constants.json';
+import {handleError} from '@api/core/helpers/handle-error';
 
 const MANGA_BASE_URL = 'https://ww.mangakakalot.tv/manga/';
 const SITE_BASE_URL = 'https://ww.mangakakalot.tv';
@@ -95,6 +96,7 @@ export const getManga: MangaService['getManga'] = async (id: string) => {
       chapters,
     } as Manga;
   } catch (error) {
+    handleError(error);
     return {
       sourceId: CONSTANTS.SOURCES.MANGAKAKALOT.ID,
       id: '',

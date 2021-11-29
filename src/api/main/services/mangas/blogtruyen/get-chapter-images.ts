@@ -3,6 +3,7 @@ import {parse} from 'node-html-parser';
 import {MangaService} from '@api/main/interfaces';
 import CONSTANTS from '@api/core/constants.json';
 import {getProxyImageUrl} from '@api/core/helpers/get-proxy-image';
+import {handleError} from '@api/core/helpers/handle-error';
 
 const BLACKLIST_URLS = ['https://blogtruyen.vn/donate.png'];
 const CHAPTER_BASE_URL = 'https://blogtruyen.vn';
@@ -23,6 +24,7 @@ export const getChapterImages: MangaService['getChapterImages'] = async (manga, 
       .filter((url) => url && !BLACKLIST_URLS.includes(url))
       .map((url) => getProxyImageUrl(url, manga.sourceId));
   } catch (error) {
+    handleError(error);
     return [];
   }
 };
